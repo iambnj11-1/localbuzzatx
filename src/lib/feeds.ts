@@ -138,7 +138,10 @@ const TTL_MS = 10 * 60 * 1000;
 export async function getStories(force = false): Promise<{ stories: Story[]; sources: string[] }> {
   if (!force && cache && Date.now() - cache.at < TTL_MS) return cache.value;
   lastReport = [];
-  const results = await Promise.all(FEEDS.map(loadFeed));
+  // Optional private feed address kept in a Cloudflare secret (not in the public code).
+  const techUrl = typeof process !== 'undefined' ? process.env?.ABJ_TECH_FEED : undefined;
+  const feedList = techUrl ? [...FEEDS, { source: 'Austin Business Journal', category: 'Tech', url: techUrl }] : FEEDS;
+  const results = await Promise.all(feedList.map(loadFeed));
   const seen = new Set<string>();
   const stories = results
     .flat()
@@ -149,7 +152,7 @@ export async function getStories(force = false): Promise<{ stories: Story[]; sou
       return true;
     })
     .sort((a, b) => b.date.getTime() - a.date.getTime());
-  const sources = [...new Set(FEEDS.filter((_, i) => results[i].length > 0).map((f) => f.source))];
+  const sources = [...new Set(feedList.filter((_, i) => results[i].length > 0).map((f) => f.source))];
   const value = { stories, sources };
   if (stories.length > 0) cache = { at: Date.now(), value };
   return value;
