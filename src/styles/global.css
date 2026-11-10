@@ -125,3 +125,8 @@ h3.rule { border-top: 4px solid var(--ink); padding-top: 6px; font-size: 12px; l
 .mtm { padding: 36px 32px; }
 .mtm b { font-size: 30px; line-height: 1.15; max-width: 640px; }
 .mtm p { color: #bdbab0; margin: 8px 0 0; font-size: 15px; }
+.mini.noimg { grid-template-columns: 1fr; }
+.wmt { flex-wrap: nowrap; align-items: center; gap: 16px; overflow: hidden; }
+.wmt a { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wmt .sep { flex: none; }
+@media (max-width: 799px) { .wmt { flex-wrap: wrap; } .wmt a { flex: 1 1 100%; white-space: normal; } .wmt .sep { display: none; } }

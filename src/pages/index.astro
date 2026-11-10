@@ -21,7 +21,9 @@ const dev = pick('Development').slice(0, 3);
 const hood = pick('Neighborhoods').slice(0, 4);
 // What Matters Today: up to 3 non-crime stories, one per outlet, prefer government and development.
 const used = new Set<string>();
+const roundup = /(last update|everything you need to know|newsletter|week in review)/i;
 const briefing = [...friendly.filter((s) => s !== top && (s.category === 'Government' || s.category === 'Development')), ...friendly.filter((s) => s !== top)]
+  .filter((s) => !roundup.test(s.title))
   .filter((s) => (used.has(s.source) ? false : (used.add(s.source), true)))
   .slice(0, 3);
 const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
@@ -67,7 +69,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     <div>
       <h3 class="section"><a href="/news">News</a></h3>
       {newsItems.map((s) => (
-        <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div></div>}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
+        <div class={`mini${s.image ? '' : ' noimg'}`}>{s.image && <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" />}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
       ))}
     </div>
     <div>
@@ -83,13 +85,13 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     <div>
       <h3 class="section"><a href="/news?tag=Government">Government</a></h3>
       {gov.map((s) => (
-        <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div></div>}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
+        <div class={`mini${s.image ? '' : ' noimg'}`}>{s.image && <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" />}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
       ))}
     </div>
     <div>
       <h3 class="section"><a href="/news?tag=Development">Development</a></h3>
       {dev.map((s) => (
-        <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div></div>}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
+        <div class={`mini${s.image ? '' : ' noimg'}`}>{s.image && <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" />}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
       ))}
     </div>
   </section>
@@ -104,7 +106,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     <div>
       <h3 class="section"><a href="/to-do">To Do</a></h3>
       {events.map((s) => (
-        <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div></div>}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
+        <div class={`mini${s.image ? '' : ' noimg'}`}>{s.image && <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" />}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
       ))}
     </div>
   </section>
