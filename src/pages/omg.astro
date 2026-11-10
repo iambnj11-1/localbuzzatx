@@ -1,26 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
-const reactions = [
-  ['TOWERS: Sixth Street reinvention', 'Austin has been trying to fix Sixth Street longer than some apartment leases last. Maybe this time the plan survives contact with reality.', 'sixth street'],
-  ['TOWERS: Waterline penthouse', 'The penthouse is ready. Now all you need is a small fortune and a strong opinion about floor-to-ceiling windows.', 'waterline'],
-  ['Austin Monitor: Zilker erosion issues', "Austin's favorite park is aging like the rest of us: a little worn down and asking for money.", 'zilker'],
-  ['Austin Monitor: $25M boardwalk', 'Austin residents: "Don\'t spend my tax dollars." Also Austin residents: "Why is everything falling apart?"', 'boardwalk'],
-  ['Austin Monitor: Downtown height limits', 'Every Austin development debate eventually becomes a fight between "we need housing" and "not like that."', 'height limit'],
-  ['Austin Monitor: Austin-San Antonio rail study', 'Austin and San Antonio studying passenger rail again. At this point the studies might arrive before the train does.', 'san antonio'],
-  ['Austin Monitor: Air taxis', "Austin traffic is so bad we're seriously considering flying over the problem now.", 'air taxi'],
-  ['KXAN: E-Verify bill', 'Texas looked at immigration, labor shortages and hiring paperwork and said, "You know what this situation needs? More paperwork."', 'e-verify'],
-  ['Austin Transit Partnership begins planning light rail extension to the airport', 'Your future airport ride might take less time than finding parking.', 'airport'],
-  ['Three days of rain on the way', 'Austin drivers, you have been warned.'],
-];
+import { withStory } from '../lib/omg';
 const { stories } = await getStories();
-const linkFor = (kw?: string, story = '') => {
-  if (!kw) return null;
-  const src = story.split(':')[0];
-  const hit = stories.find((x) => x.title.toLowerCase().includes(kw) && (!story.includes(':') || x.source.toLowerCase().includes(src.toLowerCase())))
-    ?? stories.find((x) => x.title.toLowerCase().includes(kw));
-  return hit?.link ?? null;
-};
+const all = withStory(stories);
+// Lead = first take that has a photo, else the first take.
+const lead = all.find((r) => r.image) ?? all[0];
+const rest = all.filter((r) => r !== lead);
 const tag = Astro.url.searchParams.get('tag');
 ---
 <Layout title="OMG!" current="OMG!">
@@ -28,15 +14,29 @@ const tag = Astro.url.searchParams.get('tag');
     {tag && <p class="kicker">{tag}</p>}
     {tag && <p>Reactions for this one are coming soon. <a href="/omg">See everything</a>.</p>}
     {!tag && <>
-    <h2>OMG!</h2>
-    <p>Austin reacts. Our quick take on the day, one line at a time.</p>
-    {reactions.map(([story, line, kw]) => { const href = linkFor(kw, story); return (
-      <div class="omg">
-        <div class="story">{story}</div>
-        {href && <div class="src"><a href={href} target="_blank" rel="noopener">Read the story →</a></div>}
-        <div class="line"><em>OMG!</em> {line}</div>
+    <div class="pagehead"><h2>OMG!</h2><span>Austin news, with a side eye.</span></div>
+    <article class="omglead">
+      {lead.image ? <img src={lead.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div class="ph"></div>}
+      <div>
+        <div class="kicker">Top take{lead.label && ` · ${lead.label}`}</div>
+        <h3>{lead.head}</h3>
+        <div class="why"><b>Why should I care?</b>A plain, useful sentence from the story goes here soon.</div>
+        <p class="bigline"><em>OMG!</em> {lead.line}</p>
+        {lead.link && <a href={lead.link} target="_blank" rel="noopener">Read the story →</a>}
       </div>
-    ); })}
+    </article>
+    <h3 class="rule">More takes</h3>
+    <div class="omggrid">
+      {rest.map((r) => (
+        <div class="omgcard">
+          {r.image && <img src={r.image} alt="" loading="lazy" referrerpolicy="no-referrer" />}
+          {r.label && <div class="kicker">{r.label}</div>}
+          <div class="hd">{r.head}</div>
+          <p class="bigline sm"><em>OMG!</em> {r.line}</p>
+          {r.link && <a href={r.link} target="_blank" rel="noopener">Read the story →</a>}
+        </div>
+      ))}
+    </div>
   </>}
   </section>
 </Layout>

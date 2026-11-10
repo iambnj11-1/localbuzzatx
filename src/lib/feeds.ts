@@ -8,6 +8,7 @@ export type Story = {
   link: string;
   summary: string;
   videoId?: string;
+  image?: string;
   date: Date;
 };
 
@@ -56,6 +57,25 @@ const clean = (value: unknown, max = 200): string => {
   return text.length > max ? text.slice(0, max).replace(/\s+\S*$/, '') + '…' : text;
 };
 
+const arr = (v: any): any[] => (v === undefined || v === null ? [] : Array.isArray(v) ? v : [v]);
+const pickImage = (it: any, videoId?: string): string | undefined => {
+  if (videoId) return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+  const cands: string[] = [];
+  for (const k of ['media:content', 'media:thumbnail', 'enclosure']) {
+    for (const m of arr(it[k])) {
+      const u = m?.['@_url'];
+      const t = String(m?.['@_type'] ?? m?.['@_medium'] ?? 'image');
+      if (u && /image/i.test(t)) cands.push(u);
+    }
+  }
+  for (const k of ['content:encoded', 'description', 'content', 'summary']) {
+    const h = text(it[k]);
+    const m = h.match(/<img[^>]+src=["']([^"']+)["']/i);
+    if (m) cands.push(m[1].replace(/&amp;/g, '&'));
+  }
+  return cands.find((u) => /^https:\/\//.test(u));
+};
+
 const text = (v: any): string => (typeof v === 'object' && v !== null ? String(v['#text'] ?? '') : String(v ?? ''));
 
 async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
@@ -89,6 +109,7 @@ async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
           link,
           summary: clean(text(it.description ?? it.summary ?? it['media:group']?.['media:description'])),
           videoId: it['yt:videoId'] ? String(it['yt:videoId']) : undefined,
+          image: pickImage(it, it['yt:videoId'] ? String(it['yt:videoId']) : undefined),
           date: isNaN(date.getTime()) ? new Date(0) : date,
         };
       })

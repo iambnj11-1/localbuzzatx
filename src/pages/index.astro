@@ -2,21 +2,28 @@
 import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
+import { withStory } from '../lib/omg';
 const all = await getStories();
 const stories = all.stories.filter((s) => s.category !== 'Watch');
 const sources = all.sources;
+const videos = all.stories.filter((s) => s.category === 'Watch' && s.videoId).slice(0, 3);
 const heavy = /(sexual|abuse|murder|killed|shot|shooting|stabb|arrest|sentenced|dead|death|crash|rape|assault|kidnap|molest|fatal|suspect|police)/i;
 const friendly = stories.filter((s) => !heavy.test(s.title) && !heavy.test(s.summary));
 const top = friendly.find((s) => s.summary && s.category === 'News') ?? friendly[0] ?? stories[0];
-const latest = stories.filter((s) => s !== top).slice(0, 6);
+const perSrc: Record<string, number> = {};
+const latest = stories.filter((s) => s !== top).filter((s) => (perSrc[s.source] = (perSrc[s.source] ?? 0) + 1) <= 2).slice(0, 6);
 const pick = (cat: string) => stories.filter((s) => s.category === cat && s !== top).slice(0, 4);
-const blocks = [['News', pick('News')], ['Neighborhoods', pick('Neighborhoods')], ['Government', pick('Government')], ['Development', pick('Development')], ['Events', pick('Events')]] as const;
+const newsItems = pick('News').slice(0, 4);
+const events = pick('Events').slice(0, 4);
+const takes = withStory(all.stories.filter((s) => s.category !== 'Watch')).filter((r) => r.link || true).slice(0, 2);
+const blocks = [['Neighborhoods', pick('Neighborhoods')], ['Government', pick('Government')], ['Development', pick('Development')]] as const;
 const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
 ---
 <Layout current="Home">
   {top ? (
     <section class="lead">
-      <article>
+      <article class="hero">
+        {top.image && <img src={top.image} alt="" referrerpolicy="no-referrer" />}
         <div class="kicker"><span class={`chip ${chipClass(top)}`}>{chipLabel(top)}</span>Top story</div>
         <h2><a href={top.link} rel="noopener" target="_blank">{top.title}</a></h2>
         <p>{top.summary}</p>
@@ -40,15 +47,53 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
   ) : (
     <section class="page"><h2>Stories are on the way</h2><p>Check back soon.</p></section>
   )}
+
+  <section class="pair">
+    <div>
+      <h3 class="section"><a href="/news">News</a></h3>
+      {newsItems.map((s) => (
+        <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div></div>}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small>{chipLabel(s)}</small></div></div>
+      ))}
+    </div>
+    <div>
+      <h3 class="section"><a href="/omg">OMG!</a></h3>
+      {takes.map((r) => (
+        <div class="omgmini"><div class="hd">{r.head}{r.label && ` · ${r.label}`}</div><p><em>OMG!</em> {r.line}</p>{r.link && <a href={r.link} target="_blank" rel="noopener">Read the story →</a>}</div>
+      ))}
+      <p><a href="/omg">More OMG! →</a></p>
+    </div>
+  </section>
+
+  <section class="pair" style="border-top:0;margin-top:20px;padding-top:0">
+    <div>
+      <h3 class="section"><a href="/watch">Watch</a></h3>
+      {videos.length ? videos.map((v) => (
+        <div class="mini"><a href="/watch"><img src={v.image} alt="" loading="lazy" /></a><div><a href="/watch">{v.title}</a><small>{v.source}</small></div></div>
+      )) : <p>Videos are on the way.</p>}
+    </div>
+    <div>
+      <h3 class="section"><a href="/to-do">To Do</a></h3>
+      {events.map((s) => (
+        <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div></div>}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small>{chipLabel(s)}</small></div></div>
+      ))}
+    </div>
+  </section>
+
   <section class="grid">
     {blocks.filter(([, items]) => items.length > 0).map(([name, items]) => (
       <div>
-        <h3 class="section"><a href={name === 'Events' ? '/to-do' : name === 'News' ? '/news' : `/news?tag=${name}`} style="text-decoration:none">{name === 'Events' ? 'To Do' : name}</a></h3>
+        <h3 class="section"><a href={`/news?tag=${name}`} style="text-decoration:none">{name}</a></h3>
         {items.map((s) => (
           <div class="item"><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div>
         ))}
       </div>
     ))}
   </section>
+
+  <section class="mtm">
+    <div><div class="k">From Mind the Marbles</div><b>Real talk about the stuff rattling around in your head.</b></div>
+    <a href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">Follow on Instagram →</a>
+  </section>
+
   <p class="tagline" style="text-align:center;margin-top:28px">Headlines from {sources.length ? sources.join(', ') : 'local outlets'}. Each link goes to the original story.</p>
 </Layout>
