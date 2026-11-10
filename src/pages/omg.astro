@@ -31,33 +31,19 @@ const tag = Astro.url.searchParams.get('tag');
     {!tag && <>
     <div class="pagehead"><h2>OMG!</h2><span>Austin news, with a side eye.</span></div>
     <div class="omgcols"><div>
-    <article class="omglead">
-      {lead.image ? <img src={lead.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div class="ph"></div>}
-      <div>
-        <div class="kicker">Top take{lead.label && ` · ${lead.label}`}</div>
-        <h3>{lead.head}</h3>
-        <div class="why"><b>Why should I care?</b>A plain, useful sentence from the story goes here soon.</div>
-        <p class="bigline"><em>OMG!</em> {lead.line}</p>
-        {lead.link && <a href={lead.link} target="_blank" rel="noopener">Read the story →</a>}
-      </div>
-    </article>
-    <h3 class="rule">More takes</h3>
-    <div class="omggrid">
-      {rest.map((r) => (
-        <div class="omgcard">
-          {r.image && <img src={r.image} alt="" loading="lazy" referrerpolicy="no-referrer" />}
-          {r.label && <div class="kicker">{r.label}</div>}
-          <div class="hd">{r.head}</div>
-          <p class="bigline sm"><em>OMG!</em> {r.line}</p>
-          {r.link && <a href={r.link} target="_blank" rel="noopener">Read the story →</a>}
-        </div>
-      ))}
-    </div>
+    {all.map((r) => (
+      <article class="take">
+        {r.label && <div class="kicker">{r.label}</div>}
+        <div class="hd">{r.head}</div>
+        <p class="bigline"><em>OMG!</em> {r.line}</p>
+        {r.link && <a href={r.link} target="_blank" rel="noopener">Read the story →</a>}
+      </article>
+    ))}
     </div>
     <aside class="omgside">
       <div class="sendbox"><b>Good news? Birthday shout-out?</b> Share it with Austin. <a href="/contact">Send it in →</a></div>
       <NewsletterTools />
-      <div class="sponsor"><div class="label">From the family</div><b>Mind the Marbles</b>Real talk. Messy minds. No need to be perfect. Plenty of us go through life thinking &ldquo;this is just who I am.&rdquo; There is more to the story, and it is okay to find out.<br /><a class="cta" href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">Follow on Instagram →</a></div>
+      <div class="sponsor"><div class="label">From the family</div><b>Mind the Marbles</b><em class="mtmjoke">&ldquo;I got a text Monday. It&rsquo;s Thursday.&rdquo;</em> A line from the Mind the Marbles newsletter.<br /><a class="cta" href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">Follow on Instagram →</a></div>
     </aside>
     </div>
   </>}
