@@ -19,6 +19,9 @@ const pick = (cat: string) => stories.filter((s) => s.category === cat && s !== 
 const newsItems = pick('News').slice(0, 4);
 const events = pick('Events').slice(0, 4);
 const takes = withStory(all.stories.filter((s) => s.category !== 'Watch')).filter((r) => r.link || true).slice(0, 2);
+const taken = new Set([top, ...latest, ...briefing]);
+const seenSrc = new Set<string>();
+const featured = stories.filter((x) => x.image && !taken.has(x)).filter((x) => (seenSrc.has(x.source) ? false : (seenSrc.add(x.source), true))).slice(0, 3);
 const gov = pick('Government').slice(0, 3);
 const dev = pick('Development').slice(0, 3);
 const hood = pick('Neighborhoods').slice(0, 4);
@@ -67,6 +70,23 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     </section>
   ) : (
     <section class="page"><h2>Stories are on the way</h2><p>Check back soon.</p></section>
+  )}
+
+  {featured.length === 3 && (
+    <section class="feat">
+      <h3 class="rule">Featured</h3>
+      <div class="featgrid">
+        <a class="big" href={featured[0].link} target="_blank" rel="noopener">
+          <img src={featured[0].image} alt="" loading="lazy" referrerpolicy="no-referrer" />
+          <div class="cap"><span>{chipLabel(featured[0])}</span><b>{featured[0].title}</b></div>
+        </a>
+        <div class="smalls">
+          {featured.slice(1).map((x) => (
+            <a href={x.link} target="_blank" rel="noopener"><img src={x.image} alt="" loading="lazy" referrerpolicy="no-referrer" /><span class={`chip ${chipClass(x)}`}>{chipLabel(x)}</span><b>{x.title}</b></a>
+          ))}
+        </div>
+      </div>
+    </section>
   )}
 
   <section class="pair">

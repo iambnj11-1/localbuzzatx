@@ -170,3 +170,16 @@ footer.site .fine { margin-top: 28px; padding-top: 14px; border-top: 1px solid #
 .omgcard p { font-size: 14px; color: var(--muted); margin: 6px 0 0; }
 footer.site { margin-top: 20px; }
 .mtm { margin-bottom: 0; }
+
+.feat { margin-top: 32px; border-top: 4px double var(--rule); padding-top: 14px; }
+.featgrid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media (min-width: 800px) { .featgrid { grid-template-columns: 2fr 1fr; } }
+.featgrid a { text-decoration: none; color: var(--ink); display: block; }
+.featgrid .big img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; background: #d9d5c9; }
+.featgrid .cap { background: var(--ink); color: #fbfaf7; padding: 14px 18px; }
+.featgrid .cap span { display: block; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #bdbab0; }
+.featgrid .cap b { font-family: var(--serif); font-weight: 900; font-size: clamp(20px, 3vw, 26px); line-height: 1.15; display: block; margin-top: 4px; }
+.featgrid .smalls { display: grid; gap: 24px; align-content: start; }
+.featgrid .smalls img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: #d9d5c9; margin-bottom: 8px; }
+.featgrid .smalls b { display: block; font-family: var(--serif); font-weight: 700; font-size: 19px; line-height: 1.15; margin-top: 6px; }
+.featgrid a:hover b { text-decoration: underline; text-decoration-color: var(--accent); }
