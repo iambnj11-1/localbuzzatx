@@ -241,3 +241,6 @@ footer.site { margin-top: 20px; }
 .wv img { width: 120px; aspect-ratio: 16/9; object-fit: cover; background: #d9d5c9; }
 .wv span { font-weight: 600; font-size: 14px; line-height: 1.25; }
 .wv.on span { color: var(--accent); }
+.chip.spec { background: #e3f0fb; border-color: #0b5394; color: #083b6b; }
+.chip.wan { background: #e8f3e3; border-color: #3b7a1f; color: #2b5a17; }
+.chip.auso { background: #fbe9f0; border-color: #a02c5c; color: #7a1f45; }

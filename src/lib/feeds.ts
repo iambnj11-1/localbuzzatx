@@ -15,6 +15,9 @@ export type Story = {
 // Add or remove outlets here. Only the headline, a short blurb and a link back are used.
 export const FEEDS = [
   { source: 'KXAN', category: 'News', url: 'https://www.kxan.com/feed/' },
+  { source: 'Spectrum News Austin', category: 'News', url: 'https://spectrumlocalnews.com/services/contentfeed.tx%7Caustin%7Cnews.landing.rss' },
+  { source: 'West Austin News', category: 'Neighborhoods', url: 'https://westaustinnews.com/feed/' },
+  { source: 'Austonia', category: 'Business', url: 'https://austonia.com/feeds/feed.rss' },
   { source: 'Austin Monitor', category: 'Government', url: 'https://www.austinmonitor.com/feed/' },
   // Business and Tech. Addresses unverified; check /status.
   { source: 'Silicon Hills News', category: 'Tech', url: 'https://siliconhillsnews.com/feed/' },
