@@ -130,3 +130,6 @@ h3.rule { border-top: 4px solid var(--ink); padding-top: 6px; font-size: 12px; l
 .wmt a { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .wmt .sep { flex: none; }
 @media (max-width: 799px) { .wmt { flex-wrap: wrap; } .wmt a { flex: 1 1 100%; white-space: normal; } .wmt .sep { display: none; } }
+.item.latest { display: grid; grid-template-columns: 84px 1fr; gap: 12px; align-items: start; }
+.item.latest.noimg { grid-template-columns: 1fr; }
+.item.latest img { width: 84px; height: 56px; object-fit: cover; background: #d9d5c9; }
