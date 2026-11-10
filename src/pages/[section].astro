@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+export function getStaticPaths() {
+  const pages = {
+    news: ['News', 'Local headlines from around Austin.'],
+    business: ['Business', 'Companies, hiring and money in Austin.'],
+    lifestyle: ['Lifestyle', 'Food, culture and life around town.'],
+    events: ['Events', 'What is happening this week.'],
+    wellness: ['Wellness', 'Health and well-being in Austin.'],
+    opinion: ['Opinion', 'Voices from around the city.'],
+    about: ['About', 'Local Buzz ATX tells you what is happening in Austin and why it matters to you.'],
+  };
+  return Object.entries(pages).map(([section, [title, blurb]]) => ({ params: { section }, props: { title, blurb } }));
+}
+const { title, blurb } = Astro.props;
+---
+<Layout title={title} current={title}>
+  <section class="page">
+    <h2>{title}</h2>
+    <p>{blurb}</p>
+    <p>Stories will show up here soon.</p>
+  </section>
+</Layout>

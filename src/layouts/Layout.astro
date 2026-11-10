@@ -1,0 +1,39 @@
+---
+import '../styles/global.css';
+const { title = 'Local Buzz ATX', current = '' } = Astro.props;
+const sections = [
+  ['Home', '/'], ['News', '/news'], ['Business', '/business'], ['Lifestyle', '/lifestyle'],
+  ['Events', '/events'], ['Wellness', '/wellness'], ['Opinion', '/opinion'], ['About', '/about'],
+];
+const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Chicago' });
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title === 'Local Buzz ATX' ? title : `${title} | Local Buzz ATX`}</title>
+    <meta name="description" content="Austin news, and why it matters to you." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@900&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="dateline"><span>{today}</span><span>Austin, Texas</span></div>
+      <header class="masthead">
+        <a href="/"><h1>Local Buzz ATX<span class="dot">.</span></h1></a>
+        <p class="tagline">Austin news, and why it matters to you.</p>
+      </header>
+      <nav class="sections" aria-label="Sections">
+        <ul>
+          {sections.map(([label, href]) => (
+            <li><a href={href} aria-current={current === label ? 'page' : undefined}>{label}</a></li>
+          ))}
+        </ul>
+      </nav>
+      <main><slot /></main>
+      <footer>© Local Buzz ATX. Headlines link to the original reporting.</footer>
+    </div>
+  </body>
+</html>

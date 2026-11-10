@@ -1,13 +1,37 @@
 ---
+import Layout from '../layouts/Layout.astro';
+const latest = [
+  ['City Hall', 'Sample headline: what the council decided this week'],
+  ['Business', 'Sample headline: a new Austin company is hiring'],
+  ['Events', 'Sample headline: what is happening this weekend'],
+  ['Traffic', 'Sample headline: the road closure to plan around'],
+];
+const blocks = ['News', 'Business', 'Events'];
 ---
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Local Buzz ATX</title>
-  </head>
-  <body>
-    <h1>Local Buzz ATX</h1>
-    <p>Austin news, and why it matters to you. Coming soon.</p>
-  </body>
-</html>
+<Layout current="Home">
+  <section class="lead">
+    <article>
+      <div class="placeholder">Photo goes here</div>
+      <div class="kicker">Top story</div>
+      <h2>Sample headline: the Austin story everyone is talking about</h2>
+      <p>A short summary of the story will appear here, pulled from a local outlet, with a link to the original reporting.</p>
+      <div class="why"><b>Why should I care?</b>One plain sentence on what this means for people in Austin. This is the Local Buzz part.</div>
+    </article>
+    <aside class="side">
+      <h3>Latest</h3>
+      {latest.map(([tag, text]) => (
+        <div class="item"><span>{tag}</span><div>{text}</div></div>
+      ))}
+    </aside>
+  </section>
+  <section class="grid">
+    {blocks.map((name) => (
+      <div>
+        <h3 class="section">{name}</h3>
+        <div class="item"><div>Sample headline for {name.toLowerCase()}</div></div>
+        <div class="item"><div>Another sample headline</div></div>
+        <div class="item"><div>One more sample headline</div></div>
+      </div>
+    ))}
+  </section>
+</Layout>
