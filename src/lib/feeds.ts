@@ -15,33 +15,14 @@ export type Story = {
 // Add or remove outlets here. Only the headline, a short blurb and a link back are used.
 export const FEEDS = [
   { source: 'KXAN', category: 'News', url: 'https://www.kxan.com/feed/' },
-  { source: 'KVUE', category: 'News', url: 'https://www.kvue.com/feeds/syndication/rss/news/local' },
   { source: 'Austin Monitor', category: 'Government', url: 'https://www.austinmonitor.com/feed/' },
-  // Community Impact: edition pages live at communityimpact.com/<edition>, feeds at /<edition>/feed. Ones that do not load are skipped.
-  { source: 'Community Impact', area: 'Round Rock', category: 'Neighborhoods', url: 'https://communityimpact.com/round-rock/feed' },
-  { source: 'Community Impact', area: 'Pflugerville-Hutto', category: 'Neighborhoods', url: 'https://communityimpact.com/pflugerville-hutto/feed' },
-  { source: 'Community Impact', area: 'Pflugerville-Hutto', category: 'Neighborhoods', url: 'https://communityimpact.com/pflugerville/feed' },
-  { source: 'Community Impact', area: 'Pflugerville-Hutto', category: 'Neighborhoods', url: 'https://communityimpact.com/hutto/feed' },
-  { source: 'Community Impact', area: 'Georgetown', category: 'Neighborhoods', url: 'https://communityimpact.com/georgetown/feed' },
-  { source: 'Community Impact', area: 'Cedar Park-Leander', category: 'Neighborhoods', url: 'https://communityimpact.com/cedar-park-leander/feed' },
-  { source: 'Community Impact', area: 'Cedar Park-Leander', category: 'Neighborhoods', url: 'https://communityimpact.com/cedar-park/feed' },
-  { source: 'Community Impact', area: 'Cedar Park-Leander', category: 'Neighborhoods', url: 'https://communityimpact.com/leander/feed' },
-  { source: 'Community Impact', area: 'Central Austin', category: 'Neighborhoods', url: 'https://communityimpact.com/central-austin/feed' },
-  { source: 'Community Impact', area: 'Lake Travis-Westlake', category: 'Neighborhoods', url: 'https://communityimpact.com/lake-travis-westlake/feed' },
-  { source: 'Community Impact', area: 'Northwest Austin', category: 'Neighborhoods', url: 'https://communityimpact.com/northwest-austin/feed' },
-  { source: 'Community Impact', area: 'Southwest Austin', category: 'Neighborhoods', url: 'https://communityimpact.com/southwest-austin/feed' },
-  { source: 'Community Impact', area: 'Southeast Austin', category: 'Neighborhoods', url: 'https://communityimpact.com/southeast-austin/feed' },
   // Business and Tech. Addresses unverified; check /status.
-  { source: 'Austin Business Journal', category: 'Business', url: 'http://feeds.bizjournals.com/bizj_austin' },
   { source: 'Silicon Hills News', category: 'Tech', url: 'https://siliconhillsnews.com/feed/' },
   { source: 'TOWERS', category: 'Development', url: 'https://austin.towers.net/feed' },
   { source: '365 Things Austin', category: 'Events', url: 'https://365thingsaustin.com/feed' },
   { source: 'Austin Monthly', category: 'Events', url: 'https://austinmonthly.com/feed' },
   // Video: YouTube channel feeds (embedded with YouTube's own player). The KVUE channel id is unverified; check /status.
   { source: 'KVUE', category: 'Watch', url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxXTyFekH99JnS3qaXIQW7A' },
-  // City of Austin: addresses below are guesses. If they do not load, they are skipped quietly.
-  { source: 'City of Austin', category: 'Government', url: 'https://www.austintexas.gov/communications/news/rss' },
-  { source: 'City of Austin', category: 'Government', url: 'https://www.austintexas.gov/news/feed' },
 ];
 
 const parser = new XMLParser({ ignoreAttributes: false, processEntities: true });
@@ -140,7 +121,8 @@ export async function getStories(force = false): Promise<{ stories: Story[]; sou
   lastReport = [];
   // Optional private feed address kept in a Cloudflare secret (not in the public code).
   const techUrl = typeof process !== 'undefined' ? process.env?.ABJ_TECH_FEED : undefined;
-  const feedList = techUrl ? [...FEEDS, { source: 'Austin Business Journal', category: 'Tech', url: techUrl }] : FEEDS;
+  const bizUrl = typeof process !== 'undefined' ? process.env?.ABJ_BUSINESS_FEED : undefined;
+  const feedList = [...FEEDS, ...(techUrl ? [{ source: 'Austin Business Journal', category: 'Tech', url: techUrl }] : []), ...(bizUrl ? [{ source: 'Austin Business Journal', category: 'Business', url: bizUrl }] : [])];
   const results = await Promise.all(feedList.map(loadFeed));
   const seen = new Set<string>();
   const stories = results
