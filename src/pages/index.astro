@@ -1,37 +1,46 @@
 ---
 import Layout from '../layouts/Layout.astro';
-const latest = [
-  ['City Hall', 'Sample headline: what the council decided this week'],
-  ['Business', 'Sample headline: a new Austin company is hiring'],
-  ['Events', 'Sample headline: what is happening this weekend'],
-  ['Traffic', 'Sample headline: the road closure to plan around'],
-];
-const blocks = ['News', 'Business', 'Events'];
+import { getStories } from '../lib/feeds';
+const { stories, sources } = await getStories();
+const top = stories.find((s) => s.summary) ?? stories[0];
+const latest = stories.filter((s) => s !== top).slice(0, 5);
+const newsBlock = stories.filter((s) => s.category === 'News' && s !== top).slice(5, 10);
+const samples = ['Business', 'Events'];
+const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
 ---
 <Layout current="Home">
-  <section class="lead">
-    <article>
-      <div class="placeholder">Photo goes here</div>
-      <div class="kicker">Top story</div>
-      <h2>Sample headline: the Austin story everyone is talking about</h2>
-      <p>A short summary of the story will appear here, pulled from a local outlet, with a link to the original reporting.</p>
-      <div class="why"><b>Why should I care?</b>One plain sentence on what this means for people in Austin. This is the Local Buzz part.</div>
-    </article>
-    <aside class="side">
-      <h3>Latest</h3>
-      {latest.map(([tag, text]) => (
-        <div class="item"><span>{tag}</span><div>{text}</div></div>
-      ))}
-    </aside>
-  </section>
+  {top ? (
+    <section class="lead">
+      <article>
+        <div class="kicker">Top story · {top.source}</div>
+        <h2><a href={top.link} rel="noopener" target="_blank">{top.title}</a></h2>
+        <p>{top.summary}</p>
+        <p><a href={top.link} rel="noopener" target="_blank">Read the full story at {top.source} →</a></p>
+        <div class="why"><b>Why should I care?</b>One plain sentence on what this means for people in Austin goes here soon.</div>
+      </article>
+      <aside class="side">
+        <h3>Latest</h3>
+        {latest.map((s) => (
+          <div class="item"><span>{s.source} · {fmt(s.date)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div>
+        ))}
+      </aside>
+    </section>
+  ) : (
+    <section class="page"><h2>Stories are on the way</h2><p>Check back soon.</p></section>
+  )}
   <section class="grid">
-    {blocks.map((name) => (
+    <div>
+      <h3 class="section">News</h3>
+      {newsBlock.map((s) => (
+        <div class="item"><span>{s.source}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div>
+      ))}
+    </div>
+    {samples.map((name) => (
       <div>
         <h3 class="section">{name}</h3>
-        <div class="item"><div>Sample headline for {name.toLowerCase()}</div></div>
-        <div class="item"><div>Another sample headline</div></div>
-        <div class="item"><div>One more sample headline</div></div>
+        <div class="item"><div>Coming soon</div></div>
       </div>
     ))}
   </section>
+  <p class="tagline" style="text-align:center;margin-top:28px">Headlines from {sources.length ? sources.join(', ') : 'local outlets'}. Each link goes to the original story.</p>
 </Layout>
