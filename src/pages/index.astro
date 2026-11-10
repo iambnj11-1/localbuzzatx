@@ -6,10 +6,11 @@ import { withStory } from '../lib/omg';
 import { getAi } from '../lib/ai';
 import VisionCareAd from '../components/VisionCareAd.astro';
 const all = await getStories();
-const stories = all.stories.filter((s) => s.category !== 'Watch');
+const heavy = /(sexual|abuse|murder|killed|shot|shooting|stabb|arrest|sentenced|dead|death|crash|rape|assault|kidnap|molest|fatal|suspect|police|child|children)/i;
+// Homepage skips crime and tragedy stories. They still appear on the News page.
+const stories = all.stories.filter((s) => s.category !== 'Watch' && !heavy.test(s.title) && !heavy.test(s.summary));
 const sources = all.sources;
 const videos = all.stories.filter((s) => s.category === 'Watch' && s.videoId).slice(0, 3);
-const heavy = /(sexual|abuse|murder|killed|shot|shooting|stabb|arrest|sentenced|dead|death|crash|rape|assault|kidnap|molest|fatal|suspect|police)/i;
 const friendly = stories.filter((s) => !heavy.test(s.title) && !heavy.test(s.summary));
 const top = friendly.find((s) => s.summary && s.category === 'News') ?? friendly[0] ?? stories[0];
 const perSrc: Record<string, number> = {};
