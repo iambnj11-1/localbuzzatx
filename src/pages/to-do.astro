@@ -2,20 +2,55 @@
 import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
-const stories = (await getStories()).stories.filter((s) => s.category === 'Events').slice(0, 30);
+const events = (await getStories()).stories.filter((s) => s.category === 'Events').slice(0, 30);
 const tag = Astro.url.searchParams.get('tag');
+const food = /(restaurant|food|bbq|barbecue|drink|beer|cocktail|brunch|menu|bakery|coffee|taco|pizza|farmers|dining|eat)/i;
+const music = /(music|band|concert|honky|festival|show|singer|album|live)/i;
+const lead = events.find((s) => s.image) ?? events[0];
+const rest = events.filter((s) => s !== lead);
+const rail = rest.slice(0, 4);
+const more = rest.slice(4);
+const eat = more.filter((s) => food.test(s.title));
+const tunes = more.filter((s) => !eat.includes(s) && music.test(s.title));
+const other = more.filter((s) => !eat.includes(s) && !tunes.includes(s));
+const sections = [['Eat and drink', eat], ['Music and nightlife', tunes], ['More to do', other]] as const;
 ---
 <Layout title="To Do" current="To Do">
   <section class="page">
-    {tag && <p class="kicker">{tag}</p>}
-    {tag && <p>Ideas for this one are coming soon. <a href="/to-do">See everything</a>.</p>}
+    {tag && <><div class="pagehead"><h2>To Do</h2><span>{tag}</span></div><p>Ideas for this one are coming soon. <a href="/to-do">See everything</a>.</p></>}
     {!tag && <>
-    <h2>To Do</h2>
-    <p>Things to do in Austin this week.</p>
-    {stories.map((s) => (
-      <div class="item"><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div><p style="margin:4px 0 0;font-size:14px;color:var(--muted)">{s.summary}</p></div>
+    <div class="pagehead"><h2>To Do</h2><span>Things to do in Austin this week</span></div>
+    {lead && (
+      <div class="seclead">
+        <article>
+          {lead.image && <img src={lead.image} alt="" referrerpolicy="no-referrer" />}
+          <div class="kicker"><span class={`chip ${chipClass(lead)}`}>{chipLabel(lead)}</span>Pick of the week</div>
+          <h3><a href={lead.link} target="_blank" rel="noopener">{lead.title}</a></h3>
+          <p>{lead.summary}</p>
+        </article>
+        <aside>
+          <h4>Just added</h4>
+          {rail.map((s) => (
+            <div class={`mini${s.image ? '' : ' noimg'}`}>{s.image && <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" />}<div><a href={s.link} target="_blank" rel="noopener">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
+          ))}
+        </aside>
+      </div>
+    )}
+    {sections.filter(([, items]) => items.length > 0).map(([name, items]) => (
+      <>
+        <h4 class="secrule">{name}</h4>
+        <div class="cards">
+          {items.map((s) => (
+            <div class="card">
+              {s.image && <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" />}
+              <span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span>
+              <a href={s.link} target="_blank" rel="noopener">{s.title}</a>
+            </div>
+          ))}
+        </div>
+      </>
     ))}
-    {!stories.length && <p>Ideas will show up here soon.</p>}
+    {!events.length && <p>Ideas will show up here soon.</p>}
   </>}
   </section>
 </Layout>

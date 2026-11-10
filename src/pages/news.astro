@@ -6,17 +6,45 @@ const tags = ['News', 'Neighborhoods', 'Government', 'Development', 'Business', 
 const tag = Astro.url.searchParams.get('tag');
 const all = (await getStories()).stories.filter((s) => s.category !== 'Watch' && s.category !== 'Events');
 const stories = (tag && tags.includes(tag) ? all.filter((s) => s.category === tag) : all).slice(0, 40);
+const lead = stories.find((s) => s.image) ?? stories[0];
+const rest = stories.filter((s) => s !== lead);
+const rail = rest.slice(0, 4);
+const cards = rest.slice(4);
+const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
 ---
 <Layout title="News" current="News">
   <section class="page">
-    <h2>News</h2>
+    <div class="pagehead"><h2>News</h2><span>{tag ?? 'All the latest from Austin outlets'}</span></div>
     <div class="tags">
       <a href="/news" class={!tag ? 'on' : ''}>All</a>
       {tags.map((t) => <a href={`/news?tag=${t}`} class={tag === t ? 'on' : ''}>{t}</a>)}
     </div>
-    {stories.map((s) => (
-      <div class="item"><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div><p style="margin:4px 0 0;font-size:14px;color:var(--muted)">{s.summary}</p></div>
-    ))}
+    {lead && (
+      <div class="seclead">
+        <article>
+          {lead.image && <img src={lead.image} alt="" referrerpolicy="no-referrer" />}
+          <div class="kicker"><span class={`chip ${chipClass(lead)}`}>{chipLabel(lead)}</span>{fmt(lead.date)}</div>
+          <h3><a href={lead.link} target="_blank" rel="noopener">{lead.title}</a></h3>
+          <p>{lead.summary}</p>
+        </article>
+        <aside>
+          <h4>Just added</h4>
+          {rail.map((s) => (
+            <div class={`mini${s.image ? '' : ' noimg'}`}>{s.image && <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" />}<div><a href={s.link} target="_blank" rel="noopener">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
+          ))}
+        </aside>
+      </div>
+    )}
+    {cards.length > 0 && <h4 class="secrule">More stories</h4>}
+    <div class="cards">
+      {cards.map((s) => (
+        <div class="card">
+          {s.image && <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" />}
+          <span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span>
+          <a href={s.link} target="_blank" rel="noopener">{s.title}</a>
+        </div>
+      ))}
+    </div>
     {!stories.length && <p>Stories will show up here soon.</p>}
   </section>
 </Layout>

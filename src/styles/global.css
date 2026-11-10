@@ -133,3 +133,19 @@ h3.rule { border-top: 4px solid var(--ink); padding-top: 6px; font-size: 12px; l
 .item.latest { display: grid; grid-template-columns: 84px 1fr; gap: 12px; align-items: start; }
 .item.latest.noimg { grid-template-columns: 1fr; }
 .item.latest img { width: 84px; height: 56px; object-fit: cover; background: #d9d5c9; }
+
+.seclead { display: grid; grid-template-columns: 1fr; gap: 32px; margin: 8px 0 24px; }
+@media (min-width: 800px) { .seclead { grid-template-columns: 2fr 1fr; } .seclead aside { border-left: 1px solid #bdbab0; padding-left: 24px; } }
+.seclead article img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background: #d9d5c9; margin-bottom: 12px; display: block; }
+.seclead h3 { font-family: var(--serif); font-weight: 900; font-size: clamp(26px, 4vw, 36px); line-height: 1.1; margin: 8px 0; }
+.seclead h3 a { text-decoration: none; }
+.seclead h3 a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+.seclead h4 { font-family: var(--serif); font-weight: 900; font-size: 20px; margin: 0 0 4px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.secrule { border-top: 4px solid var(--ink); padding-top: 6px; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; margin: 28px 0 16px; }
+.cards { display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media (min-width: 640px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+.card { border-top: 1px solid #bdbab0; padding-top: 12px; }
+.card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; background: #d9d5c9; margin-bottom: 8px; display: block; }
+.card a { display: block; font-family: var(--serif); font-weight: 700; font-size: 19px; line-height: 1.2; text-decoration: none; margin-top: 6px; }
+.card a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
