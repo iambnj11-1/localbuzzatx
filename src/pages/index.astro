@@ -5,6 +5,8 @@ import { chipClass, chipLabel } from '../lib/chip';
 import { withStory } from '../lib/omg';
 import { getAi } from '../lib/ai';
 import VisionCareAd from '../components/VisionCareAd.astro';
+import NewsletterTools from '../components/NewsletterTools.astro';
+import TechEventsAd from '../components/TechEventsAd.astro';
 const all = await getStories();
 const heavy = /(sexual|abuse|murder|killed|shot|shooting|stabb|arrest|sentenced|dead|death|crash|rape|assault|kidnap|molest|fatal|suspect|police|child|children)/i;
 // Homepage skips crime and tragedy stories. They still appear on the News page.
@@ -87,13 +89,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
             <ul>{noPhoto.map((s) => (<li><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><a href={s.link} rel="noopener" target="_blank">{s.title}</a></li>))}</ul>
           </div>
         )}
-        <div class="sponsor">
-          <div class="label">Sponsored</div>
-          <b>Start your own newsletter</b>
-          EmailOctopus lets you send email to your first 2,500 subscribers for free.
-          <br /><a class="cta" href="https://tolt.link/lba" target="_blank" rel="sponsored noopener">Try EmailOctopus free →</a>
-          <small>This is an affiliate link. If you sign up, Local Buzz ATX may earn a commission at no cost to you.</small>
-        </div>
+        <NewsletterTools />
       </aside>
     </section>
   ) : (
@@ -175,6 +171,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
   )}
 
   <VisionCareAd />
+  <TechEventsAd />
   <section class="mtm">
     <div><div class="k">From Mind the Marbles</div><b>News tells you what happened. Mind the Marbles explores what it means.</b><p>Real talk about the stuff rattling around in your head.</p></div>
     <a href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">Follow on Instagram →</a>

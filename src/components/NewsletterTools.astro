@@ -1,0 +1,17 @@
+---
+// Newsletter tools box. Paste your own referral links to turn each row on.
+const tools = [
+  { name: 'EmailOctopus', note: 'Free for your first 2,500 subscribers.', url: 'https://tolt.link/lba' },
+  { name: 'Beehiiv', note: 'Built for growing a newsletter audience.', url: '' },
+  { name: 'Kit', note: 'Formerly ConvertKit. Made for creators.', url: '' },
+].filter((t) => t.url);
+---
+{tools.length > 0 && (
+  <div class="sponsor tools">
+    <div class="label">Sponsored · Start your own newsletter</div>
+    {tools.map((t) => (
+      <div class="toolrow"><div><b>{t.name}</b>{t.note}</div><a class="cta" href={t.url} target="_blank" rel="sponsored noopener">Try it →</a></div>
+    ))}
+    <small>These are affiliate links. If you sign up, Local Buzz ATX may earn a commission at no cost to you.</small>
+  </div>
+)}

@@ -203,3 +203,6 @@ footer.site { margin-top: 20px; }
 
 .ph.chip { display: flex; align-items: center; justify-content: center; text-align: center; margin: 0; padding: 4px; border-radius: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.15; width: 84px; height: 56px; box-sizing: border-box; }
 .mini .ph.chip { width: 96px; height: 64px; }
+.sponsor.tools .toolrow { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid #e3e0d6; }
+.sponsor.tools .toolrow b { font-size: 16px; margin: 0 0 2px; }
+.sponsor.tools .toolrow a.cta { margin: 0; white-space: nowrap; }

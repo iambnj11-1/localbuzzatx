@@ -1,0 +1,13 @@
+---
+// Austin tech events ad. Paste your referral link (Eventbrite, Meetup, Luma, etc.) to turn it on.
+const URL = '';
+---
+{URL && (
+  <div class="sponsor">
+    <div class="label">Sponsored</div>
+    <b>Austin tech events</b>
+    Meetups, conferences and startup nights happening around Austin.
+    <br /><a class="cta" href={URL} target="_blank" rel="sponsored noopener">Find events →</a>
+    <small>This is an affiliate link. Local Buzz ATX may earn a commission at no cost to you.</small>
+  </div>
+)}
