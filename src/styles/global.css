@@ -215,3 +215,9 @@ footer.site { margin-top: 20px; }
 @media (min-width: 900px) { .omgcols { grid-template-columns: minmax(0, 3fr) minmax(0, 1fr); } .omgcols .omggrid { grid-template-columns: repeat(2, 1fr); } .omgside .sendbox { margin-top: 0; } }
 .omgside .sponsor:first-of-type { margin-top: 12px; }
 @media (min-width: 900px) { .omgcols .omglead { grid-template-columns: 1fr; } .omgcols .omglead img, .omgcols .omglead .ph { height: auto; aspect-ratio: 16/9; } }
+
+.wmt, .wmt a { font-size: 13px; }
+.wmt { display: block !important; overflow: visible; line-height: 1.7; padding: 6px 0; margin-bottom: 16px; }
+.wmt .lab { display: inline-block; font-size: 10px; padding: 1px 6px; margin-right: 8px; vertical-align: 1px; }
+.wmt a { display: inline !important; white-space: normal !important; overflow: visible !important; font-weight: 500; }
+.wmt .sep { display: inline !important; margin: 0 8px; }

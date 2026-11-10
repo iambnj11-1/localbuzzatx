@@ -46,9 +46,9 @@ const ai = await getAi((Astro.locals as any).runtime?.env, tops, briefing);
 const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
 ---
 <Layout current="Home">
-  {false && briefing.length > 0 && (
+  {briefing.length > 0 && (
     <section class="wmt">
-      <span class="lab">What matters today</span>
+      <span class="lab" title="What matters today">Buzz</span>
       {briefing.map((s, i) => (
         <>{i > 0 && <span class="sep">•</span>}<a href={s.link} target="_blank" rel="noopener" title={s.title}>{ai?.briefing?.[i] || s.title}</a></>
       ))}

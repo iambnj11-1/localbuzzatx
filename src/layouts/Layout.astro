@@ -27,7 +27,6 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@900&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <div class="topstripe"></div>
     <div class="wrap">
       {weather?.alert && (
         <div class="alertbar"><b>Weather alert:</b> {weather.alert}</div>
