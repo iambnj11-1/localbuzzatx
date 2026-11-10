@@ -1,18 +1,27 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getStories } from '../lib/feeds';
 const reactions = [
-  ['TOWERS: Sixth Street reinvention', 'Austin has been trying to fix Sixth Street longer than some apartment leases last. Maybe this time the plan survives contact with reality.'],
-  ['TOWERS: Waterline penthouse', 'The penthouse is ready. Now all you need is a small fortune and a strong opinion about floor-to-ceiling windows.'],
-  ['Austin Monitor: Zilker erosion issues', "Austin's favorite park is aging like the rest of us: a little worn down and asking for money."],
-  ['Austin Monitor: $25M boardwalk', 'Austin residents: "Don\'t spend my tax dollars." Also Austin residents: "Why is everything falling apart?"'],
-  ['Austin Monitor: Downtown height limits', 'Every Austin development debate eventually becomes a fight between "we need housing" and "not like that."'],
-  ['Austin Monitor: Austin-San Antonio rail study', 'Austin and San Antonio studying passenger rail again. At this point the studies might arrive before the train does.'],
-  ['Austin Monitor: Air taxis', "Austin traffic is so bad we're seriously considering flying over the problem now."],
-  ['KXAN: E-Verify bill', 'Texas looked at immigration, labor shortages and hiring paperwork and said, "You know what this situation needs? More paperwork."'],
-  ['Austin ISD teacher competes on Jeopardy', 'We finally found someone who knows all the answers.'],
-  ['Austin Transit Partnership begins planning light rail extension to the airport', 'Your future airport ride might take less time than finding parking.'],
+  ['TOWERS: Sixth Street reinvention', 'Austin has been trying to fix Sixth Street longer than some apartment leases last. Maybe this time the plan survives contact with reality.', 'sixth street'],
+  ['TOWERS: Waterline penthouse', 'The penthouse is ready. Now all you need is a small fortune and a strong opinion about floor-to-ceiling windows.', 'waterline'],
+  ['Austin Monitor: Zilker erosion issues', "Austin's favorite park is aging like the rest of us: a little worn down and asking for money.", 'zilker'],
+  ['Austin Monitor: $25M boardwalk', 'Austin residents: "Don\'t spend my tax dollars." Also Austin residents: "Why is everything falling apart?"', 'boardwalk'],
+  ['Austin Monitor: Downtown height limits', 'Every Austin development debate eventually becomes a fight between "we need housing" and "not like that."', 'height limit'],
+  ['Austin Monitor: Austin-San Antonio rail study', 'Austin and San Antonio studying passenger rail again. At this point the studies might arrive before the train does.', 'san antonio'],
+  ['Austin Monitor: Air taxis', "Austin traffic is so bad we're seriously considering flying over the problem now.", 'air taxi'],
+  ['KXAN: E-Verify bill', 'Texas looked at immigration, labor shortages and hiring paperwork and said, "You know what this situation needs? More paperwork."', 'e-verify'],
+  ['Austin ISD teacher competes on Jeopardy', 'We finally found someone who knows all the answers.', 'jeopardy'],
+  ['Austin Transit Partnership begins planning light rail extension to the airport', 'Your future airport ride might take less time than finding parking.', 'airport'],
   ['Three days of rain on the way', 'Austin drivers, you have been warned.'],
 ];
+const { stories } = await getStories();
+const linkFor = (kw?: string, story = '') => {
+  if (!kw) return null;
+  const src = story.split(':')[0];
+  const hit = stories.find((x) => x.title.toLowerCase().includes(kw) && (!story.includes(':') || x.source.toLowerCase().includes(src.toLowerCase())))
+    ?? stories.find((x) => x.title.toLowerCase().includes(kw));
+  return hit?.link ?? null;
+};
 const tag = Astro.url.searchParams.get('tag');
 ---
 <Layout title="OMG!" current="OMG!">
@@ -22,12 +31,13 @@ const tag = Astro.url.searchParams.get('tag');
     {!tag && <>
     <h2>OMG!</h2>
     <p>Austin reacts. Our quick take on the day, one line at a time.</p>
-    {reactions.map(([story, line]) => (
+    {reactions.map(([story, line, kw]) => { const href = linkFor(kw, story); return (
       <div class="omg">
         <div class="story">{story}</div>
+        {href && <div class="src"><a href={href} target="_blank" rel="noopener">Read the story →</a></div>}
         <div class="line"><em>OMG!</em> {line}</div>
       </div>
-    ))}
+    ); })}
   </>}
   </section>
 </Layout>
