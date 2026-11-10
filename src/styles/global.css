@@ -200,3 +200,6 @@ footer.site { margin-top: 20px; }
 .more li { padding: 8px 0; border-bottom: 1px solid #bdbab0; font-size: 14px; line-height: 1.3; }
 .more li .chip { margin-right: 6px; }
 @media (max-width: 520px) { nav.sections ul { flex-wrap: nowrap; gap: 0 11px; } nav.sections a { font-size: 11.5px; letter-spacing: 0.03em; } nav.sections .caret { font-size: 8px; } }
+
+.ph.chip { display: flex; align-items: center; justify-content: center; text-align: center; margin: 0; padding: 4px; border-radius: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.15; width: 84px; height: 56px; box-sizing: border-box; }
+.mini .ph.chip { width: 96px; height: 64px; }
