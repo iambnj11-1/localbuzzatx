@@ -29,6 +29,9 @@ export const FEEDS = [
   { source: 'Community Impact', area: 'Northwest Austin', category: 'Neighborhoods', url: 'https://communityimpact.com/northwest-austin/feed' },
   { source: 'Community Impact', area: 'Southwest Austin', category: 'Neighborhoods', url: 'https://communityimpact.com/southwest-austin/feed' },
   { source: 'Community Impact', area: 'Southeast Austin', category: 'Neighborhoods', url: 'https://communityimpact.com/southeast-austin/feed' },
+  { source: 'TOWERS', category: 'Development', url: 'https://austin.towers.net/feed' },
+  { source: '365 Things Austin', category: 'Events', url: 'https://365thingsaustin.com/feed' },
+  { source: 'Austin Monthly', category: 'Events', url: 'https://austinmonthly.com/feed' },
   // City of Austin: addresses below are guesses. If they do not load, they are skipped quietly.
   { source: 'City of Austin', category: 'Government', url: 'https://www.austintexas.gov/communications/news/rss' },
   { source: 'City of Austin', category: 'Government', url: 'https://www.austintexas.gov/news/feed' },
@@ -55,7 +58,7 @@ const text = (v: any): string => (typeof v === 'object' && v !== null ? String(v
 async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
   const started = Date.now();
   let status = 'error';
-  const record = (count: number) => lastReport.push({ source: feed.source, area: (feed as any).area, url: feed.url, status, count, ms: Date.now() - started });
+  const record = (count: number, note?: string) => lastReport.push({ note, source: feed.source, area: (feed as any).area, url: feed.url, status, count, ms: Date.now() - started });
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 8000);
   try {
@@ -65,7 +68,8 @@ async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
     });
     status = String(res.status);
     if (!res.ok) { record(0); return []; }
-    const xml = parser.parse(await res.text());
+    const body = await res.text();
+    const xml = parser.parse(body);
     const rawItems = xml?.rss?.channel?.item ?? xml?.feed?.entry ?? [];
     const items = Array.isArray(rawItems) ? rawItems : [rawItems];
     const out = items
@@ -86,7 +90,7 @@ async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
       })
       .filter((s): s is Story => s !== null)
       .slice(0, 15);
-    record(out.length);
+    record(out.length, out.length ? undefined : `${res.headers.get('content-type') ?? ''} | ${body.slice(0, 120).replace(/\s+/g, ' ')}`);
     return out;
   } catch (e) {
     status = e instanceof Error ? e.name : 'error';
@@ -97,7 +101,7 @@ async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
   }
 }
 
-export type FeedReport = { source: string; area?: string; url: string; status: string; count: number; ms: number };
+export type FeedReport = { source: string; area?: string; url: string; status: string; count: number; ms: number; note?: string };
 export let lastReport: FeedReport[] = [];
 
 let cache: { at: number; value: { stories: Story[]; sources: string[] } } | null = null;

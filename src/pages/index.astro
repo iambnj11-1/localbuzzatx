@@ -8,7 +8,7 @@ const friendly = stories.filter((s) => !heavy.test(s.title) && !heavy.test(s.sum
 const top = friendly.find((s) => s.summary && s.category === 'News') ?? friendly[0] ?? stories[0];
 const latest = stories.filter((s) => s !== top).slice(0, 6);
 const pick = (cat: string) => stories.filter((s) => s.category === cat && s !== top).slice(0, 4);
-const blocks = [['News', pick('News')], ['Neighborhoods', pick('Neighborhoods')], ['Government', pick('Government')]] as const;
+const blocks = [['News', pick('News')], ['Neighborhoods', pick('Neighborhoods')], ['Government', pick('Government')], ['Development', pick('Development')], ['Events', pick('Events')]] as const;
 const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
 ---
 <Layout current="Home">
