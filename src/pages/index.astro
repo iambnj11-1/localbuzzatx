@@ -28,6 +28,13 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
         {latest.map((s) => (
           <div class="item"><span><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span>{fmt(s.date)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div>
         ))}
+        <div class="sponsor">
+          <div class="label">Sponsored</div>
+          <b>Start your own newsletter</b>
+          EmailOctopus lets you send email to your first 2,500 subscribers for free.
+          <br /><a class="cta" href="https://tolt.link/lba" target="_blank" rel="sponsored noopener">Try EmailOctopus free →</a>
+          <small>This is an affiliate link. If you sign up, Local Buzz ATX may earn a commission at no cost to you.</small>
+        </div>
       </aside>
     </section>
   ) : (

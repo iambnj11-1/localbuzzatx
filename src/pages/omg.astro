@@ -5,9 +5,13 @@ const reactions = [
   ['Austin Transit Partnership begins planning light rail extension to the airport', 'Your future airport ride might take less time than finding parking.'],
   ['Three days of rain on the way', 'Austin drivers, you have been warned.'],
 ];
+const tag = Astro.url.searchParams.get('tag');
 ---
 <Layout title="OMG!" current="OMG!">
   <section class="page">
+    {tag && <p class="kicker">{tag}</p>}
+    {tag && <p>Reactions for this one are coming soon. <a href="/omg">See everything</a>.</p>}
+    {!tag && <>
     <h2>OMG!</h2>
     <p>Austin reacts. Our quick take on the day, one line at a time.</p>
     {reactions.map(([story, line]) => (
@@ -16,5 +20,6 @@ const reactions = [
         <div class="line"><em>OMG!</em> {line}</div>
       </div>
     ))}
+  </>}
   </section>
 </Layout>

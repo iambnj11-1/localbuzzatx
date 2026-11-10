@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
-const tags = ['News', 'Neighborhoods', 'Government', 'Development', 'Business'];
+const tags = ['News', 'Neighborhoods', 'Government', 'Development', 'Business', 'Weather'];
 const tag = Astro.url.searchParams.get('tag');
 const all = (await getStories()).stories.filter((s) => s.category !== 'Watch' && s.category !== 'Events');
 const stories = (tag && tags.includes(tag) ? all.filter((s) => s.category === tag) : all).slice(0, 40);

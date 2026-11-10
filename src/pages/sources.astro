@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { FEEDS } from '../lib/feeds';
+const names = [...new Set(FEEDS.map((f) => f.source))];
+---
+<Layout title="Sources" current="About">
+  <section class="page">
+    <h2>Sources</h2>
+    <p>Local Buzz ATX shows headlines and short summaries from these outlets. Every link goes to the original reporting.</p>
+    <ul>{names.map((n) => <li>{n}</li>)}</ul>
+  </section>
+</Layout>

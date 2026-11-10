@@ -61,3 +61,16 @@ footer { border-top: 1px solid var(--rule); padding: 20px 0 40px; font-size: 13p
 .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-top: 20px; }
 .vgrid a { text-decoration: none; font-size: 14px; font-weight: 600; }
 .vgrid img { width: 100%; display: block; margin-bottom: 6px; }
+
+nav.sections .dd { position: relative; }
+nav.sections .caret { font-size: 10px; }
+nav.sections .menu { display: none; position: absolute; left: 0; top: 100%; min-width: 190px; background: var(--paper); border: 1px solid var(--ink); border-top: 3px solid var(--accent); z-index: 20; padding: 6px 0; flex-direction: column; gap: 0; box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+nav.sections .dd:hover > .menu, nav.sections .dd:focus-within > .menu { display: flex; }
+nav.sections .menu li { list-style: none; }
+nav.sections .menu a { padding: 8px 16px; font-size: 13px; letter-spacing: 0.04em; text-transform: none; font-weight: 600; white-space: nowrap; }
+nav.sections .menu a:hover { background: #ecebe6; }
+.sponsor { border: 1px solid #bdbab0; background: #fff; padding: 12px 14px; margin-top: 24px; font-size: 14px; }
+.sponsor .label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.sponsor b { display: block; font-family: var(--serif); font-size: 18px; margin: 4px 0; }
+.sponsor a.cta { display: inline-block; margin-top: 8px; padding: 6px 14px; background: var(--ink); color: #fff; text-decoration: none; font-weight: 600; font-size: 13px; }
+.sponsor small { display: block; margin-top: 8px; color: var(--muted); font-size: 11px; }

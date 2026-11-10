@@ -2,8 +2,12 @@
 import '../styles/global.css';
 import { getWeather } from '../lib/weather';
 const { title = 'Local Buzz ATX', current = '' } = Astro.props;
-const sections = [
-  ['News', '/news'], ['Watch', '/watch'], ['OMG!', '/omg'], ['To Do', '/to-do'], ['About', '/about'],
+const sections: [string, string, [string, string][]][] = [
+  ['News', '/news', [['Latest', '/news'], ['Government', '/news?tag=Government'], ['Neighborhoods', '/news?tag=Neighborhoods'], ['Weather', '/news?tag=Weather']]],
+  ['Watch', '/watch', [['Latest Videos', '/watch'], ['Politics', '/watch?tag=Politics'], ['City Council', '/watch?tag=City Council'], ['OMG! Clips', '/watch?tag=OMG Clips']]],
+  ['OMG!', '/omg', [['Latest', '/omg'], ['Mind The Marbles', 'https://www.instagram.com/mind_the_marbles/'], ['Austin Be Like...', '/omg?tag=Austin Be Like'], ['Good News', '/omg?tag=Good News']]],
+  ['To Do', '/to-do', [['This Weekend', '/to-do'], ['Live Music', '/to-do?tag=Live Music'], ['Food & Drink', '/to-do?tag=Food %26 Drink'], ['Family Fun', '/to-do?tag=Family Fun'], ['Free Stuff', '/to-do?tag=Free Stuff']]],
+  ['About', '/about', [['About', '/about'], ['Sources', '/sources']]],
 ];
 const weather = await getWeather();
 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Chicago' });
@@ -31,8 +35,15 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
       </header>
       <nav class="sections" aria-label="Sections">
         <ul>
-          {sections.map(([label, href]) => (
-            <li><a href={href} aria-current={current === label ? 'page' : undefined}>{label}</a></li>
+          {sections.map(([label, href, kids]) => (
+            <li class="dd">
+              <a href={href} aria-current={current === label ? 'page' : undefined} aria-haspopup="true">{label} <span class="caret">▾</span></a>
+              <ul class="menu">
+                {kids.map(([text, to]) => (
+                  <li><a href={to} {...(to.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})}>{text}</a></li>
+                ))}
+              </ul>
+            </li>
           ))}
         </ul>
       </nav>

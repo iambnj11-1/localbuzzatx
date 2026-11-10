@@ -3,9 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 const videos = (await getStories()).stories.filter((s) => s.category === 'Watch' && s.videoId).slice(0, 12);
 const [first, ...rest] = videos;
+const tag = Astro.url.searchParams.get('tag');
 ---
 <Layout title="Watch" current="Watch">
   <section class="page">
+    {tag && <p class="kicker">{tag}</p>}
+    {tag && <p>Videos for this one are coming soon. <a href="/watch">See everything</a>.</p>}
+    {!tag && <>
     <h2>Watch</h2>
     {first ? (
       <>
@@ -23,5 +27,6 @@ const [first, ...rest] = videos;
     ) : (
       <p>Videos will show up here soon. This page plays local newsroom videos right here, using each outlet's own YouTube player.</p>
     )}
+  </>}
   </section>
 </Layout>
