@@ -6,12 +6,10 @@ const reactions = [
   ['Three days of rain on the way', 'Austin drivers, you have been warned.'],
 ];
 ---
-<Layout title="Opinion" current="Opinion">
+<Layout title="OMG!" current="OMG!">
   <section class="page">
-    <h2>Opinion</h2>
-    <p>Voices from around the city. Full opinion pieces are coming soon.</p>
-    <h3 style="font-family:var(--serif);font-weight:900;font-size:26px;margin:28px 0 4px">OMG! Austin reacts.</h3>
-    <p>Our quick take on the day, one line at a time.</p>
+    <h2>OMG!</h2>
+    <p>Austin reacts. Our quick take on the day, one line at a time.</p>
     {reactions.map(([story, line]) => (
       <div class="omg">
         <div class="story">{story}</div>

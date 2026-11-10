@@ -3,5 +3,13 @@ import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
   output: 'server',
+  redirects: {
+    '/opinion': '/omg',
+    '/events': '/to-do',
+    '/neighborhoods': '/news?tag=Neighborhoods',
+    '/government': '/news?tag=Government',
+    '/development': '/news?tag=Development',
+    '/business': '/news?tag=Business',
+  },
   adapter: cloudflare(),
 });

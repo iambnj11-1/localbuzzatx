@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getStories } from '../lib/feeds';
+const videos = (await getStories()).stories.filter((s) => s.category === 'Watch' && s.videoId).slice(0, 12);
+const [first, ...rest] = videos;
+---
+<Layout title="Watch" current="Watch">
+  <section class="page">
+    <h2>Watch</h2>
+    {first ? (
+      <>
+        <div class="player"><iframe src={`https://www.youtube-nocookie.com/embed/${first.videoId}`} title={first.title} loading="lazy" allowfullscreen></iframe></div>
+        <p><b>{first.title}</b> · {first.source}</p>
+        <div class="vgrid">
+          {rest.map((v) => (
+            <a href={`https://www.youtube.com/watch?v=${v.videoId}`} target="_blank" rel="noopener">
+              <img src={`https://i.ytimg.com/vi/${v.videoId}/mqdefault.jpg`} alt="" loading="lazy" />
+              <span>{v.title}</span>
+            </a>
+          ))}
+        </div>
+      </>
+    ) : (
+      <p>Videos will show up here soon. This page plays local newsroom videos right here, using each outlet's own YouTube player.</p>
+    )}
+  </section>
+</Layout>

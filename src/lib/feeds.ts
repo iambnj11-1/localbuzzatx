@@ -7,6 +7,7 @@ export type Story = {
   title: string;
   link: string;
   summary: string;
+  videoId?: string;
   date: Date;
 };
 
@@ -32,6 +33,8 @@ export const FEEDS = [
   { source: 'TOWERS', category: 'Development', url: 'https://austin.towers.net/feed' },
   { source: '365 Things Austin', category: 'Events', url: 'https://365thingsaustin.com/feed' },
   { source: 'Austin Monthly', category: 'Events', url: 'https://austinmonthly.com/feed' },
+  // Video: YouTube channel feeds (embedded with YouTube's own player). The KVUE channel id is unverified; check /status.
+  { source: 'KVUE', category: 'Watch', url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxXTyFekH99JnS3qaXIQW7A' },
   // City of Austin: addresses below are guesses. If they do not load, they are skipped quietly.
   { source: 'City of Austin', category: 'Government', url: 'https://www.austintexas.gov/communications/news/rss' },
   { source: 'City of Austin', category: 'Government', url: 'https://www.austintexas.gov/news/feed' },
@@ -84,7 +87,8 @@ async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
           category: feed.category,
           title,
           link,
-          summary: clean(text(it.description ?? it.summary)),
+          summary: clean(text(it.description ?? it.summary ?? it['media:group']?.['media:description'])),
+          videoId: it['yt:videoId'] ? String(it['yt:videoId']) : undefined,
           date: isNaN(date.getTime()) ? new Date(0) : date,
         };
       })

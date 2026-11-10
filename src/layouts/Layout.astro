@@ -3,8 +3,7 @@ import '../styles/global.css';
 import { getWeather } from '../lib/weather';
 const { title = 'Local Buzz ATX', current = '' } = Astro.props;
 const sections = [
-  ['News', '/news'], ['Neighborhoods', '/neighborhoods'], ['Business', '/business'], ['Development', '/development'],
-  ['Events', '/events'], ['Government', '/government'], ['Opinion', '/opinion'], ['About', '/about'],
+  ['News', '/news'], ['Watch', '/watch'], ['OMG!', '/omg'], ['To Do', '/to-do'], ['About', '/about'],
 ];
 const weather = await getWeather();
 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Chicago' });

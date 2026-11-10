@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getStories } from '../lib/feeds';
+import { chipClass, chipLabel } from '../lib/chip';
+const tags = ['News', 'Neighborhoods', 'Government', 'Development', 'Business'];
+const tag = Astro.url.searchParams.get('tag');
+const all = (await getStories()).stories.filter((s) => s.category !== 'Watch' && s.category !== 'Events');
+const stories = (tag && tags.includes(tag) ? all.filter((s) => s.category === tag) : all).slice(0, 40);
+---
+<Layout title="News" current="News">
+  <section class="page">
+    <h2>News</h2>
+    <div class="tags">
+      <a href="/news" class={!tag ? 'on' : ''}>All</a>
+      {tags.map((t) => <a href={`/news?tag=${t}`} class={tag === t ? 'on' : ''}>{t}</a>)}
+    </div>
+    {stories.map((s) => (
+      <div class="item"><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div><p style="margin:4px 0 0;font-size:14px;color:var(--muted)">{s.summary}</p></div>
+    ))}
+    {!stories.length && <p>Stories will show up here soon.</p>}
+  </section>
+</Layout>

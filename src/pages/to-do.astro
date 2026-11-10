@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getStories } from '../lib/feeds';
+import { chipClass, chipLabel } from '../lib/chip';
+const stories = (await getStories()).stories.filter((s) => s.category === 'Events').slice(0, 30);
+---
+<Layout title="To Do" current="To Do">
+  <section class="page">
+    <h2>To Do</h2>
+    <p>Things to do in Austin this week.</p>
+    {stories.map((s) => (
+      <div class="item"><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div><p style="margin:4px 0 0;font-size:14px;color:var(--muted)">{s.summary}</p></div>
+    ))}
+    {!stories.length && <p>Ideas will show up here soon.</p>}
+  </section>
+</Layout>
