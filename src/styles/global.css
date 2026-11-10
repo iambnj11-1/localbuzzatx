@@ -168,3 +168,5 @@ footer.site .fine { margin-top: 28px; padding-top: 14px; border-top: 1px solid #
 .prose h3 { font-family: var(--serif); font-size: 20px; margin: 24px 0 6px; }
 .samplenote { background: #fff3cc; border: 1px solid #8a6d00; padding: 8px 12px; font-size: 13px; margin: 0 0 18px; }
 .omgcard p { font-size: 14px; color: var(--muted); margin: 6px 0 0; }
+footer.site { margin-top: 20px; }
+.mtm { margin-bottom: 0; }

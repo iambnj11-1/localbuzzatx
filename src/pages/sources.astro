@@ -1,12 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { FEEDS } from '../lib/feeds';
+const home: Record<string, string> = { KXAN: 'https://www.kxan.com', KVUE: 'https://www.kvue.com', 'Austin Monitor': 'https://www.austinmonitor.com', TOWERS: 'https://austin.towers.net', '365 Things Austin': 'https://365thingsaustin.com', 'Austin Monthly': 'https://austinmonthly.com', 'Silicon Hills News': 'https://siliconhillsnews.com', 'Austin Business Journal': 'https://www.bizjournals.com/austin' };
 const names = [...new Set(FEEDS.map((f) => f.source))];
 ---
 <Layout title="Sources" current="About">
   <section class="page">
     <h2>Sources</h2>
     <p>Local Buzz ATX shows headlines and short summaries from these outlets. Every link goes to the original reporting.</p>
-    <ul>{names.map((n) => <li>{n}</li>)}</ul>
+    <ul>{names.map((n) => <li>{home[n] ? <a href={home[n]} target="_blank" rel="noopener">{n}</a> : n}</li>)}</ul>
   </section>
 </Layout>
