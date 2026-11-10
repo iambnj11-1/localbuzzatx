@@ -2,26 +2,40 @@
 import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 const videos = (await getStories()).stories.filter((s) => s.category === 'Watch' && s.videoId).slice(0, 12);
-const [first, ...rest] = videos;
+const first = videos[0];
 ---
 <Layout title="Watch" current="Watch">
   <section class="page">
     <div class="pagehead"><h2>Watch</h2><span>Featured video from Austin newsrooms</span></div>
     {first ? (
-      <>
-        <div class="player"><iframe src={`https://www.youtube-nocookie.com/embed/${first.videoId}`} title={first.title} loading="lazy" allowfullscreen></iframe></div>
-        <p><b>{first.title}</b> · {first.source}</p>
-        <div class="vgrid">
-          {rest.map((v) => (
-            <a href={`https://www.youtube.com/watch?v=${v.videoId}`} target="_blank" rel="noopener">
+      <div class="watchcols">
+        <div>
+          <div class="player"><iframe id="wplayer" src={`https://www.youtube-nocookie.com/embed/${first.videoId}`} title={first.title} loading="lazy" allowfullscreen></iframe></div>
+          <p id="wtitle"><b>{first.title}</b> · {first.source}</p>
+        </div>
+        <aside class="watchside">
+          <h3>More videos</h3>
+          {videos.map((v, i) => (
+            <a class={`wv${i === 0 ? ' on' : ''}`} href={`https://www.youtube.com/watch?v=${v.videoId}`} data-id={v.videoId} data-title={v.title} data-src={v.source}>
               <img src={`https://i.ytimg.com/vi/${v.videoId}/mqdefault.jpg`} alt="" loading="lazy" />
               <span>{v.title}</span>
             </a>
           ))}
-        </div>
-      </>
+        </aside>
+      </div>
     ) : (
       <p>Videos will show up here soon. This page plays local newsroom videos right here, using each outlet's own YouTube player.</p>
     )}
   </section>
+  <script is:inline>
+    document.querySelectorAll('.wv').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('wplayer').src = 'https://www.youtube-nocookie.com/embed/' + a.dataset.id + '?autoplay=1';
+        var t = document.getElementById('wtitle'); t.innerHTML = ''; var b = document.createElement('b'); b.textContent = a.dataset.title; t.appendChild(b); t.appendChild(document.createTextNode(' · ' + a.dataset.src));
+        document.querySelectorAll('.wv').forEach(function (x) { x.classList.remove('on'); }); a.classList.add('on');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
 </Layout>

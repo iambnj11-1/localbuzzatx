@@ -18,7 +18,6 @@ export const FEEDS = [
   { source: 'Austin Monitor', category: 'Government', url: 'https://www.austinmonitor.com/feed/' },
   // Business and Tech. Addresses unverified; check /status.
   { source: 'Silicon Hills News', category: 'Tech', url: 'https://siliconhillsnews.com/feed/' },
-  { source: 'Black Austin Matters', category: 'Neighborhoods', url: 'https://kutkutx.studio/category/black-austin-matters/feed' },
   { source: 'TOWERS', category: 'Development', url: 'https://austin.towers.net/feed' },
   { source: '365 Things Austin', category: 'Events', url: 'https://365thingsaustin.com/feed' },
   { source: 'Austin Monthly', category: 'Events', url: 'https://austinmonthly.com/feed' },
