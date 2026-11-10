@@ -4,6 +4,7 @@
   --muted: #5a5a55;
   --rule: #111111;
   --accent: #b3261e;
+  --buzz: #f5c518;
   --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
@@ -112,3 +113,24 @@ h3.rule { border-top: 4px solid var(--ink); padding-top: 6px; font-size: 12px; l
 .mtm b { display: block; font-family: var(--serif); font-size: 24px; margin: 2px 0; }
 .mtm .k { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #bdbab0; }
 .mtm a { background: var(--accent); color: #fff; padding: 10px 18px; font-weight: 600; text-decoration: none; font-size: 14px; }
+
+.chip.towers { background: #fdf1c4; border-color: #8a6508; color: #6b4f00; }
+.chip.monthly { background: #e3f1e4; border-color: #2e7d32; color: #1f5a23; }
+.chip.things { background: #e3eef0; border-color: #2a6470; color: #1d4a53; }
+.bigline em, .omgmini em { background: var(--buzz); color: var(--ink); padding: 0 6px; margin-right: 2px; }
+.pair h3.section.omgh a { background: var(--buzz); padding: 0 8px; }
+.wmt { margin-top: 4px; margin-bottom: 28px; border: 2px solid var(--ink); background: #fff; }
+.wmt .bar { display: flex; justify-content: space-between; align-items: center; background: var(--buzz); border-bottom: 2px solid var(--ink); padding: 6px 14px; }
+.wmt .bar b { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; }
+.wmt .bar a { font-size: 13px; font-weight: 600; text-decoration: none; }
+.wmt .row { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 800px) { .wmt .row { grid-template-columns: repeat(3, 1fr); } }
+.wmt .row > div { padding: 14px 16px; border-top: 1px solid #d8d5cc; }
+@media (min-width: 800px) { .wmt .row > div { border-top: 0; border-left: 1px solid #d8d5cc; } .wmt .row > div:first-child { border-left: 0; } }
+.wmt .row a { font-family: var(--serif); font-weight: 700; font-size: 19px; line-height: 1.2; text-decoration: none; display: block; margin-top: 6px; }
+.wmt .row a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+.why { background: var(--accent); color: #fff; border-left: 0; padding: 14px 18px; }
+.why b { color: #fff; }
+.mtm { padding: 36px 32px; }
+.mtm b { font-size: 30px; line-height: 1.15; max-width: 640px; }
+.mtm p { color: #bdbab0; margin: 8px 0 0; font-size: 15px; }
