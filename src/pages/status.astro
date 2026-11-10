@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import * as feeds from '../lib/feeds';
+await feeds.getStories(true);
+const report = [...feeds.lastReport];
+---
+<Layout title="Feed status">
+  <section class="page">
+    <h2>Feed status</h2>
+    <p>For checking which sources load. Each row is one feed address.</p>
+    {report.map((r) => (
+      <div class="item"><b>{r.source}{r.area ? ` · ${r.area}` : ''}</b> — status {r.status}, {r.count} stories, {r.ms} ms<br /><span style="word-break:break-all">{r.url}</span></div>
+    ))}
+    {!report.length && <p>No fresh check was run (results are saved for 10 minutes). Reload in a few minutes.</p>}
+  </section>
+</Layout>

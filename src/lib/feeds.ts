@@ -51,6 +51,9 @@ const clean = (value: unknown, max = 200): string => {
 const text = (v: any): string => (typeof v === 'object' && v !== null ? String(v['#text'] ?? '') : String(v ?? ''));
 
 async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
+  const started = Date.now();
+  let status = 'error';
+  const record = (count: number) => lastReport.push({ source: feed.source, area: (feed as any).area, url: feed.url, status, count, ms: Date.now() - started });
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 8000);
   try {
@@ -58,11 +61,12 @@ async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
       signal: controller.signal,
       headers: { 'User-Agent': 'LocalBuzzATX/1.0 (+headline aggregator, links back to source)' },
     });
-    if (!res.ok) return [];
+    status = String(res.status);
+    if (!res.ok) { record(0); return []; }
     const xml = parser.parse(await res.text());
     const rawItems = xml?.rss?.channel?.item ?? xml?.feed?.entry ?? [];
     const items = Array.isArray(rawItems) ? rawItems : [rawItems];
-    return items
+    const out = items
       .map((it: any): Story | null => {
         const title = clean(text(it.title), 160);
         const link = typeof it.link === 'string' ? it.link : it.link?.['@_href'] ?? text(it.guid);
@@ -80,18 +84,26 @@ async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
       })
       .filter((s): s is Story => s !== null)
       .slice(0, 15);
-  } catch {
+    record(out.length);
+    return out;
+  } catch (e) {
+    status = e instanceof Error ? e.name : 'error';
+    record(0);
     return [];
   } finally {
     clearTimeout(timer);
   }
 }
 
+export type FeedReport = { source: string; area?: string; url: string; status: string; count: number; ms: number };
+export let lastReport: FeedReport[] = [];
+
 let cache: { at: number; value: { stories: Story[]; sources: string[] } } | null = null;
 const TTL_MS = 10 * 60 * 1000;
 
-export async function getStories(): Promise<{ stories: Story[]; sources: string[] }> {
-  if (cache && Date.now() - cache.at < TTL_MS) return cache.value;
+export async function getStories(force = false): Promise<{ stories: Story[]; sources: string[] }> {
+  if (!force && cache && Date.now() - cache.at < TTL_MS) return cache.value;
+  lastReport = [];
   const results = await Promise.all(FEEDS.map(loadFeed));
   const seen = new Set<string>();
   const stories = results
