@@ -116,7 +116,54 @@ export let lastReport: FeedReport[] = [];
 let cache: { at: number; value: { stories: Story[]; sources: string[] } } | null = null;
 const TTL_MS = 10 * 60 * 1000;
 
+// Pictures we never want to show (generic graphics, logos). Add a pattern to hide one.
+const BAD_IMAGE_TITLES = [/best and worst of austin/i];
+const BAD_IMAGE_URLS = [/logo/i, /placeholder/i, /gravatar/i, /default[-_]/i, /blank/i];
+const ogCache = new Map<string, string | null>();
+
+async function ogImage(link: string): Promise<string | null> {
+  if (ogCache.has(link)) return ogCache.get(link) ?? null;
+  if (ogCache.size > 300) ogCache.clear();
+  const c = new AbortController();
+  const t = setTimeout(() => c.abort(), 4000);
+  try {
+    const r = await fetch(link, { signal: c.signal, headers: { 'User-Agent': 'LocalBuzzATX/1.0 (+headline aggregator, links back to source)' } });
+    if (!r.ok) { ogCache.set(link, null); return null; }
+    const html = (await r.text()).slice(0, 80000);
+    const m = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) || html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i);
+    const u = m ? m[1].replace(/&amp;/g, '&') : null;
+    const ok = u && /^https:\/\//.test(u) ? u : null;
+    ogCache.set(link, ok);
+    return ok;
+  } catch {
+    ogCache.set(link, null);
+    return null;
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+async function fillImages(stories: Story[]) {
+  const missing = stories.filter((s) => !s.image && s.category !== 'Watch' && !ogCache.has(s.link)).slice(0, 12);
+  await Promise.all(missing.map(async (s) => { const u = await ogImage(s.link); if (u) s.image = u; }));
+  for (const s of stories) {
+    if (!s.image && ogCache.get(s.link)) s.image = ogCache.get(s.link) ?? undefined;
+    if (s.image && (BAD_IMAGE_TITLES.some((r) => r.test(s.title)) || BAD_IMAGE_URLS.some((r) => r.test(s.image!)))) s.image = undefined;
+  }
+}
+
+function mockStories(): Story[] {
+  const mk = (i: number, source: string, category: string, title: string, image?: string): Story => ({ source, category, title, link: `https://example.com/${i}`, summary: `Sample summary for story ${i}. It has a couple of sentences so the layout is realistic.`, image, date: new Date(Date.now() - i * 3600000) });
+  const img = (n: number) => `https://picsum.photos/seed/lba${n}/800/500`;
+  return [
+    mk(1, 'KXAN', 'News', 'Mock lead story about the city', img(1)), mk(2, 'KXAN', 'News', 'Mock second story', img(2)), mk(3, 'Austin Monitor', 'Government', 'Mock council vote', img(3)),
+    mk(4, 'TOWERS', 'Development', 'Mock tower plan', img(4)), mk(5, 'Austin Monthly', 'Events', 'Mock weekend ideas', img(5)), mk(6, 'Silicon Hills News', 'Tech', 'Mock startup news', img(6)),
+    mk(7, 'KXAN', 'News', 'Mock fourth story', img(7)), mk(8, 'Austin Monitor', 'Government', 'Mock budget item', img(8)), mk(9, 'TOWERS', 'Development', 'Mock penthouse'),
+  ];
+}
+
 export async function getStories(force = false): Promise<{ stories: Story[]; sources: string[] }> {
+  if (typeof process !== 'undefined' && process.env?.LBA_MOCK) return { stories: mockStories(), sources: ['KXAN'] };
   if (!force && cache && Date.now() - cache.at < TTL_MS) return cache.value;
   lastReport = [];
   // Optional private feed address kept in a Cloudflare secret (not in the public code).
@@ -134,6 +181,7 @@ export async function getStories(force = false): Promise<{ stories: Story[]; sou
       return true;
     })
     .sort((a, b) => b.date.getTime() - a.date.getTime());
+  await fillImages(stories);
   const sources = [...new Set(feedList.filter((_, i) => results[i].length > 0).map((f) => f.source))];
   const value = { stories, sources };
   if (stories.length > 0) cache = { at: Date.now(), value };

@@ -13,8 +13,10 @@ const sources = all.sources;
 const videos = all.stories.filter((s) => s.category === 'Watch' && s.videoId).slice(0, 3);
 const friendly = stories.filter((s) => !heavy.test(s.title) && !heavy.test(s.summary));
 const top = friendly.find((s) => s.summary && s.category === 'News') ?? friendly[0] ?? stories[0];
+// Top stories carousel: up to 4, the top story first, preferring ones with a photo.
+const tops = [top, ...friendly.filter((s) => s !== top && s.summary && s.image)].filter(Boolean).slice(0, 4);
 const perSrc: Record<string, number> = {};
-const latest = stories.filter((s) => s !== top).filter((s) => (perSrc[s.source] = (perSrc[s.source] ?? 0) + 1) <= 2).slice(0, 6);
+const latest = stories.filter((s) => !tops.includes(s)).filter((s) => (perSrc[s.source] = (perSrc[s.source] ?? 0) + 1) <= 2).slice(0, 6);
 const pick = (cat: string) => stories.filter((s) => s.category === cat && s !== top).slice(0, 4);
 const newsItems = pick('News').slice(0, 4);
 const events = pick('Events').slice(0, 4);
@@ -29,10 +31,10 @@ const briefing = [...friendly.filter((s) => s !== top && (s.category === 'Govern
   .filter((s) => !roundup.test(s.title))
   .filter((s) => (used.has(s.source) ? false : (used.add(s.source), true)))
   .slice(0, 3);
-const taken = new Set([top, ...latest, ...briefing]);
+const taken = new Set([...tops, ...latest, ...briefing]);
 const seenSrc = new Set<string>();
 const featured = stories.filter((x) => x.image && !taken.has(x)).filter((x) => (seenSrc.has(x.source) ? false : (seenSrc.add(x.source), true))).slice(0, 3);
-const ai = await getAi((Astro.locals as any).runtime?.env, top, briefing);
+const ai = await getAi((Astro.locals as any).runtime?.env, tops, briefing);
 const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
 ---
 <Layout current="Home">
@@ -46,14 +48,27 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
   )}
   {top ? (
     <section class="lead">
-      <article class="hero">
-        {top.image && <img src={top.image} alt="" referrerpolicy="no-referrer" />}
-        <div class="kicker"><span class={`chip ${chipClass(top)}`}>{chipLabel(top)}</span>Top story</div>
-        <h2><a href={top.link} rel="noopener" target="_blank">{top.title}</a></h2>
-        <p>{top.summary}</p>
-        <p><a href={top.link} rel="noopener" target="_blank">Read the full story at {top.source} →</a></p>
-        <div class="why"><b>Why should I care?</b>{ai?.why ?? 'One plain sentence on what this means for people in Austin goes here soon.'}</div>
-      </article>
+      <div class="carousel" id="topcar">
+        <div class="slides">
+          {tops.map((t, i) => (
+            <article class="hero slide">
+              {t.image && <img src={t.image} alt="" referrerpolicy="no-referrer" />}
+              <div class="kicker"><span class={`chip ${chipClass(t)}`}>{chipLabel(t)}</span>{i === 0 ? 'Top story' : 'Also big today'}</div>
+              <h2><a href={t.link} rel="noopener" target="_blank">{t.title}</a></h2>
+              <p>{t.summary}</p>
+              <p><a href={t.link} rel="noopener" target="_blank">Read the full story at {t.source} →</a></p>
+              <div class="why"><b>Why should I care?</b>{ai?.whys?.[i] ?? 'One plain sentence on what this means for people in Austin goes here soon.'}</div>
+            </article>
+          ))}
+        </div>
+        {tops.length > 1 && (
+          <div class="carnav">
+            <button type="button" class="prev" aria-label="Previous story">←</button>
+            <span class="count">1 / {tops.length}</span>
+            <button type="button" class="next" aria-label="Next story">→</button>
+          </div>
+        )}
+      </div>
       <aside class="side">
         <h3>Latest</h3>
         {latest.map((s) => (
@@ -152,4 +167,19 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     <a href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">Follow on Instagram →</a>
   </section>
 
+  <script is:inline>
+    (function () {
+      var car = document.getElementById('topcar');
+      if (!car) return;
+      var slides = car.querySelector('.slides');
+      var count = car.querySelector('.count');
+      var n = slides.children.length;
+      function idx() { return Math.round(slides.scrollLeft / slides.clientWidth); }
+      function go(i) { i = Math.max(0, Math.min(n - 1, i)); slides.scrollTo({ left: i * slides.clientWidth, behavior: 'smooth' }); }
+      var p = car.querySelector('.prev'), x = car.querySelector('.next');
+      if (p) p.addEventListener('click', function () { go(idx() - 1); });
+      if (x) x.addEventListener('click', function () { go(idx() + 1); });
+      slides.addEventListener('scroll', function () { if (count) count.textContent = (idx() + 1) + ' / ' + n; }, { passive: true });
+    })();
+  </script>
 </Layout>

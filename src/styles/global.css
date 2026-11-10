@@ -183,3 +183,12 @@ footer.site { margin-top: 20px; }
 .featgrid .smalls img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: #d9d5c9; margin-bottom: 8px; }
 .featgrid .smalls b { display: block; font-family: var(--serif); font-weight: 700; font-size: 19px; line-height: 1.15; margin-top: 6px; }
 .featgrid a:hover b { text-decoration: underline; text-decoration-color: var(--accent); }
+
+.carousel { min-width: 0; }
+.slides { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; gap: 0; }
+.slides::-webkit-scrollbar { display: none; }
+.slide { flex: 0 0 100%; scroll-snap-align: start; box-sizing: border-box; padding-right: 2px; }
+.carnav { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+.carnav button { border: 1px solid var(--ink); background: #fff; width: 40px; height: 40px; font-size: 18px; cursor: pointer; }
+.carnav button:hover { background: var(--ink); color: #fff; }
+.carnav .count { font-size: 13px; color: var(--muted); }
