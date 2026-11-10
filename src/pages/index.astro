@@ -67,7 +67,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     <div>
       <h3 class="section"><a href="/news">News</a></h3>
       {newsItems.map((s) => (
-        <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div></div>}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small>{chipLabel(s)}</small></div></div>
+        <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div></div>}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
       ))}
     </div>
     <div>
@@ -76,21 +76,6 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
         <div class="omgmini"><div class="hd">{r.head}{r.label && ` · ${r.label}`}</div><p><em>OMG!</em> {r.line}</p>{r.link && <a href={r.link} target="_blank" rel="noopener">Read the story →</a>}</div>
       ))}
       <p><a href="/omg">More OMG! →</a></p>
-    </div>
-  </section>
-
-  <section class="pair" style="border-top:0;margin-top:20px;padding-top:0">
-    <div>
-      <h3 class="section"><a href="/watch">Watch</a></h3>
-      {videos.length ? videos.map((v) => (
-        <div class="mini"><a href="/watch"><img src={v.image} alt="" loading="lazy" /></a><div><a href="/watch">{v.title}</a><small>{v.source}</small></div></div>
-      )) : <p>Videos are on the way.</p>}
-    </div>
-    <div>
-      <h3 class="section"><a href="/to-do">To Do</a></h3>
-      {events.map((s) => (
-        <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div></div>}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small>{chipLabel(s)}</small></div></div>
-      ))}
     </div>
   </section>
 
@@ -113,13 +98,13 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     <div>
       <h3 class="section"><a href="/watch">Watch</a></h3>
       {videos.length ? videos.map((v) => (
-        <div class="mini"><a href="/watch"><img src={v.image} alt="" loading="lazy" /></a><div><a href="/watch">{v.title}</a><small>{v.source}</small></div></div>
+        <div class="mini"><a href="/watch"><img src={v.image} alt="" loading="lazy" /></a><div><a href="/watch">{v.title}</a><small><span class={`chip ${chipClass(v)}`}>{chipLabel(v)}</span></small></div></div>
       )) : <p>Videos are on the way.</p>}
     </div>
     <div>
       <h3 class="section"><a href="/to-do">To Do</a></h3>
       {events.map((s) => (
-        <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div></div>}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small>{chipLabel(s)}</small></div></div>
+        <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div></div>}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
       ))}
     </div>
   </section>
