@@ -7,8 +7,8 @@ import { getWeather } from '../lib/weather';
 const { title = 'Local Buzz ATX', current = '' } = Astro.props;
 const sections: [string, string, [string, string][]][] = [
   ['News', '/news', [['Latest', '/news'], ['Government', '/news?tag=Government'], ['Neighborhoods', '/news?tag=Neighborhoods'], ['Business', '/news?tag=Business'], ['Tech', '/news?tag=Tech'], ['Weather', '/news?tag=Weather']]],
-  ['Watch', '/watch', [['Latest Videos', '/watch'], ['Politics', '/watch?tag=Politics'], ['City Council', '/watch?tag=City Council'], ['OMG! Clips', '/watch?tag=OMG Clips']]],
-  ['OMG!', '/omg', [['Latest', '/omg'], ['Mind The Marbles', 'https://www.instagram.com/mindthemarbles/'], ['Austin Be Like...', '/omg?tag=Austin Be Like'], ['Good News', '/omg?tag=Good News'], ['Shout-Outs', '/omg?tag=Shout-Outs']]],
+  ['Watch', '/watch', []],
+  ['OMG!', '/omg', [['Latest', '/omg'], ['Good News', '/omg?tag=Good News'], ['Shout-Outs', '/omg?tag=Shout-Outs']]],
   ['To Do', '/to-do', [['This Weekend', '/to-do'], ['Live Music', '/to-do?tag=Live Music'], ['Food & Drink', '/to-do?tag=Food %26 Drink'], ['Family Fun', '/to-do?tag=Family Fun'], ['Free Stuff', '/to-do?tag=Free Stuff']]],
   ['About', '/about', [['About', '/about'], ['Sources', '/sources']]],
 ];
@@ -27,11 +27,12 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@900&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <div class="topstripe"></div>
     <div class="wrap">
       {weather?.alert && (
         <div class="alertbar"><b>Weather alert:</b> {weather.alert}</div>
       )}
-      <div class="dateline"><span>{today}</span><span>{weather ? `${weather.temp}° · ${weather.summary} · ` : ''}Austin, Texas</span></div>
+      <div class="dateline"><span>{today}</span><span>{weather && <b class="wx">{weather.temp}° · {weather.summary}</b>}{weather ? ' ' : ''}Austin, Texas</span></div>
       <header class="masthead">
         <a href="/"><h1>Local Buzz ATX<span class="dot">.</span></h1></a>
         <p class="tagline">Austin news, and why it matters to you.</p>
@@ -40,12 +41,14 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
         <ul>
           {sections.map(([label, href, kids]) => (
             <li class="dd">
-              <a href={href} aria-current={current === label ? 'page' : undefined} aria-haspopup="true">{label} <span class="caret">▾</span></a>
-              <ul class="menu">
-                {kids.map(([text, to]) => (
-                  <li><a href={to} {...(to.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})}>{text}</a></li>
-                ))}
-              </ul>
+              <a href={href} aria-current={current === label ? 'page' : undefined} aria-haspopup={kids.length ? 'true' : undefined}>{label}{kids.length > 0 && <span class="caret"> ▾</span>}</a>
+              {kids.length > 0 && (
+                <ul class="menu">
+                  {kids.map(([text, to]) => (
+                    <li><a href={to} {...(to.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})}>{text}</a></li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>

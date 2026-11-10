@@ -206,3 +206,12 @@ footer.site { margin-top: 20px; }
 .sponsor.tools .toolrow { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid #e3e0d6; }
 .sponsor.tools .toolrow b { font-size: 16px; margin: 0 0 2px; }
 .sponsor.tools .toolrow a.cta { margin: 0; white-space: nowrap; }
+
+.topstripe { height: 8px; background: linear-gradient(90deg, var(--accent) 0 70%, var(--buzz) 70% 100%); }
+.dateline .wx { background: var(--accent); color: #fff; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.05em; font-weight: 600; }
+.sendbox { border: 2px solid var(--buzz); background: #fff8dc; padding: 12px 14px; font-size: 14px; margin: 12px 0; }
+.sendbox b { display: block; font-family: var(--serif); font-size: 17px; }
+.omgcols { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .omgcols { grid-template-columns: minmax(0, 3fr) minmax(0, 1fr); } .omgcols .omggrid { grid-template-columns: repeat(2, 1fr); } .omgside .sendbox { margin-top: 0; } }
+.omgside .sponsor:first-of-type { margin-top: 12px; }
+@media (min-width: 900px) { .omgcols .omglead { grid-template-columns: 1fr; } .omgcols .omglead img, .omgcols .omglead .ph { height: auto; aspect-ratio: 16/9; } }

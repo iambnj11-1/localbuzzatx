@@ -1,4 +1,5 @@
 ---
+import NewsletterTools from '../components/NewsletterTools.astro';
 import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 import { withStory } from '../lib/omg';
@@ -15,16 +16,19 @@ const tag = Astro.url.searchParams.get('tag');
     {tag === 'Good News' && <>
       <div class="pagehead"><h2>Good News</h2><span>Upbeat stories from around Austin</span></div>
       <p class="samplenote">Sample stories, to show the layout. Real good news from readers will go here.</p>
+      <div class="sendbox"><b>Got one to share?</b> Good news, a birthday, a congrats or a thank-you. Submissions open soon.</div>
       <div class="omggrid">{goodNews.map((g) => (<div class="omgcard"><div class="kicker">Sample</div><div class="hd">{g.head}</div><p>{g.blurb}</p></div>))}</div>
     </>}
     {tag === 'Shout-Outs' && <>
       <div class="pagehead"><h2>Shout-Outs</h2><span>Birthdays, congrats and thank-yous</span></div>
       <p class="samplenote">Sample shout-outs, to show the layout. Readers will be able to send their own.</p>
+      <div class="sendbox"><b>Got one to share?</b> Good news, a birthday, a congrats or a thank-you. Submissions open soon.</div>
       <div class="omggrid">{shoutouts.map((g) => (<div class="omgcard"><div class="kicker">{g.kind} · Sample</div><div class="hd">{g.who}</div><p>{g.note}</p></div>))}</div>
     </>}
     {tag && tag !== 'Good News' && tag !== 'Shout-Outs' && <><p class="kicker">{tag}</p><p>Reactions for this one are coming soon. <a href="/omg">See everything</a>.</p></>}
     {!tag && <>
     <div class="pagehead"><h2>OMG!</h2><span>Austin news, with a side eye.</span></div>
+    <div class="omgcols"><div>
     <article class="omglead">
       {lead.image ? <img src={lead.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div class="ph"></div>}
       <div>
@@ -46,6 +50,13 @@ const tag = Astro.url.searchParams.get('tag');
           {r.link && <a href={r.link} target="_blank" rel="noopener">Read the story →</a>}
         </div>
       ))}
+    </div>
+    </div>
+    <aside class="omgside">
+      <div class="sendbox"><b>Good news? Birthday shout-out?</b> Share it with Austin. <a href="/omg?tag=Good News">See how it looks →</a></div>
+      <NewsletterTools />
+      <div class="sponsor"><div class="label">From the family</div><b>Mind the Marbles</b>Real talk and humor about mental health.<br /><a class="cta" href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">Follow on Instagram →</a></div>
+    </aside>
     </div>
   </>}
   </section>
