@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+const reactions = [
+  ['Austin ISD teacher competes on Jeopardy', 'We finally found someone who knows all the answers.'],
+  ['Austin Transit Partnership begins planning light rail extension to the airport', 'Your future airport ride might take less time than finding parking.'],
+  ['Three days of rain on the way', 'Austin drivers, you have been warned.'],
+];
+---
+<Layout title="Opinion" current="Opinion">
+  <section class="page">
+    <h2>Opinion</h2>
+    <p>Voices from around the city. Full opinion pieces are coming soon.</p>
+    <h3 style="font-family:var(--serif);font-weight:900;font-size:26px;margin:28px 0 4px">OMG! Austin reacts.</h3>
+    <p>Our quick take on the day, one line at a time.</p>
+    {reactions.map(([story, line]) => (
+      <div class="omg">
+        <div class="story">{story}</div>
+        <div class="line"><em>OMG!</em> {line}</div>
+      </div>
+    ))}
+  </section>
+</Layout>

@@ -46,3 +46,9 @@ footer { border-top: 1px solid var(--rule); padding: 20px 0 40px; font-size: 13p
 .chip.city { background: #fff3cc; border-color: #8a6d00; color: #6b5400; }
 .chip.ci { background: #e1f3e6; border-color: #1b6b35; color: #14532d; }
 .chip.monitor { background: #ece6f7; border-color: #4c3a86; color: #3b2d6b; }
+
+.alertbar { background: var(--accent); color: #fff; font-size: 13px; padding: 8px 12px; margin-top: 8px; }
+.omg { border: 2px solid var(--ink); padding: 14px 16px; margin: 16px 0; background: #fff; }
+.omg .story { font-weight: 600; }
+.omg .line { font-family: var(--serif); font-weight: 900; font-size: 20px; margin-top: 4px; }
+.omg .line em { font-style: normal; color: var(--accent); }

@@ -15,11 +15,18 @@ export const FEEDS = [
   { source: 'KXAN', category: 'News', url: 'https://www.kxan.com/feed/' },
   { source: 'KVUE', category: 'News', url: 'https://www.kvue.com/feeds/syndication/rss/news/local' },
   { source: 'Austin Monitor', category: 'Government', url: 'https://www.austinmonitor.com/feed/' },
+  // Community Impact: several possible addresses per area. Ones that do not load are skipped; duplicates are removed.
   { source: 'Community Impact', area: 'Austin', category: 'Neighborhoods', url: 'https://communityimpact.com/austin/feed' },
   { source: 'Community Impact', area: 'Round Rock', category: 'Neighborhoods', url: 'https://communityimpact.com/austin/round-rock/feed' },
+  { source: 'Community Impact', area: 'Round Rock', category: 'Neighborhoods', url: 'https://communityimpact.com/round-rock-pflugerville-hutto/feed' },
+  { source: 'Community Impact', area: 'Round Rock', category: 'Neighborhoods', url: 'https://communityimpact.com/austin/round-rock-pflugerville-hutto/feed' },
   { source: 'Community Impact', area: 'Pflugerville-Hutto', category: 'Neighborhoods', url: 'https://communityimpact.com/austin/pflugerville-hutto/feed' },
+  { source: 'Community Impact', area: 'Pflugerville-Hutto', category: 'Neighborhoods', url: 'https://communityimpact.com/round-rock-pflugerville-hutto/feed' },
   { source: 'Community Impact', area: 'Georgetown', category: 'Neighborhoods', url: 'https://communityimpact.com/austin/georgetown/feed' },
+  { source: 'Community Impact', area: 'Georgetown', category: 'Neighborhoods', url: 'https://communityimpact.com/georgetown/feed' },
   { source: 'Community Impact', area: 'Cedar Park', category: 'Neighborhoods', url: 'https://communityimpact.com/austin/cedar-park-far-northwest-austin/feed' },
+  { source: 'Community Impact', area: 'Cedar Park', category: 'Neighborhoods', url: 'https://communityimpact.com/austin/cedar-park-leander/feed' },
+  { source: 'Community Impact', area: 'Cedar Park', category: 'Neighborhoods', url: 'https://communityimpact.com/cedar-park-leander/feed' },
   // City of Austin: addresses below are guesses. If they do not load, they are skipped quietly.
   { source: 'City of Austin', category: 'Government', url: 'https://www.austintexas.gov/communications/news/rss' },
   { source: 'City of Austin', category: 'Government', url: 'https://www.austintexas.gov/news/feed' },

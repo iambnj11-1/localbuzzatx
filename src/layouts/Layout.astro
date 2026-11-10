@@ -1,10 +1,12 @@
 ---
 import '../styles/global.css';
+import { getWeather } from '../lib/weather';
 const { title = 'Local Buzz ATX', current = '' } = Astro.props;
 const sections = [
-  ['Home', '/'], ['News', '/news'], ['Neighborhoods', '/neighborhoods'], ['Business', '/business'],
-  ['Development', '/development'], ['Events', '/events'], ['Government', '/government'], ['About', '/about'],
+  ['News', '/news'], ['Neighborhoods', '/neighborhoods'], ['Business', '/business'], ['Development', '/development'],
+  ['Events', '/events'], ['Government', '/government'], ['Opinion', '/opinion'], ['About', '/about'],
 ];
+const weather = await getWeather();
 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Chicago' });
 ---
 <!doctype html>
@@ -20,7 +22,10 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
   </head>
   <body>
     <div class="wrap">
-      <div class="dateline"><span>{today}</span><span>Austin, Texas</span></div>
+      {weather?.alert && (
+        <div class="alertbar"><b>Weather alert:</b> {weather.alert}</div>
+      )}
+      <div class="dateline"><span>{today}</span><span>{weather ? `${weather.temp}° · ${weather.summary} · ` : ''}Austin, Texas</span></div>
       <header class="masthead">
         <a href="/"><h1>Local Buzz ATX<span class="dot">.</span></h1></a>
         <p class="tagline">Austin news, and why it matters to you.</p>
