@@ -25,6 +25,9 @@ export const FEEDS = [
   { source: 'KVUE', category: 'Watch', url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxXTyFekH99JnS3qaXIQW7A' },
 ];
 
+// City stories that are really about a neighborhood or a local park/landmark get the Neighborhoods tag.
+const NEIGHBORHOOD_WORDS = /(millennium|zilker|east austin|east riverside|south congress|south austin|north austin|hyde park|mueller|barton springs|neighborhood|park\b|erosion|pflugerville|manor|del valle|st\. johns|montopolis|rainey|bouldin)/i;
+
 const parser = new XMLParser({ ignoreAttributes: false, processEntities: true });
 
 const clean = (value: unknown, max = 200): string => {
@@ -180,7 +183,8 @@ export async function getStories(force = false): Promise<{ stories: Story[]; sou
       seen.add(key);
       return true;
     })
-    .sort((a, b) => b.date.getTime() - a.date.getTime());
+    .sort((a, b) => b.date.getTime() - a.date.getTime())
+    .map((s) => (s.source === 'Austin Monitor' && NEIGHBORHOOD_WORDS.test(s.title) ? { ...s, category: 'Neighborhoods' } : s));
   await fillImages(stories);
   const sources = [...new Set(feedList.filter((_, i) => results[i].length > 0).map((f) => f.source))];
   const value = { stories, sources };

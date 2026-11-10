@@ -10,7 +10,7 @@ const sections: [string, string, [string, string][]][] = [
   ['Watch', '/watch', []],
   ['OMG!', '/omg', [['Latest', '/omg'], ['Good News', '/omg?tag=Good News'], ['Shout-Outs', '/omg?tag=Shout-Outs']]],
   ['To Do', '/to-do', [['This Weekend', '/to-do'], ['Live Music', '/to-do?tag=Live Music'], ['Food & Drink', '/to-do?tag=Food %26 Drink'], ['Family Fun', '/to-do?tag=Family Fun'], ['Free Stuff', '/to-do?tag=Free Stuff']]],
-  ['About', '/about', [['About', '/about'], ['Sources', '/sources']]],
+  ['About', '/about', [['About', '/about'], ['Contact', '/contact'], ['Sources', '/sources']]],
 ];
 const weather = await getWeather();
 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Chicago' });
@@ -66,7 +66,7 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
           </div>
           <div><h5>Sources</h5><ul>{footSources.map(([n, u]) => <li><a href={u} target="_blank" rel="noopener">{n} →</a></li>)}</ul><a href="/sources" class="more">View all sources →</a></div>
           <div>
-            <h5>Learn</h5><ul><li><a href="/how-it-works">How Local Buzz works</a></li><li><a href="/sources">Sources</a></li><li><a href="/about">About</a></li></ul>
+            <h5>Learn</h5><ul><li><a href="/how-it-works">How Local Buzz works</a></li><li><a href="/sources">Sources</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul>
             <h5 style="margin-top:18px">Legal</h5><ul><li><a href="/privacy">Privacy policy</a></li><li><a href="/terms">Terms of use</a></li><li><a href="/affiliate-disclosure">Affiliate disclosure</a></li></ul>
           </div>
         </div>

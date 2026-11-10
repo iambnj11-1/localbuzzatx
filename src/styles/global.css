@@ -221,3 +221,8 @@ footer.site { margin-top: 20px; }
 .wmt .lab { display: inline-block; font-size: 10px; padding: 1px 6px; margin-right: 8px; vertical-align: 1px; }
 .wmt a { display: inline !important; white-space: normal !important; overflow: visible !important; font-weight: 500; }
 .wmt .sep { display: inline !important; margin: 0 8px; }
+
+.post { border-top: 1px solid #bdbab0; padding: 16px 0 20px; }
+.post h3 { font-family: var(--serif); font-weight: 900; font-size: 28px; line-height: 1.15; margin: 6px 0 10px; }
+.post p { font-size: 17px; line-height: 1.65; margin: 0; max-width: 62ch; }
+.formframe { width: 100%; border: 0; min-height: 640px; }
