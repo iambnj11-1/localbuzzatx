@@ -19,9 +19,6 @@ const pick = (cat: string) => stories.filter((s) => s.category === cat && s !== 
 const newsItems = pick('News').slice(0, 4);
 const events = pick('Events').slice(0, 4);
 const takes = withStory(all.stories.filter((s) => s.category !== 'Watch')).filter((r) => r.link || true).slice(0, 2);
-const taken = new Set([top, ...latest, ...briefing]);
-const seenSrc = new Set<string>();
-const featured = stories.filter((x) => x.image && !taken.has(x)).filter((x) => (seenSrc.has(x.source) ? false : (seenSrc.add(x.source), true))).slice(0, 3);
 const gov = pick('Government').slice(0, 3);
 const dev = pick('Development').slice(0, 3);
 const hood = pick('Neighborhoods').slice(0, 4);
@@ -32,6 +29,9 @@ const briefing = [...friendly.filter((s) => s !== top && (s.category === 'Govern
   .filter((s) => !roundup.test(s.title))
   .filter((s) => (used.has(s.source) ? false : (used.add(s.source), true)))
   .slice(0, 3);
+const taken = new Set([top, ...latest, ...briefing]);
+const seenSrc = new Set<string>();
+const featured = stories.filter((x) => x.image && !taken.has(x)).filter((x) => (seenSrc.has(x.source) ? false : (seenSrc.add(x.source), true))).slice(0, 3);
 const ai = await getAi((Astro.locals as any).runtime?.env, top, briefing);
 const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
 ---
