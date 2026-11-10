@@ -3,7 +3,9 @@ import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
 const { stories, sources } = await getStories();
-const top = stories.find((s) => s.summary && s.category === 'News') ?? stories[0];
+const heavy = /(sexual|abuse|murder|killed|shot|shooting|stabb|arrest|sentenced|dead|death|crash|rape|assault|kidnap|molest|fatal|suspect|police)/i;
+const friendly = stories.filter((s) => !heavy.test(s.title) && !heavy.test(s.summary));
+const top = friendly.find((s) => s.summary && s.category === 'News') ?? friendly[0] ?? stories[0];
 const latest = stories.filter((s) => s !== top).slice(0, 6);
 const pick = (cat: string) => stories.filter((s) => s.category === cat && s !== top).slice(0, 4);
 const blocks = [['News', pick('News')], ['Neighborhoods', pick('Neighborhoods')], ['Government', pick('Government')]] as const;
@@ -30,12 +32,12 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     <section class="page"><h2>Stories are on the way</h2><p>Check back soon.</p></section>
   )}
   <section class="grid">
-    {blocks.map(([name, items]) => (
+    {blocks.filter(([, items]) => items.length > 0).map(([name, items]) => (
       <div>
         <h3 class="section"><a href={`/${name.toLowerCase()}`} style="text-decoration:none">{name}</a></h3>
-        {items.length ? items.map((s) => (
+        {items.map((s) => (
           <div class="item"><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div>
-        )) : <div class="item"><div>Coming soon</div></div>}
+        ))}
       </div>
     ))}
   </section>
