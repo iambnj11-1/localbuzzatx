@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
-import VisionCareAd from '../components/VisionCareAd.astro';
 const tags = ['News', 'Neighborhoods', 'Government', 'Development', 'Business', 'Tech', 'Weather'];
 const tag = Astro.url.searchParams.get('tag');
 const all = (await getStories()).stories.filter((s) => s.category !== 'Watch' && s.category !== 'Events');
@@ -36,7 +35,6 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
         </aside>
       </div>
     )}
-    <VisionCareAd />
     {cards.length > 0 && <h4 class="secrule">More stories</h4>}
     <div class="cards">
       {cards.map((s) => (
