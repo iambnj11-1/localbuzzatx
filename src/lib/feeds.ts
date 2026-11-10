@@ -31,6 +31,9 @@ export const FEEDS = [
   { source: 'Community Impact', area: 'Northwest Austin', category: 'Neighborhoods', url: 'https://communityimpact.com/northwest-austin/feed' },
   { source: 'Community Impact', area: 'Southwest Austin', category: 'Neighborhoods', url: 'https://communityimpact.com/southwest-austin/feed' },
   { source: 'Community Impact', area: 'Southeast Austin', category: 'Neighborhoods', url: 'https://communityimpact.com/southeast-austin/feed' },
+  // Business and Tech. Addresses unverified; check /status.
+  { source: 'Austin Business Journal', category: 'Business', url: 'http://feeds.bizjournals.com/bizj_austin' },
+  { source: 'Silicon Hills News', category: 'Tech', url: 'https://siliconhillsnews.com/feed/' },
   { source: 'TOWERS', category: 'Development', url: 'https://austin.towers.net/feed' },
   { source: '365 Things Austin', category: 'Events', url: 'https://365thingsaustin.com/feed' },
   { source: 'Austin Monthly', category: 'Events', url: 'https://austinmonthly.com/feed' },

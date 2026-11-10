@@ -3,7 +3,7 @@ import '../styles/global.css';
 import { getWeather } from '../lib/weather';
 const { title = 'Local Buzz ATX', current = '' } = Astro.props;
 const sections: [string, string, [string, string][]][] = [
-  ['News', '/news', [['Latest', '/news'], ['Government', '/news?tag=Government'], ['Neighborhoods', '/news?tag=Neighborhoods'], ['Weather', '/news?tag=Weather']]],
+  ['News', '/news', [['Latest', '/news'], ['Government', '/news?tag=Government'], ['Neighborhoods', '/news?tag=Neighborhoods'], ['Business', '/news?tag=Business'], ['Tech', '/news?tag=Tech'], ['Weather', '/news?tag=Weather']]],
   ['Watch', '/watch', [['Latest Videos', '/watch'], ['Politics', '/watch?tag=Politics'], ['City Council', '/watch?tag=City Council'], ['OMG! Clips', '/watch?tag=OMG Clips']]],
   ['OMG!', '/omg', [['Latest', '/omg'], ['Mind The Marbles', 'https://www.instagram.com/mindthemarbles/'], ['Austin Be Like...', '/omg?tag=Austin Be Like'], ['Good News', '/omg?tag=Good News']]],
   ['To Do', '/to-do', [['This Weekend', '/to-do'], ['Live Music', '/to-do?tag=Live Music'], ['Food & Drink', '/to-do?tag=Food %26 Drink'], ['Family Fun', '/to-do?tag=Family Fun'], ['Free Stuff', '/to-do?tag=Free Stuff']]],

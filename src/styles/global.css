@@ -149,3 +149,5 @@ h3.rule { border-top: 4px solid var(--ink); padding-top: 6px; font-size: 12px; l
 .card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; background: #d9d5c9; margin-bottom: 8px; display: block; }
 .card a { display: block; font-family: var(--serif); font-weight: 700; font-size: 19px; line-height: 1.2; text-decoration: none; margin-top: 6px; }
 .card a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+.chip.abj { background: #e4ecfb; border-color: #1e3a8a; color: #1e3a8a; }
+.chip.tech { background: #e0f2f1; border-color: #00695c; color: #004d40; }
