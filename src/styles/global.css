@@ -151,3 +151,18 @@ h3.rule { border-top: 4px solid var(--ink); padding-top: 6px; font-size: 12px; l
 .card a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
 .chip.abj { background: #e4ecfb; border-color: #1e3a8a; color: #1e3a8a; }
 .chip.tech { background: #e0f2f1; border-color: #00695c; color: #004d40; }
+
+footer.site { text-align: left; margin-top: 40px; border-top: 4px double var(--rule); padding: 28px 0 40px; color: var(--ink); }
+footer.site .cols { display: grid; grid-template-columns: 1fr; gap: 28px; }
+@media (min-width: 800px) { footer.site .cols { grid-template-columns: 1.6fr 1fr 1fr 1fr; } }
+footer.site .brand b { font-family: var(--serif); font-weight: 900; font-size: 24px; }
+footer.site .brand b span { color: var(--accent); }
+footer.site .brand p { font-size: 13px; color: var(--muted); margin: 6px 0; max-width: 340px; line-height: 1.45; }
+footer.site h5 { margin: 0 0 8px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; }
+footer.site ul { list-style: none; padding: 0; margin: 0; font-size: 14px; line-height: 1.8; }
+footer.site a { color: var(--ink); text-decoration: none; }
+footer.site a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+footer.site .more { font-size: 13px; font-weight: 600; }
+footer.site .fine { margin-top: 28px; padding-top: 14px; border-top: 1px solid #d8d5cc; font-size: 12px; color: var(--muted); line-height: 1.5; display: grid; gap: 4px; }
+.prose { max-width: 680px; line-height: 1.6; }
+.prose h3 { font-family: var(--serif); font-size: 20px; margin: 24px 0 6px; }

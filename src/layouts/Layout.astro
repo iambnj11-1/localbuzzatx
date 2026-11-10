@@ -1,4 +1,6 @@
 ---
+import { FEEDS } from '../lib/feeds';
+const footSources = [...new Set(FEEDS.map((f) => f.source))];
 import '../styles/global.css';
 import { getWeather } from '../lib/weather';
 const { title = 'Local Buzz ATX', current = '' } = Astro.props;
@@ -48,7 +50,23 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
         </ul>
       </nav>
       <main><slot /></main>
-      <footer>© Local Buzz ATX. Headlines link to the original reporting.</footer>
+      <footer class="site">
+        <div class="cols">
+          <div class="brand">
+            <b>Local Buzz ATX<span>.</span></b>
+            <p>Austin news, and why it matters to you.</p>
+            <p>Headlines are curated from Austin-area publishers. We summarize and link directly to the original reporting.</p>
+          </div>
+          <div><h5>Explore</h5><ul><li><a href="/news">News</a></li><li><a href="/watch">Watch</a></li><li><a href="/omg">OMG!</a></li><li><a href="/to-do">To Do</a></li><li><a href="/about">About</a></li></ul></div>
+          <div><h5>Sources</h5><ul>{footSources.map((n) => <li>{n}</li>)}</ul><a href="/sources" class="more">All sources →</a></div>
+          <div><h5>Mind the Marbles</h5><ul><li><a href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">Instagram</a></li></ul>
+            <h5 style="margin-top:18px">Legal</h5><ul><li><a href="/how-it-works">How it works</a></li><li><a href="/privacy">Privacy policy</a></li><li><a href="/terms">Terms of use</a></li><li><a href="/affiliate-disclosure">Affiliate disclosure</a></li></ul></div>
+        </div>
+        <div class="fine">
+          <div>© {new Date().getFullYear()} Local Buzz ATX</div>
+          <div>Some links on this site may be affiliate links. If you buy through them, Local Buzz ATX may earn a commission at no extra cost to you. Headlines and summaries link to the original reporting.</div>
+        </div>
+      </footer>
     </div>
   </body>
 </html>
