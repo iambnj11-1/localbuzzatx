@@ -29,12 +29,10 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
 <Layout current="Home">
   {briefing.length > 0 && (
     <section class="wmt">
-      <div class="bar"><b>What matters today</b><a href="/news">More stories →</a></div>
-      <div class="row">
-        {briefing.map((s) => (
-          <div><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><a href={s.link} target="_blank" rel="noopener">{s.title}</a></div>
-        ))}
-      </div>
+      <span class="lab">What matters today</span>
+      {briefing.map((s, i) => (
+        <>{i > 0 && <span class="sep">•</span>}<a href={s.link} target="_blank" rel="noopener">{s.title}</a></>
+      ))}
     </section>
   )}
   {top ? (
