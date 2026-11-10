@@ -1,6 +1,6 @@
 ---
 import { FEEDS } from '../lib/feeds';
-const home: Record<string, string> = { KXAN: 'https://www.kxan.com', KVUE: 'https://www.kvue.com', 'Austin Monitor': 'https://www.austinmonitor.com', TOWERS: 'https://austin.towers.net', '365 Things Austin': 'https://365thingsaustin.com', 'Austin Monthly': 'https://austinmonthly.com', 'Silicon Hills News': 'https://siliconhillsnews.com', 'Austin Business Journal': 'https://www.bizjournals.com/austin' };
+const home: Record<string, string> = { KXAN: 'https://www.kxan.com', KVUE: 'https://www.kvue.com', 'Austin Monitor': 'https://www.austinmonitor.com', TOWERS: 'https://austin.towers.net', '365 Things Austin': 'https://365thingsaustin.com', 'Austin Monthly': 'https://austinmonthly.com', 'Silicon Hills News': 'https://siliconhillsnews.com', 'Black Austin Matters': 'https://kutkutx.studio/category/black-austin-matters', 'Austin Business Journal': 'https://www.bizjournals.com/austin' };
 const footSources = [...new Set(FEEDS.map((f) => f.source))].map((n) => [n, home[n] ?? '/sources'] as [string, string]);
 import '../styles/global.css';
 import { getWeather } from '../lib/weather';

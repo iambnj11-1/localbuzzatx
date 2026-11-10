@@ -226,3 +226,4 @@ footer.site { margin-top: 20px; }
 .post h3 { font-family: var(--serif); font-weight: 900; font-size: 28px; line-height: 1.15; margin: 6px 0 10px; }
 .post p { font-size: 17px; line-height: 1.65; margin: 0; max-width: 62ch; }
 .formframe { width: 100%; border: 0; min-height: 640px; }
+.chip.bam { background: #f6e6d8; border-color: #8a4b1d; color: #6b3a14; }
