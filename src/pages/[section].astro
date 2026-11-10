@@ -1,23 +1,29 @@
 ---
 import Layout from '../layouts/Layout.astro';
-export function getStaticPaths() {
-  const pages = {
-    news: ['News', 'Local headlines from around Austin.'],
-    business: ['Business', 'Companies, hiring and money in Austin.'],
-    lifestyle: ['Lifestyle', 'Food, culture and life around town.'],
-    events: ['Events', 'What is happening this week.'],
-    wellness: ['Wellness', 'Health and well-being in Austin.'],
-    opinion: ['Opinion', 'Voices from around the city.'],
-    about: ['About', 'Local Buzz ATX tells you what is happening in Austin and why it matters to you.'],
-  };
-  return Object.entries(pages).map(([section, [title, blurb]]) => ({ params: { section }, props: { title, blurb } }));
-}
-const { title, blurb } = Astro.props;
+import { getStories } from '../lib/feeds';
+import { chipClass, chipLabel } from '../lib/chip';
+
+const pages: Record<string, [string, string, string?]> = {
+  news: ['News', 'Local headlines from around Austin.', 'News'],
+  neighborhoods: ['Neighborhoods', 'Austin, Round Rock, Cedar Park, Georgetown, Pflugerville and Hutto.', 'Neighborhoods'],
+  business: ['Business', 'Companies, hiring and money in Austin.'],
+  development: ['Development', 'Rail, roads, apartments and what is being built in Austin.'],
+  events: ['Events', 'What is happening this week.'],
+  government: ['Government', 'City hall and public meetings.', 'Government'],
+  about: ['About', 'Local Buzz ATX tells you what is happening in Austin and why it matters to you.'],
+};
+const entry = pages[Astro.params.section ?? ''];
+if (!entry) return new Response('Not found', { status: 404 });
+const [title, blurb, category] = entry;
+const stories = category ? (await getStories()).stories.filter((s) => s.category === category).slice(0, 30) : [];
 ---
 <Layout title={title} current={title}>
   <section class="page">
     <h2>{title}</h2>
     <p>{blurb}</p>
-    <p>Stories will show up here soon.</p>
+    {stories.map((s) => (
+      <div class="item"><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div><p style="margin:4px 0 0;font-size:14px;color:var(--muted)">{s.summary}</p></div>
+    ))}
+    {!stories.length && title !== 'About' && <p>Stories will show up here soon.</p>}
   </section>
 </Layout>

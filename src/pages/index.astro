@@ -1,18 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
+import { chipClass, chipLabel } from '../lib/chip';
 const { stories, sources } = await getStories();
-const top = stories.find((s) => s.summary) ?? stories[0];
-const latest = stories.filter((s) => s !== top).slice(0, 5);
-const newsBlock = stories.filter((s) => s.category === 'News' && s !== top).slice(5, 10);
-const samples = ['Business', 'Events'];
+const top = stories.find((s) => s.summary && s.category === 'News') ?? stories[0];
+const latest = stories.filter((s) => s !== top).slice(0, 6);
+const pick = (cat: string) => stories.filter((s) => s.category === cat && s !== top).slice(0, 4);
+const blocks = [['News', pick('News')], ['Neighborhoods', pick('Neighborhoods')], ['Government', pick('Government')]] as const;
 const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
 ---
 <Layout current="Home">
   {top ? (
     <section class="lead">
       <article>
-        <div class="kicker">Top story · {top.source}</div>
+        <div class="kicker"><span class={`chip ${chipClass(top)}`}>{chipLabel(top)}</span>Top story</div>
         <h2><a href={top.link} rel="noopener" target="_blank">{top.title}</a></h2>
         <p>{top.summary}</p>
         <p><a href={top.link} rel="noopener" target="_blank">Read the full story at {top.source} →</a></p>
@@ -21,7 +22,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
       <aside class="side">
         <h3>Latest</h3>
         {latest.map((s) => (
-          <div class="item"><span>{s.source} · {fmt(s.date)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div>
+          <div class="item"><span><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span>{fmt(s.date)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div>
         ))}
       </aside>
     </section>
@@ -29,16 +30,12 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     <section class="page"><h2>Stories are on the way</h2><p>Check back soon.</p></section>
   )}
   <section class="grid">
-    <div>
-      <h3 class="section">News</h3>
-      {newsBlock.map((s) => (
-        <div class="item"><span>{s.source}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div>
-      ))}
-    </div>
-    {samples.map((name) => (
+    {blocks.map(([name, items]) => (
       <div>
-        <h3 class="section">{name}</h3>
-        <div class="item"><div>Coming soon</div></div>
+        <h3 class="section"><a href={`/${name.toLowerCase()}`} style="text-decoration:none">{name}</a></h3>
+        {items.length ? items.map((s) => (
+          <div class="item"><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div>
+        )) : <div class="item"><div>Coming soon</div></div>}
       </div>
     ))}
   </section>

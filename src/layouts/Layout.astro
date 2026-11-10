@@ -2,8 +2,8 @@
 import '../styles/global.css';
 const { title = 'Local Buzz ATX', current = '' } = Astro.props;
 const sections = [
-  ['Home', '/'], ['News', '/news'], ['Business', '/business'], ['Lifestyle', '/lifestyle'],
-  ['Events', '/events'], ['Wellness', '/wellness'], ['Opinion', '/opinion'], ['About', '/about'],
+  ['Home', '/'], ['News', '/news'], ['Neighborhoods', '/neighborhoods'], ['Business', '/business'],
+  ['Development', '/development'], ['Events', '/events'], ['Government', '/government'], ['About', '/about'],
 ];
 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Chicago' });
 ---
