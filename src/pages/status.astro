@@ -1,8 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import * as feeds from '../lib/feeds';
+import * as aiLib from '../lib/ai';
 await feeds.getStories(true);
 const report = [...feeds.lastReport];
+const hasKey = Boolean((Astro.locals as any).runtime?.env?.ANTHROPIC_API_KEY);
 ---
 <Layout title="Feed status">
   <section class="page">
@@ -11,6 +13,7 @@ const report = [...feeds.lastReport];
     {report.map((r) => (
       <div class="item"><b>{r.source}{r.area ? ` · ${r.area}` : ''}</b> — status {r.status}, {r.count} stories, {r.ms} ms<br /><span style="word-break:break-all">{r.url}</span>{r.note && <><br /><span style="font-size:12px;color:var(--muted)">Got: {r.note}</span></>}</div>
     ))}
+    <div class="item"><b>AI lines</b> — key found: {hasKey ? 'yes' : 'no'}<br /><span style="font-size:12px;color:var(--muted)">Last result: {aiLib.lastAiNote} (updates when the homepage loads)</span></div>
     {!report.length && <p>No fresh check was run (results are saved for 10 minutes). Reload in a few minutes.</p>}
   </section>
 </Layout>

@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
 import { withStory } from '../lib/omg';
+import { getAi } from '../lib/ai';
 const all = await getStories();
 const stories = all.stories.filter((s) => s.category !== 'Watch');
 const sources = all.sources;
@@ -26,6 +27,7 @@ const briefing = [...friendly.filter((s) => s !== top && (s.category === 'Govern
   .filter((s) => !roundup.test(s.title))
   .filter((s) => (used.has(s.source) ? false : (used.add(s.source), true)))
   .slice(0, 3);
+const ai = await getAi((Astro.locals as any).runtime?.env, top, briefing);
 const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
 ---
 <Layout current="Home">
@@ -33,7 +35,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     <section class="wmt">
       <span class="lab">What matters today</span>
       {briefing.map((s, i) => (
-        <>{i > 0 && <span class="sep">•</span>}<a href={s.link} target="_blank" rel="noopener">{s.title}</a></>
+        <>{i > 0 && <span class="sep">•</span>}<a href={s.link} target="_blank" rel="noopener" title={s.title}>{ai?.briefing?.[i] || s.title}</a></>
       ))}
     </section>
   )}
@@ -45,7 +47,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
         <h2><a href={top.link} rel="noopener" target="_blank">{top.title}</a></h2>
         <p>{top.summary}</p>
         <p><a href={top.link} rel="noopener" target="_blank">Read the full story at {top.source} →</a></p>
-        <div class="why"><b>Why should I care?</b>One plain sentence on what this means for people in Austin goes here soon.</div>
+        <div class="why"><b>Why should I care?</b>{ai?.why ?? 'One plain sentence on what this means for people in Austin goes here soon.'}</div>
       </article>
       <aside class="side">
         <h3>Latest</h3>
