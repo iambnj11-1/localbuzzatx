@@ -24,7 +24,10 @@ const newsItems = pick('News').slice(0, 4);
 const events = pick('Events').slice(0, 4);
 const takes = withStory(all.stories.filter((s) => s.category !== 'Watch')).filter((r) => r.link || true).slice(0, 2);
 const gov = pick('Government').slice(0, 3);
-const dev = pick('Development').slice(0, 3);
+// Development: mix big-outlet stories about building and growth (KXAN, KVUE, Austin Monitor) with TOWERS, photos first.
+const devWords = /(develop|construction|zoning|housing|apartment|high-?rise|tower|rezon|permit|site plan|mixed-use|redevelop|downtown|real estate|affordable|land use|planning commission|project|transit|rail|building)/i;
+const devPool = stories.filter((s) => s !== top && !gov.includes(s) && s.category !== 'Events' && (s.category === 'Development' || (['KXAN', 'KVUE', 'Austin Monitor'].includes(s.source) && devWords.test(`${s.title} ${s.summary}`))));
+const dev = [...devPool.filter((s) => s.image), ...devPool.filter((s) => !s.image)].slice(0, 3);
 const hood = pick('Neighborhoods').slice(0, 4);
 // What Matters Today: up to 3 non-crime stories, one per outlet, prefer government and development.
 const used = new Set<string>();
