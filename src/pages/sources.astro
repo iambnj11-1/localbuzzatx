@@ -1,8 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { FEEDS } from '../lib/feeds';
-const home: Record<string, string> = { KXAN: 'https://www.kxan.com', KVUE: 'https://www.kvue.com', 'Austin Monitor': 'https://www.austinmonitor.com', TOWERS: 'https://austin.towers.net', '365 Things Austin': 'https://365thingsaustin.com', 'Austin Monthly': 'https://austinmonthly.com', 'Silicon Hills News': 'https://siliconhillsnews.com', 'Spectrum News Austin': 'https://spectrumlocalnews.com/tx/austin', 'West Austin News': 'https://westaustinnews.com', Austonia: 'https://austonia.com', 'Black Austin Matters': 'https://kutkutx.studio/category/black-austin-matters', 'Austin Business Journal': 'https://www.bizjournals.com/austin' };
-const names = [...new Set(FEEDS.map((f) => f.source))];
+import { FEEDS, PAGES } from '../lib/feeds';
+const home: Record<string, string> = { 'City of Austin': 'https://www.austintexas.gov/news', 'Community Impact': 'https://communityimpact.com/austin/', KXAN: 'https://www.kxan.com', KVUE: 'https://www.kvue.com', 'Austin Monitor': 'https://www.austinmonitor.com', TOWERS: 'https://austin.towers.net', '365 Things Austin': 'https://365thingsaustin.com', 'Austin Monthly': 'https://austinmonthly.com', 'Silicon Hills News': 'https://siliconhillsnews.com', 'Spectrum News Austin': 'https://spectrumlocalnews.com/tx/austin', 'West Austin News': 'https://westaustinnews.com', Austonia: 'https://austonia.com', 'Black Austin Matters': 'https://kutkutx.studio/category/black-austin-matters', 'Austin Business Journal': 'https://www.bizjournals.com/austin' };
+const names = [...new Set([...FEEDS, ...PAGES].map((f) => f.source))];
 ---
 <Layout title="Sources" current="About">
   <section class="page">

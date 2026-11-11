@@ -11,6 +11,7 @@ export type Story = {
   videoId?: string;
   image?: string;
   date: Date;
+  approxDate?: boolean; // date is when we first saw it, not the outlet's own timestamp
 };
 
 // Add or remove outlets here. Only the headline, a short blurb and a link back are used.
@@ -28,6 +29,13 @@ export const FEEDS = [
   { source: 'Austin Monthly', category: 'Events', url: 'https://austinmonthly.com/feed' },
   // Video: YouTube channel feeds (embedded with YouTube's own player). The KVUE channel id is unverified; check /status.
   { source: 'KVUE', category: 'Watch', url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxXTyFekH99JnS3qaXIQW7A', alts: ['https://www.youtube.com/feeds/videos.xml?playlist_id=UUxXTyFekH99JnS3qaXIQW7A'] },
+];
+
+// Outlets with no feed. The site reads their public news listing page and picks out headline links.
+// `link` matches article addresses; police items from the City go to the Crime tab.
+export const PAGES = [
+  { source: 'City of Austin', category: 'Government', page: true, url: 'https://www.austintexas.gov/news', base: 'https://www.austintexas.gov', link: /^\/[a-z0-9-]+\/news\/[a-z0-9-]{12,}$/ },
+  { source: 'Community Impact', category: 'Neighborhoods', page: true, url: 'https://communityimpact.com/austin/', alts: ['https://communityimpact.com/central-austin/'], base: 'https://communityimpact.com', link: /^\/(austin|[a-z-]*austin|round-rock|cedar-park-leander|georgetown|lake-travis-westlake|pflugerville-hutto|san-marcos-buda-kyle|bastrop-cedar-creek|leander-liberty-hill|dripping-springs)\/(?!sponsored)[a-z-]+\/(\d{4}\/\d{2}\/\d{2}\/)?[a-z0-9-]{20,}\/?$/ },
 ];
 
 // City stories that are really about a neighborhood or a local park/landmark get the Neighborhoods tag.
@@ -71,6 +79,13 @@ const pickImage = (it: any, videoId?: string): string | undefined => {
 const text = (v: any): string => (typeof v === 'object' && v !== null ? String(v['#text'] ?? '') : String(v ?? ''));
 
 async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
+  if ((feed as any).page) {
+    for (const url of [feed.url, ...((feed as any).alts ?? [])]) {
+      const out = await loadPage({ ...(feed as any), url });
+      if (out.length) return out;
+    }
+    return [];
+  }
   // Try the main address, then any backup addresses, until one returns stories.
   const alts: string[] = (feed as any).alts ?? [];
   // YouTube's public feed often refuses requests from servers. With a YOUTUBE_API_KEY secret set, use YouTube's official API instead.
@@ -85,6 +100,49 @@ async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
     if (out.length) return out;
   }
   return [];
+}
+
+const MONTHS = /(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\.? \d{1,2},? \d{4}/;
+
+async function loadPage(feed: { source: string; category: string; url: string; base: string; link: RegExp }): Promise<Story[]> {
+  const started = Date.now();
+  let status = 'error';
+  const c = new AbortController();
+  const t = setTimeout(() => c.abort(), 8000);
+  try {
+    const res = await fetch(feed.url, { signal: c.signal, headers: { 'User-Agent': 'LocalBuzzATX/1.0 (+headline aggregator, links back to source)', Accept: 'text/html' } });
+    status = String(res.status);
+    if (!res.ok) { lastReport.push({ source: `${feed.source} (page)`, url: feed.url, status, count: 0, ms: Date.now() - started }); return []; }
+    const html = await res.text();
+    const seen = new Set<string>();
+    const out: Story[] = [];
+    const re = /<a\b[^>]*href=["']([^"'#?]+)["'][^>]*>([\s\S]*?)<\/a>/gi;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(html)) && out.length < 12) {
+      let path = m[1];
+      if (path.startsWith(feed.base)) path = path.slice(feed.base.length);
+      if (!feed.link.test(path)) continue;
+      const title = clean(m[2], 160);
+      if (title.length < 25 || seen.has(path)) continue;
+      seen.add(path);
+      const near = html.slice(Math.max(0, m.index - 300), m.index + m[0].length + 400).replace(/<[^>]*>/g, ' ');
+      const d = near.match(MONTHS);
+      const parsed = d ? new Date(d[0].replace('.', '')) : null;
+      const ok = parsed && !isNaN(parsed.getTime());
+      out.push({
+        source: feed.source,
+        category: /^\/police\//.test(path) ? 'Busted' : feed.category,
+        title, link: feed.base + path, summary: '',
+        date: ok ? parsed! : new Date(Date.now() - out.length * 60000),
+        approxDate: !ok,
+      });
+    }
+    lastReport.push({ source: `${feed.source} (page)`, url: feed.url, status, count: out.length, ms: Date.now() - started, note: out.length ? undefined : `no headline links matched | ${html.slice(0, 100).replace(/\s+/g, ' ')}` });
+    return out;
+  } catch (e) {
+    lastReport.push({ source: `${feed.source} (page)`, url: feed.url, status: e instanceof Error ? e.name : 'error', count: 0, ms: Date.now() - started });
+    return [];
+  } finally { clearTimeout(t); }
 }
 
 async function loadYouTube(feed: (typeof FEEDS)[number], channel: string, key: string): Promise<Story[]> {
@@ -247,7 +305,7 @@ async function fetchLive(force = false): Promise<{ stories: Story[]; sources: st
   // Optional private feed address kept in a Cloudflare secret (not in the public code).
   const techUrl = getEnv('ABJ_TECH_FEED');
   const bizUrl = getEnv('ABJ_BUSINESS_FEED') ?? getEnv('ABJ_FEED');
-  const feedList = [...FEEDS, ...(techUrl ? [{ source: 'Austin Business Journal', category: 'Tech', url: techUrl }] : []), ...(bizUrl ? [{ source: 'Austin Business Journal', category: 'Business', url: bizUrl }] : [])];
+  const feedList: any[] = [...FEEDS, ...PAGES, ...(techUrl ? [{ source: 'Austin Business Journal', category: 'Tech', url: techUrl }] : []), ...(bizUrl ? [{ source: 'Austin Business Journal', category: 'Business', url: bizUrl }] : [])];
   const fresh = await Promise.all(feedList.map(loadFeed));
   // If a feed fails or comes back empty this time, keep showing its last good stories instead of leaving a hole.
   const results = fresh.map((r, i) => {

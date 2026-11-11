@@ -25,9 +25,9 @@ export async function saveStories(stories: Story[]) {
   const now = Date.now();
   const stmt = db.prepare(
     'INSERT INTO stories (link, source, area, category, title, summary, video_id, image, published_at, fetched_at) VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10) ' +
-    'ON CONFLICT(link) DO UPDATE SET source=?2, area=?3, category=?4, title=?5, summary=?6, video_id=?7, image=COALESCE(?8, image), published_at=?9, fetched_at=?10',
+    'ON CONFLICT(link) DO UPDATE SET source=?2, area=?3, category=?4, title=?5, summary=?6, video_id=?7, image=COALESCE(?8, image), published_at=CASE WHEN ?11 = 1 THEN published_at ELSE ?9 END, fetched_at=?10',
   );
-  const rows = stories.map((s) => stmt.bind(s.link, s.source, s.area ?? null, s.category, s.title, s.summary ?? '', s.videoId ?? null, s.image ?? null, s.date.getTime(), now));
+  const rows = stories.map((s) => stmt.bind(s.link, s.source, s.area ?? null, s.category, s.title, s.summary ?? '', s.videoId ?? null, s.image ?? null, s.date.getTime(), now, s.approxDate ? 1 : 0));
   for (let i = 0; i < rows.length; i += 50) await db.batch(rows.slice(i, i + 50));
   // Keep about six months of stories so the database stays small.
   await db.prepare('DELETE FROM stories WHERE published_at > 0 AND published_at < ?1').bind(now - 180 * 86400000).run();
