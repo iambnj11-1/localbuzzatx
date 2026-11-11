@@ -43,7 +43,13 @@ const briefing = [...friendly.filter((s) => s !== top && (s.category === 'Govern
 const taken = new Set([...tops, ...latest, ...noPhoto, ...briefing]);
 const seenSrc = new Set<string>();
 const featured = stories.filter((x) => x.image && !taken.has(x)).filter((x) => (seenSrc.has(x.source) ? false : (seenSrc.add(x.source), true))).slice(0, 3);
-const ai = tops.some((t) => !t.why) ? await getAi((Astro.locals as any).runtime?.env, tops, briefing) : null;
+let ai: Awaited<ReturnType<typeof getAi>> = null;
+if (tops.some((t) => !t.why)) {
+  // Never hold the page for the AI: wait at most 1.5 seconds, let the call finish in the background so the next visit has it.
+  const job = getAi((Astro.locals as any).runtime?.env, tops, briefing).catch(() => null);
+  try { (Astro.locals as any).runtime?.ctx?.waitUntil(job); } catch {}
+  ai = await Promise.race([job, new Promise<null>((r) => setTimeout(() => r(null), 1500))]);
+}
 const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
 ---
 <Layout current="Home">
