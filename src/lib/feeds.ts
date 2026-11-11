@@ -115,7 +115,7 @@ async function loadYouTube(feed: (typeof FEEDS)[number], channel: string, key: s
 async function loadOne(feed: (typeof FEEDS)[number]): Promise<Story[]> {
   const started = Date.now();
   let status = 'error';
-  const record = (count: number, note?: string) => lastReport.push({ note, source: feed.source, area: (feed as any).area, url: feed.url, status, count, ms: Date.now() - started });
+  const record = (count: number, note?: string) => lastReport.push({ note, source: feed.source, area: (feed as any).area, url: /bizjournals\.com/.test(feed.url) ? '(private feed address, hidden)' : feed.url, status, count, ms: Date.now() - started });
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 8000);
   try {
@@ -245,8 +245,8 @@ async function fetchLive(force = false): Promise<{ stories: Story[]; sources: st
   if (!force && cache && Date.now() - cache.at < TTL_MS) return cache.value;
   lastReport = [];
   // Optional private feed address kept in a Cloudflare secret (not in the public code).
-  const techUrl = getEnv('ABJ_TECH_FEED') ?? getEnv('ABJ_FEED');
-  const bizUrl = getEnv('ABJ_BUSINESS_FEED');
+  const techUrl = getEnv('ABJ_TECH_FEED');
+  const bizUrl = getEnv('ABJ_BUSINESS_FEED') ?? getEnv('ABJ_FEED');
   const feedList = [...FEEDS, ...(techUrl ? [{ source: 'Austin Business Journal', category: 'Tech', url: techUrl }] : []), ...(bizUrl ? [{ source: 'Austin Business Journal', category: 'Business', url: bizUrl }] : [])];
   const fresh = await Promise.all(feedList.map(loadFeed));
   // If a feed fails or comes back empty this time, keep showing its last good stories instead of leaving a hole.
