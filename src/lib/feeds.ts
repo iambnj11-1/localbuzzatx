@@ -18,7 +18,6 @@ export const FEEDS = [
   { source: 'KXAN', category: 'News', url: 'https://www.kxan.com/feed/' },
   { source: 'Spectrum News Austin', category: 'News', url: 'https://spectrumlocalnews.com/services/contentfeed.tx%7Caustin%7Cnews.landing.rss' },
   { source: 'West Austin News', category: 'Neighborhoods', url: 'https://westaustinnews.com/feed/' },
-  { source: 'Austonia', category: 'Business', url: 'https://austonia.com/feeds/feed.rss', alts: ['https://austonia.com/feed', 'https://austonia.com/rss', 'https://austonia.com/rss.xml', 'https://austonia.com/feed.xml'] },
   // Crime and courts. These only feed the Busted tab under News (not the homepage). Addresses unverified; check /status.
   { source: 'KXAN', area: 'Crime', category: 'Busted', url: 'https://www.kxan.com/news/crime/feed/', alts: ['https://www.kxan.com/news/crime/feed', 'https://www.kxan.com/news/local/crime/feed/'] },
   { source: 'Austin Monitor', category: 'Government', url: 'https://www.austinmonitor.com/feed/' },
