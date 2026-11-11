@@ -19,6 +19,10 @@ Rules:
 - No jokes, no emojis.
 Reply with JSON only: {"whys":["...","..."],"briefing":["...","..."]}`;
 
+// All text blocks of a reply, joined (a reply can start with a non-text block), code fences removed.
+const textOf = (data: any): string => (Array.isArray(data?.content) ? data.content.filter((b: any) => b?.type === 'text' && typeof b.text === 'string').map((b: any) => b.text).join('\n') : '').replace(/```(?:json)?/gi, '');
+const peek = (data: any, raw: string) => `stop=${data?.stop_reason ?? '?'}, blocks=${Array.isArray(data?.content) ? data.content.map((b: any) => b?.type).join('+') : 'none'}, text="${raw.slice(0, 90).replace(/\s+/g, ' ')}"`;
+
 const line = (s: Story) => `${s.title}. ${s.summary}`.slice(0, 500);
 
 async function call(key: string, tops: Story[], briefing: Story[]): Promise<AiResult | null> {
@@ -30,16 +34,16 @@ async function call(key: string, tops: Story[], briefing: Story[]): Promise<AiRe
       method: 'POST',
       signal: controller.signal,
       headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: MODEL, max_tokens: 800, system: SYSTEM, messages: [{ role: 'user', content }] }),
+      body: JSON.stringify({ model: MODEL, max_tokens: 1500, system: SYSTEM, messages: [{ role: 'user', content }] }),
     });
     if (!res.ok) {
       lastAiNote = `API error ${res.status}: ${(await res.text()).slice(0, 160)}`;
       return null;
     }
     const data: any = await res.json();
-    const raw: string = data?.content?.[0]?.text ?? '';
+    const raw: string = textOf(data);
     const m = raw.match(/\{[\s\S]*\}/);
-    if (!m) { lastAiNote = 'Reply had no JSON'; return null; }
+    if (!m) { lastAiNote = `Reply had no JSON (${peek(data, raw)})`; return null; }
     const parsed = JSON.parse(m[0]);
     const whys: string[] = Array.isArray(parsed.whys) ? parsed.whys.map((x: unknown) => String(x).trim().slice(0, 220)) : typeof parsed.why === 'string' ? [parsed.why.trim().slice(0, 220)] : [];
     const b = Array.isArray(parsed.briefing) ? parsed.briefing.map((x: unknown) => String(x).trim().slice(0, 90)) : [];
@@ -98,14 +102,15 @@ export async function enrich(limit = 15): Promise<string> {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST', signal: c.signal,
         headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
-        body: JSON.stringify({ model: MODEL, max_tokens: 2500, system: ENRICH_SYSTEM, messages: [{ role: 'user', content }] }),
+        body: JSON.stringify({ model: MODEL, max_tokens: 4000, system: ENRICH_SYSTEM, messages: [{ role: 'user', content }] }),
       });
       if (!res.ok) { note = `API error ${res.status}: ${(await res.text()).slice(0, 160)}`; return note; }
       const data: any = await res.json();
-      const raw: string = data?.content?.[0]?.text ?? '';
+      const raw: string = textOf(data);
       const m = raw.match(/\[[\s\S]*\]/);
-      if (!m) { note = 'Reply had no JSON list'; return note; }
-      const arr: any[] = JSON.parse(m[0]);
+      if (!m) { note = `Reply had no JSON list (${peek(data, raw)})`; return note; }
+      let arr: any[];
+      try { arr = JSON.parse(m[0]); } catch { note = `Reply was not valid JSON (${peek(data, raw)})`; return note; }
       const rows = pending.map((s, i) => {
         const r = arr.find((x) => Number(x?.n) === i + 1) ?? arr[i] ?? {};
         const title = typeof r.title === 'string' ? r.title.trim().slice(0, 140) : '';
