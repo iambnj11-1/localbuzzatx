@@ -2,31 +2,38 @@
 import Layout from '../layouts/Layout.astro';
 import AdRow from '../components/AdRow.astro';
 const latest = [
-  ['Government', 'City council weighs a new plan for late-night transit', 'Sample headline'],
-  ['Neighborhoods', 'Road work on a major commuter route starts next week', 'Sample headline'],
-  ['Tech', 'A new tech hub announces hiring plans for Austin', 'Sample headline'],
-  ['Weather', 'Cold front moves in for the weekend', 'Sample headline'],
+  ['Government', 'City council weighs a new plan for late-night transit'],
+  ['Neighborhoods', 'Road work on a major commuter route starts next week'],
+  ['Tech', 'A new tech hub announces hiring plans for Austin'],
+  ['Weather', 'Cold front moves in for the weekend'],
 ];
-const tea = ['Awards season is warming up', 'A tour announcement with an Austin stop', 'The trailer that took over the timeline'];
-const biz = ['A major employer announces new hiring in Austin', 'What rising rents mean for renters this winter', 'Startup funding news from the local scene'];
-const weekend = [['Live Music', 'Free outdoor concert downtown'], ['Family', 'Holiday market opens'], ['Food & Drink', 'New food truck park opening']];
+const buckets = [
+  { key: 'y', name: 'Why It Matters', who: 'Caleb', more: 'More from Caleb', img: '/authors/caleb.jpg', items: ['Austin flood training scheduled for residents', 'A new transit proposal heads to a vote', 'What a property tax change could mean for you'] },
+  { key: 'r', name: 'Quick Tea', who: 'Tori', more: 'More from Tori', img: '/authors/tori.jpg', items: ['Awards season is warming up', 'A tour announcement with an Austin stop', 'The trailer that took over the timeline'] },
+  { key: 't', name: 'Buzzing', who: 'Sunny D', more: 'More from Sunny D', img: '/authors/sunny.jpg', items: ['A new AI tool everyone is trying', 'A streaming release people are binging', 'An app students are suddenly using'] },
+  { key: 'k', name: 'Community', who: '', more: 'More Community', img: '', items: ['A new local business opens its doors', 'A school achievement worth celebrating', 'A nonprofit event this weekend'] },
+];
 ---
 <Layout title="Home preview" current="" navV2={true}>
   <p class="art-sample">Design preview with sample headlines, scores and weather. Not live.</p>
+  <div class="snap"><div class="snapscores"><b>Scores</b><span>Spurs W 112–104</span><span>Austin FC 2–1</span><span>Longhorns Sat 6 PM</span></div></div>
 
-  <div class="snap">
-    <div><b>Austin Snapshot</b><span>75° · Mostly sunny</span></div>
-    <div class="snapscores"><b>Scores</b><span>Spurs W 112–104</span><span>Austin FC 2–1</span><span>Longhorns Sat 6 PM</span></div>
-  </div>
-
-  <section class="hero2">
-    <div class="hero2img"><span>Big hero photo</span></div>
-    <div class="hero2txt">
-      <div class="art-kicker"><a href="/news">Top story</a><span>News</span></div>
+  <section class="hero3">
+    <div class="hero3main">
+      <div class="hero2img"><span>Big hero photo</span></div>
+      <div class="art-kicker" style="margin-top:14px"><a href="/news">Top story</a><span>News</span></div>
       <h2 class="hero2h">Austin Emergency Management to host free flood preparedness training</h2>
       <p class="art-dek">Sessions are open to residents across the city. Sample two-line summary goes here.</p>
-      <div class="art-why"><div class="lplabel">Why should I care?</div><p>Prepare now, before severe weather season, and know where to go.</p></div>
+      <div class="art-why"><div class="lplabel">Why it matters</div><p>Prepare now, before severe weather season, and know where to go.</p></div>
     </div>
+    <aside class="rail">
+      <div class="railbox wx3"><div class="lplabel">Austin right now</div><div class="wxrow"><b>75°</b><span>Mostly sunny<small>High 78° · Low 58° · Sample</small></span></div></div>
+      <div class="railbox"><div class="lplabel">Latest</div>
+        <ul class="miniul">{latest.map((l) => (<li><small>{l[0]}</small><a href="/news">{l[1]}</a></li>))}</ul>
+        <a class="railmore" href="/news">All news →</a></div>
+      <div class="railbox omg3"><div class="lplabel">OMG!</div><p><b>Austin is wild:</b> a sample one-line take goes here.</p><a class="railmore" href="/omg">More OMG! →</a></div>
+      <div class="railbox"><div class="lplabel">Community shout-out</div><p>Happy birthday, ___! A sample shout-out goes here.</p><a class="railmore" href="/shout-out">Send one →</a></div>
+    </aside>
   </section>
 
   <section class="meetbuzz">
@@ -38,20 +45,17 @@ const weekend = [['Live Music', 'Free outdoor concert downtown'], ['Family', 'Ho
     </div>
   </section>
 
-  <section>
-    <div class="pagehead"><h2>Latest headlines</h2><a href="/news">All news →</a></div>
-    <ul class="latest2">
-      {latest.map((l) => (<li><span class="art-kicker"><a href="/news">{l[0]}</a></span><a class="l2h" href="/news">{l[1]}</a></li>))}
-    </ul>
-  </section>
+  <div class="buckets">
+    {buckets.map((b) => (
+      <section class={`bucket bk-${b.key}`}>
+        <div class="bkhead">{b.img ? <img src={b.img} alt={b.who} width="36" height="36" /> : <span class="bkdot"></span>}<h3>{b.name}</h3>{b.who && <small>{b.who}</small>}</div>
+        <ul class="miniul">{b.items.map((t) => (<li><a href="/news">{t}</a></li>))}</ul>
+        <a class="railmore" href="/columns-preview">{b.more} →</a>
+      </section>
+    ))}
+  </div>
 
   <AdRow />
-
-  <div class="trio">
-    <section><div class="pagehead"><h2>Quick Tea</h2><span>Tori</span></div><ul class="miniul">{tea.map((t) => (<li><a href="/omg">{t}</a></li>))}</ul></section>
-    <section><div class="pagehead"><h2>Business</h2><span>Austin economy</span></div><ul class="miniul">{biz.map((t) => (<li><a href="/money">{t}</a></li>))}</ul></section>
-    <section><div class="pagehead"><h2>This weekend</h2><span>Events</span></div><ul class="miniul">{weekend.map((t) => (<li><small>{t[0]}</small><a href="/to-do">{t[1]}</a></li>))}</ul></section>
-  </div>
 
   <div class="lpband">
     <div class="lplabel">Newsletter</div><b>The Morning Buzz</b>
