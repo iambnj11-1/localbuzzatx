@@ -21,7 +21,8 @@ const rest = stories.filter((s) => !tops.includes(s)).filter((s) => (perSrc[s.so
 // Photo stories first, but photo-less ones (TOWERS, Silicon Hills) stay in the mix with a colored source tile.
 const withPhoto = rest.filter((s) => s.image);
 const noPhoto: typeof rest = [];
-const latest = [...withPhoto.slice(0, 4), ...rest.filter((s) => !s.image).slice(0, 2)].slice(0, 6);
+const noPic = rest.filter((s) => !s.image).slice(0, 1);
+const latest = [...withPhoto.slice(0, noPic.length ? 3 : 4), ...noPic].slice(0, 4);
 const pick = (cat: string) => stories.filter((s) => s.category === cat && s !== top).slice(0, 4);
 const newsItems = pick('News').slice(0, 4);
 const events = pick('Events').slice(0, 4);
