@@ -4,7 +4,7 @@ import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
 import { withStory } from '../lib/omg';
 import BannerBand from '../components/BannerBand.astro';
-import { getAi } from '../lib/ai';
+import { getAi, enrich } from '../lib/ai';
 import NewsletterTools from '../components/NewsletterTools.astro';
 import TechEventsAd from '../components/TechEventsAd.astro';
 const all = await getStories();
@@ -46,6 +46,8 @@ const seenSrc = new Set<string>();
 const featured = stories.filter((x) => x.image && !taken.has(x)).filter((x) => (seenSrc.has(x.source) ? false : (seenSrc.add(x.source), true))).slice(0, 3);
 let ai: Awaited<ReturnType<typeof getAi>> = null;
 if (tops.some((t) => !t.why)) {
+  // Also tag the newest saved stories in the database (once each) so the lines are there on the next visit.
+  try { (Astro.locals as any).runtime?.ctx?.waitUntil(enrich(15).catch(() => {})); } catch {}
   // Never hold the page for the AI: wait at most 1.5 seconds, let the call finish in the background so the next visit has it.
   const job = getAi((Astro.locals as any).runtime?.env, tops, briefing).catch(() => null);
   try { (Astro.locals as any).runtime?.ctx?.waitUntil(job); } catch {}
@@ -73,7 +75,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
               <h2><a href={t.link} rel="noopener" target="_blank">{t.title}</a></h2>
               <p>{t.summary}</p>
               <p><a href={t.link} rel="noopener" target="_blank">Read the full story at {t.source} →</a></p>
-              <div class="why"><b>Why should I care?</b>{t.why ?? ai?.whys?.[i] ?? 'One plain sentence on what this means for people in Austin goes here soon.'}</div>
+              {(t.why ?? ai?.whys?.[i]) && <div class="why"><b>Why should I care?</b>{t.why ?? ai?.whys?.[i]}</div>}
             </article>
           ))}
         </div>
@@ -96,6 +98,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
             <ul>{noPhoto.map((s) => (<li><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><a href={s.link} rel="noopener" target="_blank">{s.title}</a></li>))}</ul>
           </div>
         )}
+        <div class="sponsor adbox"><div class="label">Advertise here</div><b>Put your business in front of Austin readers</b>Local Buzz ATX readers care about what is happening in Austin. <a href="/contact">Get in touch →</a></div>
         <NewsletterTools />
       </aside>
     </section>
