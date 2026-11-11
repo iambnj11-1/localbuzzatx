@@ -159,7 +159,7 @@ footer.site .cols { display: grid; grid-template-columns: 1fr; gap: 28px; }
 footer.site .brand b { font-family: var(--serif); font-weight: 900; font-size: 24px; }
 footer.site .brand b span { color: var(--accent); }
 footer.site .brand p { font-size: 13px; color: var(--muted); margin: 6px 0; max-width: 340px; line-height: 1.45; }
-footer.site h5 { margin: 0 0 8px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; }
+footer.site h4.fh { margin: 0 0 8px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; }
 footer.site ul { list-style: none; padding: 0; margin: 0; font-size: 14px; line-height: 1.8; }
 footer.site a { color: var(--ink); text-decoration: none; }
 footer.site a:hover { text-decoration: underline; text-decoration-color: var(--accent); }

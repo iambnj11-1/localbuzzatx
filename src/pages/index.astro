@@ -68,7 +68,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
         <div class="slides">
           {tops.map((t, i) => (
             <article class="hero slide">
-              {t.image && <img src={t.image} alt="" referrerpolicy="no-referrer" />}
+              {t.image && <img src={t.image} alt="" referrerpolicy="no-referrer" fetchpriority={i === 0 ? 'high' : 'auto'} loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />}
               <div class="kicker"><span class={`chip ${chipClass(t)}`}>{chipLabel(t)}</span>{i === 0 ? 'Top story' : 'Also big today'}</div>
               <h2><a href={t.link} rel="noopener" target="_blank">{t.title}</a></h2>
               <p>{t.summary}</p>
@@ -157,7 +157,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     <div>
       <h3 class="section"><a href="/watch">Watch</a></h3>
       {videos.length ? videos.map((v) => (
-        <div class="mini"><a href="/watch"><img src={v.image} alt="" loading="lazy" /></a><div><a href="/watch">{v.title}</a><small><span class={`chip ${chipClass(v)}`}>{chipLabel(v)}</span></small></div></div>
+        <div class="mini"><a href="/watch" tabindex="-1" aria-hidden="true"><img src={v.image} alt="" loading="lazy" /></a><div><a href="/watch">{v.title}</a><small><span class={`chip ${chipClass(v)}`}>{chipLabel(v)}</span></small></div></div>
       )) : <p>Videos are on the way.</p>}
     </div>
     <div>
