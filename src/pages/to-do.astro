@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import AdRow from '../components/AdRow.astro';
 import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
 const events = (await getStories()).stories.filter((s) => s.category === 'Events').slice(0, 30);
@@ -53,5 +54,6 @@ const sections = [['Eat and drink', eat], ['Music and nightlife', tunes], ['More
     ))}
     {!events.length && <p>Ideas will show up here soon.</p>}
   </>}
+    <AdRow />
   </section>
 </Layout>

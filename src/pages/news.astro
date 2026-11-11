@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import AdRow from '../components/AdRow.astro';
 import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
 import { getForecast } from '../lib/weather';
@@ -81,5 +82,6 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     </div>
     {!stories.length && <p>Stories will show up here soon.</p>}
     {tag === 'Busted' && <CrimeBox />}
+    <AdRow />
   </section>
 </Layout>

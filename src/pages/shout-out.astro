@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AdRow from '../components/AdRow.astro';
+---
+<Layout title="Send a shout-out" current="OMG!">
+  <section class="page">
+    <div class="pagehead"><h2>Send a shout-out</h2><span>Birthdays, congrats, thank-yous and good news</span></div>
+    <div class="omgcols">
+      <div>
+        <p>Give someone a little Austin spotlight. Keep it short, keep it kind, and we'll put the good ones on Local Buzz ATX.</p>
+        <div class="shouttpl">
+          <div class="lplabel">The short template</div>
+          <p><b>Happy birthday, ___!</b><br /><b>Thank you for ___.</b><br /><b>Love, ___.</b></p>
+          <small>160 characters or fewer. Swap in congrats, thank-you or anniversary.</small>
+        </div>
+        <iframe class="formframe" src="https://tally.so/embed/dbaYgo?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" title="Send a Local Buzz ATX shout-out" loading="lazy"></iframe>
+        <p><small>Prefer the form on its own page? <a href="https://tally.so/r/dbaYgo" target="_blank" rel="noopener">Open it here</a>.</small></p>
+      </div>
+      <aside class="omgside">
+        <div class="sendbox"><b>House rules</b>Adults, businesses and places only. No photos of kids. First name and last initial. We read every one before it goes up.</div>
+        <div class="sponsor"><div class="label">Also</div><b>Got good news or a tip?</b>Use the <a href="/contact">contact form</a> for story tips and general questions.</div>
+      </aside>
+    </div>
+    <AdRow />
+  </section>
+</Layout>

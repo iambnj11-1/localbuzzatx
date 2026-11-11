@@ -279,6 +279,7 @@ function mockStories(): Story[] {
     mk(1, 'KXAN', 'News', 'Mock lead story about the city', img(1)), mk(2, 'KXAN', 'News', 'Mock second story', img(2)), mk(3, 'Austin Monitor', 'Government', 'Mock council vote', img(3)),
     mk(4, 'TOWERS', 'Development', 'Mock tower plan', img(4)), mk(5, 'Austin Monthly', 'Events', 'Mock weekend ideas', img(5)), mk(6, 'Silicon Hills News', 'Tech', 'Mock startup news', img(6)),
     mk(7, 'KXAN', 'News', 'Mock fourth story', img(7)), mk(8, 'Austin Monitor', 'Government', 'Mock budget item', img(8)), mk(9, 'TOWERS', 'Development', 'Mock penthouse'),
+    ...['Council votes on new budget plan', 'Honor Flight telethon raises money for veterans', 'Rain and storms expected this weekend', 'State lawmakers weigh a new bill', 'Local school holds food drive', 'Crash slows traffic on I-35', 'Mayor talks housing at city hall', 'Thanksgiving turkey giveaway at shelter', 'Austin band plays free concert', 'New taqueria opens downtown', 'Flood watch issued for Travis County', 'Student wins state science prize', 'Austin Energy outage update', 'Volunteers clean up Zilker Park'].map((t, i) => ({ ...mk(40 + i, 'KVUE', 'Watch', t), videoId: `dQw4w9WgXc${i}`.slice(0, 11) })),
     mk(10, 'NPR', 'National', 'Mock national story on grocery prices rising'), mk(11, 'Texas Tribune', 'National', 'Mock Texas lawmakers weigh property tax changes'), mk(12, 'NPR', 'National', 'Mock airline rule change could affect holiday travel'),
   ];
 }

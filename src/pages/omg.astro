@@ -1,5 +1,6 @@
 ---
 import NewsletterTools from '../components/NewsletterTools.astro';
+import AdRow from '../components/AdRow.astro';
 import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 import { withStory } from '../lib/omg';
@@ -26,9 +27,9 @@ const tag = Astro.url.searchParams.get('tag');
           {tag === 'Shout-Outs' && shoutouts.map((g) => (<article class="post"><div class="kicker">{g.kind}{(g as any).real ? '' : ' · Sample'}</div><h3>{g.who}</h3><p>{g.note}</p></article>))}
         </div>
         <aside class="omgside">
-          <div class="sendbox"><b>Got one to share?</b> {tag === 'Good News' ? 'Tell us the good news happening in your corner of Austin.' : 'Birthdays, congrats, thank-yous and anniversaries.'} <a href="/contact">Send it in →</a></div>
+          <div class="sendbox"><b>Got one to share?</b> {tag === 'Good News' ? 'Tell us the good news happening in your corner of Austin.' : 'Birthdays, congrats, thank-yous and anniversaries.'} <a href="/shout-out">Send it in →</a></div>
           <NewsletterTools />
-          <div class="sponsor"><div class="label">Advertise</div><b>Reach Austin readers</b>Want your business here? <a href="/contact">Get in touch →</a></div>
+          <div class="sponsor"><div class="label">Advertise</div><b>Reach Austin readers</b>Want your business here? <a href="/advertise">Advertise with us →</a></div>
         </aside>
       </div>
     </>}
@@ -36,14 +37,22 @@ const tag = Astro.url.searchParams.get('tag');
     {!tag && <>
     <div class="pagehead"><h2>OMG!</h2><span>Austin news, with a side eye.</span></div>
     <div class="omgcols"><div>
-    {all.map((r) => (
-      <article class="take">
-        {r.label && <div class="kicker">{r.label}</div>}
-        <div class="hd">{r.head}</div>
-        <p class="bigline"><em>OMG!</em> {r.line}</p>
-        {r.link && <a href={r.link} target="_blank" rel="noopener">Read the story →</a>}
+    <div class="omgcards">
+    {all.map((r, i) => (<>
+      <article class="omgc">
+        <div class={`omgc-img${r.image ? '' : ' noimg'}`}>
+          {r.image ? <img src={r.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <img class="stamp" src="/omg-tile.svg" alt="" loading="lazy" />}
+          {r.label && <span class="omgc-src">{r.label}</span>}
+        </div>
+        <div class="omgc-body">
+          <div class="omgc-head">{r.head}</div>
+          <p class="omgc-line"><em>OMG!</em> {r.line}</p>
+          {r.link && <a class="omgc-go" href={r.link} target="_blank" rel="noopener">Read the story →</a>}
+        </div>
       </article>
-    ))}
+      {(i + 1) % 4 === 0 && <div class="omgc-ad"><AdRow /></div>}
+    </>))}
+    </div>
     <section class="ecosys">
       <h3 class="rule">Keep exploring Local Buzz</h3>
       <div class="ecogrid">
@@ -63,7 +72,7 @@ const tag = Astro.url.searchParams.get('tag');
     </section>
     </div>
     <aside class="omgside">
-      <div class="sendbox"><b>Good news? Birthday shout-out?</b> Share it with Austin. <a href="/contact">Send it in →</a></div>
+      <div class="sendbox"><b>Good news? Birthday shout-out?</b> Share it with Austin. <a href="/shout-out">Send it in →</a></div>
       <NewsletterTools />
       <div class="sponsor"><div class="label">From the family</div><b>Mind the Marbles</b><em class="mtmjoke">&ldquo;I got a text Monday. It&rsquo;s Thursday.&rdquo;</em> A line from the Mind the Marbles newsletter.<br /><a class="cta" href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">Follow on Instagram →</a></div>
     </aside>

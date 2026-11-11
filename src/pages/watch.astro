@@ -1,21 +1,34 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import AdRow from '../components/AdRow.astro';
 import { getStories } from '../lib/feeds';
-const videos = (await getStories()).stories.filter((s) => s.category === 'Watch' && s.videoId).slice(0, 12);
+const videos = (await getStories()).stories.filter((s) => s.category === 'Watch' && s.videoId).slice(0, 30);
 const first = videos[0];
+const rail = videos.slice(0, 6);
+const rest = videos.slice(6);
+const gov = /\b(council|commission(ers?)?|bill|legislat\w*|lawmakers?|mayor|governor|abbott|senate|house|vote\w*|election|budget|tax\w*|city hall|county|state rep|congress|trump|school board|ordinance)\b/i;
+const community = /\b(veterans?|honor flight|school|students?|community|donat\w*|fundrais\w*|church|neighbor\w*|families|holiday|thanksgiving|nonprofit|volunteer\w*|shelter|food bank)\b/i;
+const roads = /\b(weather|forecast|rain|storm|freeze|flood\w*|crash|traffic|i-35|roads?|closure|outage)\b/i;
+const groups: [string, typeof videos][] = [
+  ['Politics and City Hall', rest.filter((v) => gov.test(v.title))],
+  ['Community', rest.filter((v) => !gov.test(v.title) && community.test(v.title))],
+  ['Weather and Roads', rest.filter((v) => !gov.test(v.title) && !community.test(v.title) && roads.test(v.title))],
+  ['More videos', rest.filter((v) => !gov.test(v.title) && !community.test(v.title) && !roads.test(v.title))],
+];
+const sections = groups.filter(([, v]) => v.length > 0);
 ---
 <Layout title="Watch" current="Watch">
   <section class="page">
     <div class="pagehead"><h2>Watch</h2><span>Featured video from Austin newsrooms</span></div>
-    {first ? (
+    {first ? (<>
       <div class="watchcols">
         <div>
           <div class="player"><iframe id="wplayer" src={`https://www.youtube-nocookie.com/embed/${first.videoId}`} title={first.title} loading="lazy" allowfullscreen></iframe></div>
           <p id="wtitle"><b>{first.title}</b> · {first.source}</p>
         </div>
         <aside class="watchside">
-          <h3>More videos</h3>
-          {videos.map((v, i) => (
+          <h3>Up next</h3>
+          {rail.map((v, i) => (
             <a class={`wv${i === 0 ? ' on' : ''}`} href={`https://www.youtube.com/watch?v=${v.videoId}`} data-id={v.videoId} data-title={v.title} data-src={v.source}>
               <img src={`https://i.ytimg.com/vi/${v.videoId}/mqdefault.jpg`} alt="" loading="lazy" />
               <span>{v.title}</span>
@@ -23,9 +36,24 @@ const first = videos[0];
           ))}
         </aside>
       </div>
-    ) : (
+      {sections.map(([name, vids], i) => (<>
+        <h4 class="secrule">{name}</h4>
+        <div class="vgrid">
+          {vids.slice(0, 6).map((v) => (
+            <a class="wv wcard" href={`https://www.youtube.com/watch?v=${v.videoId}`} data-id={v.videoId} data-title={v.title} data-src={v.source}>
+              <img src={`https://i.ytimg.com/vi/${v.videoId}/mqdefault.jpg`} alt="" loading="lazy" />
+              <span class="src">{v.source}</span>
+              <span class="t">{v.title}</span>
+            </a>
+          ))}
+        </div>
+        {i % 2 === 1 && <AdRow />}
+      </>))}
+      {sections.length % 2 === 1 && <AdRow />}
+    </>) : (<>
       <p>Videos will show up here soon. This page plays local newsroom videos right here, using each outlet's own YouTube player.</p>
-    )}
+      <AdRow />
+    </>)}
   </section>
   <script is:inline>
     document.querySelectorAll('.wv').forEach(function (a) {

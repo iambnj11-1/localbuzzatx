@@ -1,10 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import AdRow from '../components/AdRow.astro';
 ---
 <Layout title="About" current="About">
   <section class="page">
     <h2>About</h2>
     <p>Local Buzz ATX tells you what is happening in Austin and why it matters to you. Headlines link to the original reporting.</p>
-    <div class="sendbox"><b>Get in touch</b> Want to advertise, send a shout-out, or share good news? <a href="/contact">Use the contact form →</a></div>
+    <div class="sendbox"><b>Get in touch</b> Want to <a href="/advertise">advertise</a>, <a href="/shout-out">send a shout-out</a>, or share good news? <a href="/contact">Use the contact form →</a></div>
+    <AdRow />
   </section>
 </Layout>
