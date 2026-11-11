@@ -15,7 +15,7 @@ const watch = [
 
 const moneyWords = /(layoff|laid off|hiring|jobs|raises|funding|investment|ipo|acquire|acquisition|expansion|headquarters|opens|plant|factory|campus|startup|earnings|stock|billion|million|tax|rent|housing|home prices|real estate|economy|employer)/i;
 const { stories } = await getStories();
-const pool = stories.filter((s) => s.category !== 'Watch' && s.category !== 'Busted' && s.category !== 'Events' && (['Business', 'Tech', 'Development'].includes(s.category) || moneyWords.test(s.title)));
+const pool = stories.filter((s) => s.category !== 'Watch' && s.category !== 'Busted' && s.category !== 'Events' && (['Business', 'Tech', 'Development'].includes(s.category) || (s.money ?? moneyWords.test(s.title))));
 const lead = pool.find((s) => s.image) ?? pool[0];
 const rest = pool.filter((s) => s !== lead);
 const rail = rest.slice(0, 4);

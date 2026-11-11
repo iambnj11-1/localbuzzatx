@@ -1,5 +1,6 @@
 import { XMLParser } from 'fast-xml-parser';
 import { getDb, getEnv, readStories, saveStories, runInBackground } from './store';
+import { enrich } from './ai';
 
 export type Story = {
   source: string;
@@ -11,6 +12,10 @@ export type Story = {
   videoId?: string;
   image?: string;
   date: Date;
+  origTitle?: string; // the outlet's own headline when `title` is the AI-shortened one
+  why?: string; // saved AI line: why it matters to people in Austin
+  crime?: boolean; // saved AI flag (undefined = not tagged yet)
+  money?: boolean;
   approxDate?: boolean; // date is when we first saw it, not the outlet's own timestamp
 };
 
@@ -287,7 +292,7 @@ export async function getStories(force = false): Promise<{ stories: Story[]; sou
           return live;
         }
         if (stale && !refreshing) {
-          refreshing = fetchLive(true).then((v) => saveStories(v.stories)).catch(() => {}).finally(() => { refreshing = null; });
+          refreshing = fetchLive(true).then((v) => saveStories(v.stories)).then(() => enrich()).catch(() => {}).finally(() => { refreshing = null; });
           runInBackground(refreshing);
         }
         const seenT = new Set<string>();

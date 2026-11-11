@@ -10,7 +10,7 @@ const label = (t: string) => (t === 'Busted' ? 'Crime' : t);
 const tag = Astro.url.searchParams.get('tag');
 const everything = (await getStories()).stories.filter((s) => s.category !== 'Watch' && s.category !== 'Events');
 const all = tag === 'Busted' ? everything : everything.filter((s) => s.category !== 'Busted');
-const pool = tag === 'Busted' ? everything.filter((s) => s.category === 'Busted' || crimeWords.test(s.title)) : tag && tags.includes(tag) ? all.filter((s) => s.category === tag) : all;
+const pool = tag === 'Busted' ? everything.filter((s) => s.category === 'Busted' || (s.crime ?? crimeWords.test(s.title))) : tag && tags.includes(tag) ? all.filter((s) => s.category === tag) : all;
 const usedPics = new Set<string>();
 const stories = pool.slice(0, 40).map((s) => { if (!s.image) return s; if (usedPics.has(s.image)) return { ...s, image: undefined }; usedPics.add(s.image); return s; });
 const forecast = tag === 'Weather' ? await getForecast() : null;

@@ -43,7 +43,7 @@ const briefing = [...friendly.filter((s) => s !== top && (s.category === 'Govern
 const taken = new Set([...tops, ...latest, ...noPhoto, ...briefing]);
 const seenSrc = new Set<string>();
 const featured = stories.filter((x) => x.image && !taken.has(x)).filter((x) => (seenSrc.has(x.source) ? false : (seenSrc.add(x.source), true))).slice(0, 3);
-const ai = await getAi((Astro.locals as any).runtime?.env, tops, briefing);
+const ai = tops.some((t) => !t.why) ? await getAi((Astro.locals as any).runtime?.env, tops, briefing) : null;
 const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
 ---
 <Layout current="Home">
@@ -66,7 +66,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
               <h2><a href={t.link} rel="noopener" target="_blank">{t.title}</a></h2>
               <p>{t.summary}</p>
               <p><a href={t.link} rel="noopener" target="_blank">Read the full story at {t.source} →</a></p>
-              <div class="why"><b>Why should I care?</b>{ai?.whys?.[i] ?? 'One plain sentence on what this means for people in Austin goes here soon.'}</div>
+              <div class="why"><b>Why should I care?</b>{t.why ?? ai?.whys?.[i] ?? 'One plain sentence on what this means for people in Austin goes here soon.'}</div>
             </article>
           ))}
         </div>
