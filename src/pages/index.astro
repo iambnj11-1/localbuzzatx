@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
 import { withStory } from '../lib/omg';
+import BannerBand from '../components/BannerBand.astro';
 import { getAi } from '../lib/ai';
 import NewsletterTools from '../components/NewsletterTools.astro';
 import TechEventsAd from '../components/TechEventsAd.astro';
@@ -135,6 +136,8 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     </div>
   </section>
 
+  <BannerBand />
+
   <section class="pair" style="margin-top:20px;padding-top:18px;border-top:1px solid #bdbab0">
     <div>
       <h3 class="section"><a href="/news?tag=Government">Government</a></h3>
@@ -177,10 +180,6 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
   )}
 
   <TechEventsAd />
-  <section class="mtm">
-    <div><div class="k">From Mind the Marbles</div><b>News tells you what happened. Mind the Marbles explores what it means.</b><p>Real talk about the stuff rattling around in your head.</p></div>
-    <a href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">Follow on Instagram →</a>
-  </section>
 
   <script is:inline>
     (function () {
