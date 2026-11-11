@@ -7,7 +7,7 @@ const report = [...feeds.lastReport];
 import { aiStats } from '../lib/store';
 const tagRun = await aiLib.enrich(15);
 const stats = await aiStats();
-const allStories = await feeds.getStories();
+const { stories: allStories } = await feeds.getStories();
 const photoHosts: Record<string, number> = {};
 for (const st of allStories) { if (!st.image) continue; try { const h = new URL(st.image).hostname; photoHosts[h] = (photoHosts[h] ?? 0) + 1; } catch {} }
 const hostList = Object.entries(photoHosts).sort((a, b) => b[1] - a[1]);
