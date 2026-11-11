@@ -3,9 +3,14 @@ import NewsletterTools from '../components/NewsletterTools.astro';
 import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 import { withStory } from '../lib/omg';
+import { chipClass, chipLabel } from '../lib/chip';
 import { goodNews, shoutouts } from '../lib/community';
 const { stories } = await getStories();
 const all = withStory(stories);
+const calm = /(crash|shoot|kill|dead|death|arrest|murder|fatal|police|suspect|stabb|assault|victim)/i;
+const newsPicks = stories.filter((s) => (s.category === 'News' || s.category === 'Government') && !calm.test(`${s.title} ${s.summary}`)).slice(0, 3);
+const todoPicks = stories.filter((s) => s.category === 'Events' && !/best and worst/i.test(s.title)).slice(0, 3);
+const video = stories.find((s) => s.category === 'Watch' && s.videoId);
 // Lead = first take that has a photo, else the first take.
 const lead = all.find((r) => r.image) ?? all[0];
 const rest = all.filter((r) => r !== lead);
@@ -39,42 +44,28 @@ const tag = Astro.url.searchParams.get('tag');
         {r.link && <a href={r.link} target="_blank" rel="noopener">Read the story →</a>}
       </article>
     ))}
-    <article class="post mtm" id="mtm">
-      <div class="kicker">From the family · Mind the Marbles newsletter</div>
-      <h3>I Got a Text Monday. It&rsquo;s Thursday.</h3>
-      <p class="mtmsub">It was a three-word question.<br />Now the answer needs an apology.</p>
-      <p>How long can you leave a text sitting there before it becomes a whole thing?</p>
-      <p>I&rsquo;ll tell you. Three days.</p>
-      <p>A friend texted me Monday: &ldquo;You coming Saturday?&rdquo; That&rsquo;s it. The answer is &ldquo;yes.&rdquo;</p>
-      <p>I read it Monday. I thought, I&rsquo;ll answer when I have a minute.</p>
-      <p>Tuesday, I opened it to answer, and then I started thinking about the right way to answer. Wednesday, a plain &ldquo;yes&rdquo; felt rude after all this time, so I started typing &ldquo;Sorry for the late reply!&rdquo;</p>
-      <p>By Thursday, my reply was a paragraph. The question was &ldquo;You coming Saturday?&rdquo;</p>
-      <p>It had gone from &ldquo;Yes&rdquo; to &ldquo;Before I answer, I&rsquo;d like to address the events of this week.&rdquo;</p>
-      <p>I&rsquo;ve now read his text so many times I could recite it. I still haven&rsquo;t replied.</p>
-      <p>He&rsquo;s not even mad. I&rsquo;ve been mad for both of us.</p>
-      <h4 class="mtmh">The Recognition</h4>
-      <p>Sometimes the longer you wait, the bigger the reply gets.</p>
-      <p>Not because you don&rsquo;t care about them. Not because you&rsquo;re rude.</p>
-      <p>Because your mind thinks: &ldquo;If I answer now, I have to explain why it took this long.&rdquo;</p>
-      <p>The text was never hard. The guilt piled on top of it got hard. Every day you wait, the reply gets heavier.</p>
-      <p>Time to reply: two seconds.<br />Time spent not replying: three days.</p>
-      <p>You didn&rsquo;t ignore the text. You just kept adding to it.</p>
-      <h4 class="mtmh">Remember This</h4>
-      <p class="mtmbox">Sometimes you&rsquo;re not avoiding the reply. You&rsquo;re avoiding the fact that you haven&rsquo;t replied.</p>
-      <p>And honestly? &ldquo;Sorry, been a week. Yes.&rdquo; is a complete text.</p>
-      <h4 class="mtmh">Try This</h4>
-      <p>The next time a text is sitting there, ask: <b>What&rsquo;s the shortest true answer?</b></p>
-      <p>Not &ldquo;How do I explain the delay?&rdquo; Not &ldquo;What&rsquo;s the perfect way to say it?&rdquo; Not &ldquo;Do I need to apologize first?&rdquo;</p>
-      <p>Then send that. It&rsquo;s a whole answer.</p>
-      <h4 class="mtmh">Until next time, remember&hellip;</h4>
-      <p>A late reply isn&rsquo;t a bad reply.<br />You&rsquo;re allowed to answer like a person.</p>
-      <p><i>See you next week.</i> &mdash; <b>MIND THE MARBLES</b></p>
-    </article>
+    <section class="ecosys">
+      <h3 class="rule">Keep exploring Local Buzz</h3>
+      <div class="ecogrid">
+        <div>
+          <h4><a href="/news">Latest news →</a></h4>
+          {newsPicks.map((s) => (<div class="ecoitem"><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><a href={s.link} target="_blank" rel="noopener">{s.title}</a></div>))}
+        </div>
+        <div>
+          <h4><a href="/watch">Watch →</a></h4>
+          {video ? (<a class="ecovid" href="/watch"><img src={`https://i.ytimg.com/vi/${video.videoId}/mqdefault.jpg`} alt="" loading="lazy" /><span>{video.title}</span></a>) : <p>Videos from Austin newsrooms.</p>}
+        </div>
+        <div>
+          <h4><a href="/to-do">To Do →</a></h4>
+          {todoPicks.map((s) => (<div class="ecoitem"><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><a href={s.link} target="_blank" rel="noopener">{s.title}</a></div>))}
+        </div>
+      </div>
+    </section>
     </div>
     <aside class="omgside">
       <div class="sendbox"><b>Good news? Birthday shout-out?</b> Share it with Austin. <a href="/contact">Send it in →</a></div>
       <NewsletterTools />
-      <div class="sponsor"><div class="label">From the family</div><b>Mind the Marbles</b><em class="mtmjoke">&ldquo;I got a text Monday. It&rsquo;s Thursday.&rdquo;</em> This week&rsquo;s Mind the Marbles issue. <a href="#mtm">Read it below &darr;</a><br /><a class="cta" href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">Follow on Instagram →</a></div>
+      <div class="sponsor"><div class="label">From the family</div><b>Mind the Marbles</b><em class="mtmjoke">&ldquo;I got a text Monday. It&rsquo;s Thursday.&rdquo;</em> A line from the Mind the Marbles newsletter.<br /><a class="cta" href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">Follow on Instagram →</a></div>
     </aside>
     </div>
   </>}
