@@ -29,7 +29,16 @@ const rest = stories.filter((s) => !tops.includes(s)).filter((s) => (perSrc[s.so
 const withPhoto = rest.filter((s) => s.image);
 const noPhoto: typeof rest = [];
 const noPic = rest.filter((s) => !s.image).slice(0, 1);
-const latest = [...withPhoto.slice(0, noPic.length ? 3 : 4), ...noPic].slice(0, 4);
+// Latest always carries one story each from Crime and Money, plus an OMG! take last (with its own picture tile).
+const veryHeavy = /(sexual|abuse|rape|molest|child|children|kidnap|murder|homicide|killed|fatal|dead|death|stabb)/i;
+const moneyOK = (x: (typeof stories)[number]) => ['Business', 'Tech', 'Development'].includes(x.category) || x.money === true;
+const crimePick = all.stories.filter((x) => (x.category === 'Busted' || x.crime === true) && x.category !== 'National' && x.category !== 'Watch' && !veryHeavy.test(`${x.title} ${x.summary}`)).sort(bySignal)[0];
+const moneyPick = stories.filter((x) => moneyOK(x) && !tops.includes(x)).sort(bySignal)[0];
+const newsPick = withPhoto.find((x) => x !== moneyPick);
+const latest = [newsPick, crimePick, moneyPick].filter(Boolean) as typeof stories;
+for (const x of withPhoto) { if (latest.length >= 3) break; if (!latest.includes(x)) latest.push(x); }
+const omgAll = withStory(all.stories.filter((x) => x.category !== 'Watch' && x.category !== 'National'));
+const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
 const pick = (cat: string) => stories.filter((s) => s.category === cat && s !== top).slice(0, 4);
 const newsItems = pick('News').slice(0, 4);
 const events = pick('Events').slice(0, 4);
@@ -103,6 +112,9 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
         {latest.map((s) => (
           <div class="item latest">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div class={`ph chip ${chipClass(s)}`}>{chipLabel(s)}</div>}<div><span><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span>{fmt(s.date)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div></div>
         ))}
+        {omgPick && (
+          <div class="item latest"><img src="/omg-tile.svg" alt="" loading="lazy" /><div><span><span class="chip omgchip">OMG!</span>Today's take</span><div><a href="/omg">{omgPick.line}</a></div></div></div>
+        )}
         {wx && (
           <a class="wxcard" href="/news?tag=Weather" aria-label="Austin weather, full forecast">
             <div class="wxtop"><span class="wxbig">{wx.now.icon}</span><div><b>{wx.now.temp}°</b><span>{wx.now.short}</span></div><div class="wxhl">H {wx.now.hi ?? '–'}° · L {wx.now.lo ?? '–'}°<br />Rain {wx.now.rain ?? 0}%</div></div>

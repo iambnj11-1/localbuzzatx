@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" role="img" aria-label="OMG!">
+  <rect width="300" height="200" fill="#f5c518"/>
+  <polygon fill="#b3261e" points="150,14 172,52 214,30 216,76 262,76 240,114 284,138 238,152 252,194 206,178 186,196 160,162 134,196 110,162 66,184 70,142 20,134 56,106 22,72 72,70 78,28 118,50"/>
+  <text x="150" y="122" text-anchor="middle" font-family="Arial Black, Impact, Helvetica, sans-serif" font-weight="900" font-size="64" fill="#111" stroke="#fff" stroke-width="3" paint-order="stroke">OMG!</text>
+</svg>
