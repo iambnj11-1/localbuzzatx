@@ -42,7 +42,7 @@ const sections = [['Funding and deals', deals], ['Jobs and layoffs', jobs], ['Bu
             <aside>
               <h4>Just added</h4>
               {rail.map((s) => (
-                <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div class={`ph chip ${chipClass(s)}`}>{s.source}</div>}<div><a href={s.link} target="_blank" rel="noopener">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
+                <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div class={`ph chip ${chipClass(s)}`}>{s.source}</div>}<div><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small><a href={s.link} target="_blank" rel="noopener">{s.title}</a></div></div>
               ))}
             </aside>
           </div>

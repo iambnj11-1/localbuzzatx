@@ -290,7 +290,9 @@ export async function getStories(force = false): Promise<{ stories: Story[]; sou
           refreshing = fetchLive(true).then((v) => saveStories(v.stories)).catch(() => {}).finally(() => { refreshing = null; });
           runInBackground(refreshing);
         }
-        return { stories: saved.stories, sources: [...new Set(saved.stories.map((s) => s.source))] };
+        const seenT = new Set<string>();
+        const uniq = saved.stories.filter((s) => { const k = s.title.toLowerCase(); if (seenT.has(k)) return false; seenT.add(k); return true; });
+        return { stories: uniq, sources: [...new Set(uniq.map((s) => s.source))] };
       }
     } catch { /* database trouble: fall through to live feeds */ }
   }
