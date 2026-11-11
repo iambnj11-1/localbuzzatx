@@ -24,13 +24,23 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     {tag === 'Weather' && (
       <div class="wxpage">
         {forecast?.alerts?.length ? <div class="alertbar"><b>Weather alerts:</b> {forecast.alerts.join(' · ')}</div> : null}
-        {forecast ? (
-          <div class="wxgrid">
-            {forecast.days.map((d) => (
-              <div class="wxday"><b>{d.name}</b><span class="wxt">{d.temp}°{d.unit}</span><span>{d.short}</span><small>Wind {d.wind}{d.rain != null ? ` · Rain ${d.rain}%` : ''}</small></div>
-            ))}
+        {forecast ? (<>
+          <div class="wxhero">
+            <div class="wxnow"><span class="wxbig">{forecast.now.icon}</span><div><div class="wxtemp">{forecast.now.temp}°</div><div class="wxsum">{forecast.now.short}</div></div></div>
+            <div class="wxstats">
+              <div><b>{forecast.now.hi ?? '–'}° / {forecast.now.lo ?? '–'}°</b><span>High / Low</span></div>
+              <div><b>{forecast.now.wind || '–'}</b><span>Wind</span></div>
+              <div><b>{forecast.now.rain ?? 0}%</b><span>Rain chance</span></div>
+            </div>
+            <div class="wxloc">Austin, TX</div>
           </div>
-        ) : <p>The forecast is not loading right now. Try the National Weather Service below.</p>}
+          <h4 class="secrule">Next 12 hours</h4>
+          <div class="wxhours">{forecast.hours.map((h) => (<div class="wxhr"><span>{h.time}</span><span class="wxi">{h.icon}</span><b>{h.temp}°</b><small>{h.rain ?? 0}%</small></div>))}</div>
+          <h4 class="secrule">7-day forecast</h4>
+          <div class="wxgrid">{forecast.days.map((d) => (
+            <div class="wxday"><b>{d.name}</b><span class="wxi">{d.icon}</span><span class="wxt">{d.hi ?? '–'}° <em>{d.lo ?? '–'}°</em></span><span>{d.short}</span><small>Wind {d.wind}{d.rain != null ? ` · Rain ${d.rain}%` : ''}</small></div>
+          ))}</div>
+        </>) : <p>The forecast is not loading right now. Try the National Weather Service below.</p>}
         <p class="wxlinks"><b>Hauling or traveling?</b> Check conditions where you are going: <a href="https://www.weather.gov" target="_blank" rel="noopener">National Weather Service (any city)</a> · <a href="https://drivetexas.org" target="_blank" rel="noopener">DriveTexas road conditions</a> · <a href="https://forecast.weather.gov/MapClick.php?lat=30.2672&lon=-97.7431" target="_blank" rel="noopener">Austin forecast details</a></p>
         <small>Forecast from the National Weather Service for Austin.</small>
       </div>
