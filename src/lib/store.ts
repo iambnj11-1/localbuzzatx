@@ -81,3 +81,13 @@ export async function aiStats(): Promise<{ stories: number; done: number; last: 
   const a = await db.prepare("SELECT (SELECT COUNT(*) FROM stories WHERE category != 'Watch') AS stories, (SELECT COUNT(*) FROM ai) AS done, (SELECT v FROM meta WHERE k = 'ai_last') AS last").first();
   return { stories: Number(a?.stories ?? 0), done: Number(a?.done ?? 0), last: String(a?.last ?? 'not run yet') };
 }
+
+// Which of these links already have AI notes.
+export async function taggedAmong(links: string[]): Promise<Set<string>> {
+  const db = getDb();
+  if (!db || !links.length) return new Set();
+  await init(db);
+  const ph = links.map((_, i) => `?${i + 1}`).join(',');
+  const { results } = await db.prepare(`SELECT link FROM ai WHERE link IN (${ph})`).bind(...links).all();
+  return new Set((results ?? []).map((r: any) => r.link));
+}

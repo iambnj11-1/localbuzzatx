@@ -62,7 +62,7 @@ const featured = stories.filter((x) => x.image && !taken.has(x)).filter((x) => (
 let ai: Awaited<ReturnType<typeof getAi>> = null;
 if (tops.some((t) => !t.why)) {
   // Also tag the newest saved stories in the database (once each) so the lines are there on the next visit.
-  try { (Astro.locals as any).runtime?.ctx?.waitUntil(enrich(15).catch(() => {})); } catch {}
+  try { (Astro.locals as any).runtime?.ctx?.waitUntil(enrich(15, [...tops, ...briefing, ...latest].map((x) => ({ link: x.link, title: x.title, summary: x.summary }))).catch(() => {})); } catch {}
   // Never hold the page for the AI: wait at most 1.5 seconds, let the call finish in the background so the next visit has it.
   const job = getAi((Astro.locals as any).runtime?.env, tops, briefing).catch(() => null);
   try { (Astro.locals as any).runtime?.ctx?.waitUntil(job); } catch {}
@@ -108,19 +108,19 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
         )}
       </div>
       <aside class="side">
-        <h3>Latest</h3>
-        {latest.map((s) => (
-          <div class="item latest">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div class={`ph chip ${chipClass(s)}`}>{chipLabel(s)}</div>}<div><span><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span>{fmt(s.date)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div></div>
-        ))}
-        {omgPick && (
-          <div class="item latest"><img src="/omg-tile.svg" alt="" loading="lazy" /><div><span><span class="chip omgchip">OMG!</span>Today's take</span><div><a href="/omg">{omgPick.line}</a></div></div></div>
-        )}
         {wx && (
           <a class="wxcard" href="/news?tag=Weather" aria-label="Austin weather, full forecast">
             <div class="wxtop"><span class="wxbig">{wx.now.icon}</span><div><b>{wx.now.temp}°</b><span>{wx.now.short}</span></div><div class="wxhl">H {wx.now.hi ?? '–'}° · L {wx.now.lo ?? '–'}°<br />Rain {wx.now.rain ?? 0}%</div></div>
             <div class="wxrow">{wx.hours.slice(0, 6).map((h) => (<span><small>{h.time}</small><i>{h.icon}</i><b>{h.temp}°</b></span>))}</div>
             <div class="wxmore">Full forecast →</div>
           </a>
+        )}
+        <h3>Latest</h3>
+        {latest.map((s) => (
+          <div class="item latest">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div class={`ph chip ${chipClass(s)}`}>{chipLabel(s)}</div>}<div><span><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span>{fmt(s.date)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div></div>
+        ))}
+        {omgPick && (
+          <div class="item latest"><img src="/omg-tile.svg" alt="" loading="lazy" /><div><span><span class="chip omgchip">OMG!</span>Today's take</span><div><a href="/omg">{omgPick.line}</a></div></div></div>
         )}
         {noPhoto.length > 0 && (
           <div class="more">

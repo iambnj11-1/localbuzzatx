@@ -390,3 +390,5 @@ nav.sections .minilogo, nav.sections .mininow { display: none; }
 @media (min-width: 800px) { .adrow { grid-template-columns: repeat(3, 1fr); gap: 0; } .adslot { height: 150px; border-bottom: 0; border-right: 1px solid #e8dfb8; } .adslot:last-child { border-right: 0; } }
 
 .chip.omgchip { background: var(--buzz); border-color: var(--ink); color: var(--ink); font-weight: 800; }
+
+.side > .wxcard:first-child { margin-top: 0; margin-bottom: 22px; }

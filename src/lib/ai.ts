@@ -1,5 +1,5 @@
 import type { Story } from './feeds';
-import { getEnv, pendingForAi, saveAi, setMeta } from './store';
+import { getEnv, pendingForAi, saveAi, setMeta, taggedAmong } from './store';
 
 export type AiResult = { whys: string[]; briefing: string[] };
 export let lastAiNote = 'not run yet';
@@ -30,12 +30,14 @@ async function call(key: string, tops: Story[], briefing: Story[]): Promise<AiRe
   const timer = setTimeout(() => controller.abort(), 9000);
   try {
     const content = tops.map((s, i) => `TOP ${i + 1}: ${line(s)}`).join('\n') + '\n' + briefing.map((s, i) => `BRIEFING ${i + 1}: ${line(s)}`).join('\n');
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const send = (extra: object) => fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       signal: controller.signal,
       headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: MODEL, max_tokens: 1500, system: SYSTEM, messages: [{ role: 'user', content }] }),
+      body: JSON.stringify({ model: MODEL, max_tokens: 1500, system: SYSTEM, messages: [{ role: 'user', content }], ...extra }),
     });
+    let res = await send({ thinking: { type: 'disabled' } });
+    if (res.status === 400) res = await send({});
     if (!res.ok) {
       lastAiNote = `API error ${res.status}: ${(await res.text()).slice(0, 160)}`;
       return null;
@@ -87,24 +89,30 @@ Reply with JSON only: [{"n":1,"title":"...","why":"...","crime":false,"money":fa
 
 let enriching = false;
 // Tags a batch of saved stories that have no AI notes yet. Each story is only ever sent once.
-export async function enrich(limit = 15): Promise<string> {
+export async function enrich(limit = 15, priority: { link: string; title: string; summary: string }[] = []): Promise<string> {
   const key = getEnv('ANTHROPIC_API_KEY');
   if (!key) return 'no key';
   if (enriching) return 'already running';
   enriching = true;
   let note = '';
   try {
-    const pending = await pendingForAi(limit);
+    const done = await taggedAmong(priority.map((p) => p.link));
+    const first = priority.filter((p) => !done.has(p.link));
+    const seen = new Set(first.map((p) => p.link));
+    const pending = [...first, ...(await pendingForAi(limit)).filter((p) => !seen.has(p.link))].slice(0, limit);
     if (!pending.length) return 'nothing new to tag';
     const content = pending.map((s, i) => `${i + 1}. ${s.title}${s.summary ? ` | ${s.summary}` : ''}`.slice(0, 420)).join('\n');
     const c = new AbortController();
     const t = setTimeout(() => c.abort(), 20000);
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const send = (extra: object) => fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST', signal: c.signal,
         headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
-        body: JSON.stringify({ model: MODEL, max_tokens: 4000, system: ENRICH_SYSTEM, messages: [{ role: 'user', content }] }),
+        body: JSON.stringify({ model: MODEL, max_tokens: 4000, system: ENRICH_SYSTEM, messages: [{ role: 'user', content }], ...extra }),
       });
+      // Ask for a plain answer with no thinking block; if the API rejects that field, try again without it.
+      let res = await send({ thinking: { type: 'disabled' } });
+      if (res.status === 400) res = await send({});
       if (!res.ok) { note = `API error ${res.status}: ${(await res.text()).slice(0, 160)}`; return note; }
       const data: any = await res.json();
       const raw: string = textOf(data);
