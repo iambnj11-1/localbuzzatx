@@ -6,7 +6,7 @@ import '../styles/global.css';
 import { getWeather } from '../lib/weather';
 const { title = 'Local Buzz ATX', current = '' } = Astro.props;
 const sections: [string, string, [string, string][]][] = [
-  ['News', '/news', [['Latest', '/news'], ['Government', '/news?tag=Government'], ['Neighborhoods', '/news?tag=Neighborhoods'], ['Business', '/news?tag=Business'], ['Tech', '/news?tag=Tech'], ['Busted', '/news?tag=Busted'], ['Weather', '/news?tag=Weather']]],
+  ['News', '/news', [['Latest', '/news'], ['Government', '/news?tag=Government'], ['Neighborhoods', '/news?tag=Neighborhoods'], ['Business', '/news?tag=Business'], ['Tech', '/news?tag=Tech'], ['Crime', '/news?tag=Busted'], ['Weather', '/news?tag=Weather']]],
   ['Watch', '/watch', []],
   ['OMG!', '/omg', [['Latest', '/omg'], ['Good News', '/omg?tag=Good News'], ['Shout-Outs', '/omg?tag=Shout-Outs']]],
   ['Money', '/money', []],

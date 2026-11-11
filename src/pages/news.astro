@@ -5,7 +5,8 @@ import { chipClass, chipLabel } from '../lib/chip';
 import { getForecast } from '../lib/weather';
 import CrimeBox from '../components/CrimeBox.astro';
 const tags = ['News', 'Neighborhoods', 'Government', 'Development', 'Business', 'Tech', 'Busted', 'Weather'];
-const crimeWords = /(arrest|charged|indict|sentenced|convicted|pleads|plead|jail|police|shooting|shot|killed|stabb|robbery|burglar|theft|stolen|scam|fraud|dwi|suspect|manhunt|crash|wanted|inmate|trial|lawsuit|sued)/i;
+const crimeWords = /\b(arrest(ed|s)?|charged|indict(ed|ment)?|sentenced|convicted|guilty|pleads?|jail(ed)?|shooting|stabb\w+|robbery|burglar\w*|theft|stolen|scam\w*|fraud|dwi|suspect|manhunt|inmate|murder|homicides?)\b/i;
+const label = (t: string) => (t === 'Busted' ? 'Crime' : t);
 const tag = Astro.url.searchParams.get('tag');
 const everything = (await getStories()).stories.filter((s) => s.category !== 'Watch' && s.category !== 'Events');
 const all = tag === 'Busted' ? everything : everything.filter((s) => s.category !== 'Busted');
@@ -20,12 +21,12 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
 ---
 <Layout title="News" current="News">
   <section class="page">
-    <div class="pagehead"><h2>News</h2><span>{tag ?? 'All the latest from Austin outlets'}</span></div>
+    <div class="pagehead"><h2>News</h2><span>{tag ? label(tag) : 'All the latest from Austin outlets'}</span></div>
     <div class="tags">
       <a href="/news" class={!tag ? 'on' : ''}>All</a>
-      {tags.map((t) => <a href={`/news?tag=${t}`} class={tag === t ? 'on' : ''}>{t}</a>)}
+      {tags.map((t) => <a href={`/news?tag=${t}`} class={tag === t ? 'on' : ''}>{label(t)}</a>)}
     </div>
-    {tag === 'Busted' && <div class="sendbox"><b>Busted.</b> Crime, courts and scams from Austin outlets. Headlines only, no mugshots, and each one links to the original report. An arrest is not a conviction.</div>}
+    {tag === 'Busted' && <div class="sendbox"><b>Crime and courts.</b> Reported by Austin outlets. Headlines only, no mugshots, and each one links to the original report. An arrest is not a conviction.</div>}
     {tag === 'Busted' && <CrimeBox />}
     {tag === 'Weather' && (
       <div class="wxpage">
