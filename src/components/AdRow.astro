@@ -1,0 +1,14 @@
+---
+// Three fixed-size ad slots in one row. Every slot always holds the same space, so a sold, empty or late-loading ad never moves the page.
+// To sell a slot: replace its house promo with the advertiser's link and image.
+const slots = [
+  { k: 'Advertise here', b: 'Your business in front of Austin readers', go: 'Get in touch →', href: '/contact' },
+  { k: 'Advertise here', b: 'Sponsor the Morning Buzz', go: 'Ask about it →', href: '/contact' },
+  { k: 'Advertise here', b: 'Local deals and events welcome', go: 'Reach us →', href: '/contact' },
+];
+---
+<div class="adrow" aria-label="Advertisements">
+  {slots.map((s) => (
+    <a class="adslot" href={s.href}><span class="k">{s.k}</span><b>{s.b}</b><span class="go">{s.go}</span></a>
+  ))}
+</div>

@@ -16,6 +16,7 @@ export type Story = {
   why?: string; // saved AI line: why it matters to people in Austin
   crime?: boolean; // saved AI flag (undefined = not tagged yet)
   money?: boolean;
+  impact?: number; // saved AI rating 1-5: how much it touches daily life in Austin
   approxDate?: boolean; // date is when we first saw it, not the outlet's own timestamp
 };
 
@@ -33,6 +34,9 @@ export const FEEDS = [
   { source: '365 Things Austin', category: 'Events', url: 'https://365thingsaustin.com/feed' },
   { source: 'Austin Monthly', category: 'Events', url: 'https://austinmonthly.com/feed' },
   // Video: YouTube channel feeds (embedded with YouTube's own player). The KVUE channel id is unverified; check /status.
+  // National and Texas news that can touch daily life. Shown in their own strip, never mixed into the Austin lists. Addresses unverified; check /status.
+  { source: 'NPR', category: 'National', url: 'https://feeds.npr.org/1001/rss.xml' },
+  { source: 'Texas Tribune', category: 'National', area: 'Texas', url: 'https://www.texastribune.org/feeds/main/' },
   { source: 'KVUE', category: 'Watch', url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxXTyFekH99JnS3qaXIQW7A', alts: ['https://www.youtube.com/feeds/videos.xml?playlist_id=UUxXTyFekH99JnS3qaXIQW7A'] },
 ];
 
@@ -127,7 +131,9 @@ async function loadPage(feed: { source: string; category: string; url: string; b
       let path = m[1];
       if (path.startsWith(feed.base)) path = path.slice(feed.base.length);
       if (!feed.link.test(path)) continue;
-      const title = clean(m[2], 160);
+      // Cards can wrap an image, the headline, the author and the time. Prefer the heading; otherwise trim the byline.
+      const hd = m[2].match(/<h\d[^>]*>([\s\S]*?)<\/h\d>/i);
+      const title = clean(hd ? hd[1] : m[2], 220).replace(/\s+(?:By\s+)?[A-Z][\w.'’-]+(?:\s+[A-Z][\w.'’-]+){1,2}\s*·\s*\d+\s*(?:m|min|h|hr|hours?|d|days?)\s*ago.*$/i, '').replace(/\s+·\s+.*$/, '').trim().slice(0, 160);
       if (title.length < 25 || seen.has(path)) continue;
       seen.add(path);
       const near = html.slice(Math.max(0, m.index - 300), m.index + m[0].length + 400).replace(/<[^>]*>/g, ' ');
@@ -273,6 +279,7 @@ function mockStories(): Story[] {
     mk(1, 'KXAN', 'News', 'Mock lead story about the city', img(1)), mk(2, 'KXAN', 'News', 'Mock second story', img(2)), mk(3, 'Austin Monitor', 'Government', 'Mock council vote', img(3)),
     mk(4, 'TOWERS', 'Development', 'Mock tower plan', img(4)), mk(5, 'Austin Monthly', 'Events', 'Mock weekend ideas', img(5)), mk(6, 'Silicon Hills News', 'Tech', 'Mock startup news', img(6)),
     mk(7, 'KXAN', 'News', 'Mock fourth story', img(7)), mk(8, 'Austin Monitor', 'Government', 'Mock budget item', img(8)), mk(9, 'TOWERS', 'Development', 'Mock penthouse'),
+    mk(10, 'NPR', 'National', 'Mock national story on grocery prices rising'), mk(11, 'Texas Tribune', 'National', 'Mock Texas lawmakers weigh property tax changes'), mk(12, 'NPR', 'National', 'Mock airline rule change could affect holiday travel'),
   ];
 }
 

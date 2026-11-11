@@ -81,8 +81,9 @@ Rules:
 - "title": a clearer, plain headline, max 12 words. Keep the key names, places and numbers. No hype, no questions, no clickbait. If the outlet's headline is already clear and short, return it unchanged.
 - "why": ONE plain sentence (max 28 words) on what this could mean for people who live in the Austin area. If the text shows no clear local effect, use an empty string.
 - "crime": true only if the story is about a crime, an arrest, a court case, or a police investigation.
+- "impact": a whole number 1-5 for how much the story touches daily life for people in the Austin area (5 = safety, big money, housing, jobs, utilities, transit, schools or a major government decision; 3 = useful to know; 1 = fluff, a weather graphic, a listicle or a pure entertainment item). National stories count only if they plausibly change prices, health, travel, taxes or rules for Texans.
 - "money": true only if the story is about business, jobs, companies, real estate, development, prices or the local economy.
-Reply with JSON only: [{"n":1,"title":"...","why":"...","crime":false,"money":false}, ...] with one object per story, same order.`;
+Reply with JSON only: [{"n":1,"title":"...","why":"...","crime":false,"money":false,"impact":3}, ...] with one object per story, same order.`;
 
 let enriching = false;
 // Tags a batch of saved stories that have no AI notes yet. Each story is only ever sent once.
@@ -115,7 +116,7 @@ export async function enrich(limit = 15): Promise<string> {
         const r = arr.find((x) => Number(x?.n) === i + 1) ?? arr[i] ?? {};
         const title = typeof r.title === 'string' ? r.title.trim().slice(0, 140) : '';
         const why = typeof r.why === 'string' ? r.why.trim().slice(0, 220) : '';
-        return { link: s.link, title: title || undefined, why: why || undefined, crime: r.crime === true, money: r.money === true };
+        return { link: s.link, title: title || undefined, why: why || undefined, crime: r.crime === true, money: r.money === true, impact: Math.min(5, Math.max(1, Math.round(Number(r.impact)) || 3)) };
       });
       await saveAi(rows);
       note = `ok, tagged ${rows.length} stories`;

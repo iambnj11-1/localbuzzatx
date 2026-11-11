@@ -5,18 +5,24 @@ import { chipClass, chipLabel } from '../lib/chip';
 import { withStory } from '../lib/omg';
 import BannerBand from '../components/BannerBand.astro';
 import { getAi, enrich } from '../lib/ai';
+import { impactScore, bySignal, isSoft } from '../lib/impact';
+import { getForecast } from '../lib/weather';
 import NewsletterTools from '../components/NewsletterTools.astro';
 import TechEventsAd from '../components/TechEventsAd.astro';
 const all = await getStories();
 const heavy = /(sexual|abuse|murder|killed|shot|shooting|stabb|arrest|sentenced|dead|death|crash|rape|assault|kidnap|molest|fatal|suspect|police|child|children)/i;
 // Homepage skips crime and tragedy stories. They still appear on the News page.
-const stories = all.stories.filter((s) => s.category !== 'Watch' && s.category !== 'Busted' && !heavy.test(s.title) && !heavy.test(s.summary));
+const stories = all.stories.filter((s) => s.category !== 'Watch' && s.category !== 'Busted' && s.category !== 'National' && !heavy.test(s.title) && !heavy.test(s.summary));
 const sources = all.sources;
 const videos = all.stories.filter((s) => s.category === 'Watch' && s.videoId).slice(0, 3);
 const friendly = stories.filter((s) => !heavy.test(s.title) && !heavy.test(s.summary));
-const top = friendly.find((s) => s.summary && s.category === 'News' && s.image) ?? friendly.find((s) => s.summary && s.image) ?? friendly.find((s) => s.summary && s.category === 'News') ?? friendly[0] ?? stories[0];
-// Top stories carousel: up to 4, the top story first, preferring ones with a photo.
-const tops = [top, ...friendly.filter((s) => s !== top && s.summary && s.image)].filter(Boolean).slice(0, 4);
+// Top stories: the most impactful recent ones, not just the newest. Weather graphics and fluff sink.
+const nowMs = Date.now();
+const fresh = friendly.filter((s) => nowMs - s.date.getTime() < 36 * 3600000);
+const ranked = [...(fresh.length >= 6 ? fresh : friendly)].filter((s) => s.summary || s.image).sort(bySignal);
+const top = ranked.find((s) => s.image && s.summary) ?? ranked[0] ?? friendly[0] ?? stories[0];
+const topSrc: Record<string, number> = {};
+const tops = [top, ...ranked.filter((s) => s !== top && s.image && s.summary && !isSoft(s))].filter(Boolean).filter((s) => (topSrc[s.source] = (topSrc[s.source] ?? 0) + 1) <= 2).slice(0, 4);
 const perSrc: Record<string, number> = {};
 const rest = stories.filter((s) => !tops.includes(s)).filter((s) => (perSrc[s.source] = (perSrc[s.source] ?? 0) + 1) <= 3);
 // Photo stories first, but photo-less ones (TOWERS, Silicon Hills) stay in the mix with a colored source tile.
@@ -27,7 +33,7 @@ const latest = [...withPhoto.slice(0, noPic.length ? 3 : 4), ...noPic].slice(0, 
 const pick = (cat: string) => stories.filter((s) => s.category === cat && s !== top).slice(0, 4);
 const newsItems = pick('News').slice(0, 4);
 const events = pick('Events').slice(0, 4);
-const takes = withStory(all.stories.filter((s) => s.category !== 'Watch')).filter((r) => r.link || true).slice(0, 2);
+const takes = withStory(all.stories.filter((s) => s.category !== 'Watch' && s.category !== 'National')).filter((r) => r.link || true).slice(0, 2);
 const gov = pick('Government').slice(0, 3);
 // Development: mix big-outlet stories about building and growth (KXAN, KVUE, Austin Monitor) with TOWERS, photos first.
 const devWords = /(develop|construction|zoning|housing|apartment|high-?rise|tower|rezon|permit|site plan|mixed-use|redevelop|downtown|real estate|affordable|land use|planning commission|project|transit|rail|building)/i;
@@ -53,15 +59,20 @@ if (tops.some((t) => !t.why)) {
   try { (Astro.locals as any).runtime?.ctx?.waitUntil(job); } catch {}
   ai = await Promise.race([job, new Promise<null>((r) => setTimeout(() => r(null), 1500))]);
 }
+const national = all.stories.filter((s) => s.category === 'National' && nowMs - s.date.getTime() < 72 * 3600000).sort(bySignal).slice(0, 4);
+const wxRaw = getForecast().catch(() => null);
+const wx = await Promise.race([wxRaw, new Promise<null>((r) => setTimeout(() => r(null), 1500))]);
 const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
 ---
 <Layout current="Home">
   {briefing.length > 0 && (
-    <section class="wmt">
+    <section class="wmt" aria-label="What matters today">
       <span class="lab" title="What matters today">Buzz</span>
-      {briefing.map((s, i) => (
-        <>{i > 0 && <span class="sep">•</span>}<a href={s.link} target="_blank" rel="noopener" title={s.title}>{ai?.briefing?.[i] || s.title}</a></>
-      ))}
+      <div class="wmtrow">
+        {briefing.map((s, i) => (
+          <a href={s.link} target="_blank" rel="noopener" title={s.title}><em>{i + 1}</em>{ai?.briefing?.[i] || s.title}</a>
+        ))}
+      </div>
     </section>
   )}
   {top ? (
@@ -92,6 +103,13 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
         {latest.map((s) => (
           <div class="item latest">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div class={`ph chip ${chipClass(s)}`}>{chipLabel(s)}</div>}<div><span><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span>{fmt(s.date)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div></div>
         ))}
+        {wx && (
+          <a class="wxcard" href="/news?tag=Weather" aria-label="Austin weather, full forecast">
+            <div class="wxtop"><span class="wxbig">{wx.now.icon}</span><div><b>{wx.now.temp}°</b><span>{wx.now.short}</span></div><div class="wxhl">H {wx.now.hi ?? '–'}° · L {wx.now.lo ?? '–'}°<br />Rain {wx.now.rain ?? 0}%</div></div>
+            <div class="wxrow">{wx.hours.slice(0, 6).map((h) => (<span><small>{h.time}</small><i>{h.icon}</i><b>{h.temp}°</b></span>))}</div>
+            <div class="wxmore">Full forecast →</div>
+          </a>
+        )}
         {noPhoto.length > 0 && (
           <div class="more">
             <h3>More headlines</h3>
@@ -137,6 +155,17 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
       <p><a href="/omg">More OMG! →</a></p>
     </div>
   </section>
+
+  {national.length > 0 && (
+    <section class="natstrip">
+      <h3 class="section"><a href="/news?tag=National">National and Texas</a> <small>News that can touch your day</small></h3>
+      <div class="natgrid">
+        {national.map((n) => (
+          <a href={n.link} target="_blank" rel="noopener"><span class="chip">{n.source}</span><b>{n.title}</b>{n.why && <em>{n.why}</em>}</a>
+        ))}
+      </div>
+    </section>
+  )}
 
   <BannerBand />
 

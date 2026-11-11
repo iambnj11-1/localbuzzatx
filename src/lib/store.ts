@@ -17,6 +17,7 @@ async function init(db: any) {
   await db.exec('CREATE INDEX IF NOT EXISTS idx_stories_pub ON stories (published_at DESC)');
   // AI notes for each story, written once: a shorter headline, a "why it matters" line, and topic flags.
   await db.exec('CREATE TABLE IF NOT EXISTS ai (link TEXT PRIMARY KEY, short_title TEXT, why TEXT, crime INTEGER, money INTEGER, created_at INTEGER NOT NULL)');
+  try { await db.exec('ALTER TABLE ai ADD COLUMN impact INTEGER'); } catch { /* column already there */ }
   await db.exec('CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT)');
   ready = true;
 }
@@ -40,11 +41,11 @@ export async function readStories(): Promise<{ stories: Story[]; newest: number 
   const db = getDb();
   if (!db) return null;
   await init(db);
-  const { results } = await db.prepare('SELECT s.*, a.short_title, a.why, a.crime, a.money, a.link AS ai_link FROM stories s LEFT JOIN ai a ON a.link = s.link ORDER BY s.published_at DESC LIMIT 300').all();
+  const { results } = await db.prepare('SELECT s.*, a.short_title, a.why, a.crime, a.money, a.impact, a.link AS ai_link FROM stories s LEFT JOIN ai a ON a.link = s.link ORDER BY s.published_at DESC LIMIT 300').all();
   const newest = await db.prepare('SELECT MAX(fetched_at) AS t FROM stories').first();
   const stories: Story[] = (results ?? []).map((r: any) => ({
     source: r.source, area: r.area ?? undefined, category: r.category, title: r.short_title || r.title, origTitle: r.title, link: r.link,
-    why: r.why || undefined, crime: r.ai_link ? r.crime === 1 : undefined, money: r.ai_link ? r.money === 1 : undefined,
+    why: r.why || undefined, crime: r.ai_link ? r.crime === 1 : undefined, money: r.ai_link ? r.money === 1 : undefined, impact: r.ai_link && r.impact ? Number(r.impact) : undefined,
     summary: r.summary ?? '', videoId: r.video_id ?? undefined, image: r.image ?? undefined, date: new Date(r.published_at),
   }));
   return { stories, newest: Number(newest?.t ?? 0) };
@@ -58,12 +59,12 @@ export async function pendingForAi(limit: number): Promise<{ link: string; title
   return (results ?? []) as any;
 }
 
-export async function saveAi(rows: { link: string; title?: string; why?: string; crime?: boolean; money?: boolean }[]) {
+export async function saveAi(rows: { link: string; title?: string; why?: string; crime?: boolean; money?: boolean; impact?: number }[]) {
   const db = getDb();
   if (!db || !rows.length) return;
   await init(db);
-  const stmt = db.prepare('INSERT OR REPLACE INTO ai (link, short_title, why, crime, money, created_at) VALUES (?1,?2,?3,?4,?5,?6)');
-  await db.batch(rows.map((r) => stmt.bind(r.link, r.title ?? null, r.why ?? null, r.crime ? 1 : 0, r.money ? 1 : 0, Date.now())));
+  const stmt = db.prepare('INSERT OR REPLACE INTO ai (link, short_title, why, crime, money, created_at, impact) VALUES (?1,?2,?3,?4,?5,?6,?7)');
+  await db.batch(rows.map((r) => stmt.bind(r.link, r.title ?? null, r.why ?? null, r.crime ? 1 : 0, r.money ? 1 : 0, Date.now(), r.impact ?? null)));
 }
 
 export async function setMeta(k: string, v: string) {
