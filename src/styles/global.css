@@ -556,9 +556,9 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .railbox p { margin: 6px 0 8px; font-size: 15px; line-height: 1.4; }
 .railmore { display: inline-block; margin-top: 6px; font-size: 13px; font-weight: 700; }
 .wx3 { background: #fff7d1; border-color: var(--buzz); }
-.wxrow { display: flex; align-items: center; gap: 14px; }
-.wxrow b { font-family: var(--serif); font-size: 44px; line-height: 1; }
-.wxrow span { font-weight: 600; } .wxrow small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; margin-top: 2px; }
+.wxrow3 { display: flex; align-items: center; gap: 14px; }
+.wxrow3 b { font-family: var(--serif); font-size: 44px; line-height: 1; }
+.wxrow3 span { font-weight: 600; } .wxrow3 small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; margin-top: 2px; }
 .omg3 { background: #fff7d1; }
 .buckets { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 26px; }
 @media (min-width: 760px) { .buckets { grid-template-columns: 1fr 1fr; } }
