@@ -9,6 +9,7 @@ const sections: [string, string, [string, string][]][] = [
   ['News', '/news', [['Latest', '/news'], ['Government', '/news?tag=Government'], ['Neighborhoods', '/news?tag=Neighborhoods'], ['Business', '/news?tag=Business'], ['Tech', '/news?tag=Tech'], ['Weather', '/news?tag=Weather']]],
   ['Watch', '/watch', []],
   ['OMG!', '/omg', [['Latest', '/omg'], ['Good News', '/omg?tag=Good News'], ['Shout-Outs', '/omg?tag=Shout-Outs']]],
+  ['Money', '/money', []],
   ['To Do', '/to-do', [['This Weekend', '/to-do'], ['Live Music', '/to-do?tag=Live Music'], ['Food & Drink', '/to-do?tag=Food %26 Drink'], ['Family Fun', '/to-do?tag=Family Fun'], ['Free Stuff', '/to-do?tag=Free Stuff']]],
   ['About', '/about', [['About', '/about'], ['Contact', '/contact'], ['Sources', '/sources']]],
 ];
@@ -69,7 +70,7 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
             <p>Headlines are curated from trusted Austin-area publishers. Every story links directly to the original reporting.</p>
           </div>
           <div>
-            <h5>Explore</h5><ul><li><a href="/news">News</a></li><li><a href="/watch">Watch</a></li><li><a href="/omg">OMG!</a></li><li><a href="/to-do">To Do</a></li></ul>
+            <h5>Explore</h5><ul><li><a href="/news">News</a></li><li><a href="/watch">Watch</a></li><li><a href="/omg">OMG!</a></li><li><a href="/money">Money</a></li><li><a href="/to-do">To Do</a></li></ul>
             <h5 style="margin-top:18px">Mind the Marbles</h5><ul><li><a href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">Instagram</a></li></ul>
           </div>
           <div><h5>Sources</h5><ul>{footSources.map(([n, u]) => <li><a href={u} target="_blank" rel="noopener">{n} →</a></li>)}</ul><a href="/sources" class="more">View all sources →</a></div>

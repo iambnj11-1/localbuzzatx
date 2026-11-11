@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getStories } from '../lib/feeds';
+import { chipClass, chipLabel } from '../lib/chip';
+
+// Austin-linked public companies. Each links out to Google Finance; we don't show prices.
+const watch = [
+  { name: 'Tesla', sym: 'TSLA', ex: 'NASDAQ', note: 'Gigafactory Texas and company headquarters' },
+  { name: 'Dell Technologies', sym: 'DELL', ex: 'NYSE', note: 'Headquartered in Round Rock' },
+  { name: 'Apple', sym: 'AAPL', ex: 'NASDAQ', note: 'Large Austin campus' },
+  { name: 'Oracle', sym: 'ORCL', ex: 'NYSE', note: 'Austin-area offices' },
+  { name: 'Q2 Holdings', sym: 'QTWO', ex: 'NYSE', note: 'Austin-based banking software' },
+  { name: 'Bumble', sym: 'BMBL', ex: 'NASDAQ', note: 'Austin-based dating app' },
+];
+
+const moneyWords = /(layoff|laid off|hiring|jobs|raises|funding|investment|ipo|acquire|acquisition|expansion|headquarters|opens|plant|factory|campus|startup|earnings|stock|billion|million|tax|rent|housing|home prices|real estate|economy|employer)/i;
+const { stories } = await getStories();
+const pool = stories.filter((s) => s.category !== 'Watch' && s.category !== 'Events' && (['Business', 'Tech', 'Development'].includes(s.category) || moneyWords.test(s.title)));
+const lead = pool.find((s) => s.image) ?? pool[0];
+const rest = pool.filter((s) => s !== lead);
+const rail = rest.slice(0, 4);
+const more = rest.slice(4);
+const deals = more.filter((s) => /(funding|raises|investment|ipo|acquire|acquisition|earnings|stock|billion)/i.test(s.title));
+const jobs = more.filter((s) => !deals.includes(s) && /(layoff|laid off|hiring|jobs|employer)/i.test(s.title));
+const build = more.filter((s) => !deals.includes(s) && !jobs.includes(s) && /(expansion|headquarters|opens|plant|factory|campus|housing|real estate|rent|tower|apartment|construction)/i.test(s.title));
+const other = more.filter((s) => !deals.includes(s) && !jobs.includes(s) && !build.includes(s));
+const sections = [['Funding and deals', deals], ['Jobs and layoffs', jobs], ['Building and growth', build], ['More business and tech', other]] as const;
+---
+<Layout title="Money" current="Money">
+  <section class="page">
+    <div class="pagehead"><h2>Money</h2><span>Austin business, tech and growth</span></div>
+    <div class="moneycols">
+      <div class="moneymain">
+        {lead && (
+          <div class="seclead">
+            <article>
+              {lead.image && <img src={lead.image} alt="" referrerpolicy="no-referrer" />}
+              <div class="kicker"><span class={`chip ${chipClass(lead)}`}>{chipLabel(lead)}</span>Top money story</div>
+              <h3><a href={lead.link} target="_blank" rel="noopener">{lead.title}</a></h3>
+              <p>{lead.summary}</p>
+            </article>
+            <aside>
+              <h4>Just added</h4>
+              {rail.map((s) => (
+                <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div class={`ph chip ${chipClass(s)}`}>{s.source}</div>}<div><a href={s.link} target="_blank" rel="noopener">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
+              ))}
+            </aside>
+          </div>
+        )}
+        {sections.filter(([, items]) => items.length > 0).map(([name, items]) => (
+          <>
+            <h4 class="secrule">{name}</h4>
+            <div class="cards">
+              {items.map((s) => (
+                <div class="card">
+                  {s.image && <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" />}
+                  <span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span>
+                  <a href={s.link} target="_blank" rel="noopener">{s.title}</a>
+                </div>
+              ))}
+            </div>
+          </>
+        ))}
+        {!pool.length && <p>Money stories will show up here soon.</p>}
+      </div>
+      <aside class="moneyside">
+        <div class="wl">
+          <h4>Austin watchlist</h4>
+          {watch.map((w) => (
+            <a class="wlrow" href={`https://www.google.com/finance/quote/${w.sym}:${w.ex}`} target="_blank" rel="noopener">
+              <span><b>{w.name}</b><small>{w.note}</small></span>
+              <em>{w.sym} →</em>
+            </a>
+          ))}
+          <p class="wlnote">Links open Google Finance. Local Buzz ATX doesn't show prices, and nothing here is financial advice.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Layout>
