@@ -7,6 +7,7 @@ export const goodNews = [
   { head: 'Youth soccer team wins the season finale', blurb: 'A sample item showing how a sports shout-out would look.' },
 ];
 export const shoutouts = [
+  { who: 'Happy belated birthday, De\u2019driana!', note: 'October 29th. Wishing you a great year ahead.', kind: 'Birthday', real: true },
   { who: 'Sample Name', note: 'Happy birthday! From everyone who loves you.', kind: 'Birthday' },
   { who: 'Sample Name', note: 'Congrats on the new job!', kind: 'Congrats' },
   { who: 'Sample Name', note: 'Thank you for 20 years of teaching.', kind: 'Thank you' },

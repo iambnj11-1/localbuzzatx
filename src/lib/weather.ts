@@ -46,3 +46,24 @@ export async function getWeather(): Promise<Weather | null> {
   if (value) cache = { at: Date.now(), value };
   return value;
 }
+
+export type Day = { name: string; temp: number; unit: string; short: string; detail: string; wind: string; rain: number | null };
+let fcache: { at: number; value: { days: Day[]; alerts: string[] } | null } | null = null;
+export async function getForecast(): Promise<{ days: Day[]; alerts: string[] } | null> {
+  if (fcache && Date.now() - fcache.at < TTL_MS) return fcache.value;
+  let value: { days: Day[]; alerts: string[] } | null = null;
+  try {
+    const point = await getJson(`https://api.weather.gov/points/${POINT}`);
+    const url = point?.properties?.forecast;
+    const [fc, alerts] = await Promise.all([url ? getJson(url) : null, getJson(`https://api.weather.gov/alerts/active?point=${POINT}`)]);
+    const periods = fc?.properties?.periods;
+    if (Array.isArray(periods) && periods.length) {
+      value = {
+        days: periods.slice(0, 8).map((p: any) => ({ name: String(p.name), temp: p.temperature, unit: p.temperatureUnit ?? 'F', short: String(p.shortForecast ?? ''), detail: String(p.detailedForecast ?? ''), wind: `${p.windSpeed ?? ''} ${p.windDirection ?? ''}`.trim(), rain: p.probabilityOfPrecipitation?.value ?? null })),
+        alerts: (alerts?.features ?? []).map((a: any) => String(a?.properties?.headline ?? '')).filter(Boolean).slice(0, 5),
+      };
+    }
+  } catch { value = null; }
+  if (value) fcache = { at: Date.now(), value };
+  return value;
+}

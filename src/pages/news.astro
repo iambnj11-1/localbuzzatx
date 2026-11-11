@@ -2,10 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
+import { getForecast } from '../lib/weather';
 const tags = ['News', 'Neighborhoods', 'Government', 'Development', 'Business', 'Tech', 'Weather'];
 const tag = Astro.url.searchParams.get('tag');
 const all = (await getStories()).stories.filter((s) => s.category !== 'Watch' && s.category !== 'Events');
 const stories = (tag && tags.includes(tag) ? all.filter((s) => s.category === tag) : all).slice(0, 40);
+const forecast = tag === 'Weather' ? await getForecast() : null;
 const lead = stories.find((s) => s.image) ?? stories[0];
 const rest = stories.filter((s) => s !== lead);
 const rail = rest.slice(0, 4);
@@ -19,6 +21,20 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
       <a href="/news" class={!tag ? 'on' : ''}>All</a>
       {tags.map((t) => <a href={`/news?tag=${t}`} class={tag === t ? 'on' : ''}>{t}</a>)}
     </div>
+    {tag === 'Weather' && (
+      <div class="wxpage">
+        {forecast?.alerts?.length ? <div class="alertbar"><b>Weather alerts:</b> {forecast.alerts.join(' · ')}</div> : null}
+        {forecast ? (
+          <div class="wxgrid">
+            {forecast.days.map((d) => (
+              <div class="wxday"><b>{d.name}</b><span class="wxt">{d.temp}°{d.unit}</span><span>{d.short}</span><small>Wind {d.wind}{d.rain != null ? ` · Rain ${d.rain}%` : ''}</small></div>
+            ))}
+          </div>
+        ) : <p>The forecast is not loading right now. Try the National Weather Service below.</p>}
+        <p class="wxlinks"><b>Hauling or traveling?</b> Check conditions where you are going: <a href="https://www.weather.gov" target="_blank" rel="noopener">National Weather Service (any city)</a> · <a href="https://drivetexas.org" target="_blank" rel="noopener">DriveTexas road conditions</a> · <a href="https://forecast.weather.gov/MapClick.php?lat=30.2672&lon=-97.7431" target="_blank" rel="noopener">Austin forecast details</a></p>
+        <small>Forecast from the National Weather Service for Austin.</small>
+      </div>
+    )}
     {lead && (
       <div class="seclead">
         <article>

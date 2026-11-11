@@ -250,3 +250,10 @@ footer.site { margin-top: 20px; }
 .post.mtm .mtmsub { font-family: var(--serif); font-weight: 700; font-size: 20px; line-height: 1.3; }
 .post.mtm .mtmh { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; margin: 22px 0 8px; color: var(--accent); }
 .post.mtm .mtmbox { background: #fff3cc; border-left: 4px solid var(--buzz); padding: 12px 14px; font-family: var(--serif); font-weight: 900; font-size: 20px; line-height: 1.3; }
+
+.wxgrid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); margin: 12px 0 18px; }
+.wxday { border: 1px solid #bdbab0; background: #fff; padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+.wxday b { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.wxday .wxt { font-family: var(--serif); font-weight: 900; font-size: 28px; }
+.wxday small { color: var(--muted); }
+.wxlinks { font-size: 15px; }

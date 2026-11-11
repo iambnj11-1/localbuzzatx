@@ -119,6 +119,7 @@ async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
 export type FeedReport = { source: string; area?: string; url: string; status: string; count: number; ms: number; note?: string };
 export let lastReport: FeedReport[] = [];
 
+const lastGood = new Map<string, Story[]>();
 let cache: { at: number; value: { stories: Story[]; sources: string[] } } | null = null;
 const TTL_MS = 10 * 60 * 1000;
 
@@ -176,7 +177,13 @@ export async function getStories(force = false): Promise<{ stories: Story[]; sou
   const techUrl = typeof process !== 'undefined' ? process.env?.ABJ_TECH_FEED : undefined;
   const bizUrl = typeof process !== 'undefined' ? process.env?.ABJ_BUSINESS_FEED : undefined;
   const feedList = [...FEEDS, ...(techUrl ? [{ source: 'Austin Business Journal', category: 'Tech', url: techUrl }] : []), ...(bizUrl ? [{ source: 'Austin Business Journal', category: 'Business', url: bizUrl }] : [])];
-  const results = await Promise.all(feedList.map(loadFeed));
+  const fresh = await Promise.all(feedList.map(loadFeed));
+  // If a feed fails or comes back empty this time, keep showing its last good stories instead of leaving a hole.
+  const results = fresh.map((r, i) => {
+    const key = `${feedList[i].source}|${feedList[i].url}`;
+    if (r.length > 0) { lastGood.set(key, r); return r; }
+    return lastGood.get(key) ?? [];
+  });
   const seen = new Set<string>();
   const stories = results
     .flat()

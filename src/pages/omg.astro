@@ -18,7 +18,7 @@ const tag = Astro.url.searchParams.get('tag');
       <div class="omgcols">
         <div class="posts">
           {tag === 'Good News' && goodNews.map((g) => (<article class="post"><div class="kicker">Good News · Sample</div><h3>{g.head}</h3><p>{g.blurb}</p></article>))}
-          {tag === 'Shout-Outs' && shoutouts.map((g) => (<article class="post"><div class="kicker">{g.kind} · Sample</div><h3>{g.who}</h3><p>{g.note}</p></article>))}
+          {tag === 'Shout-Outs' && shoutouts.map((g) => (<article class="post"><div class="kicker">{g.kind}{(g as any).real ? '' : ' · Sample'}</div><h3>{g.who}</h3><p>{g.note}</p></article>))}
         </div>
         <aside class="omgside">
           <div class="sendbox"><b>Got one to share?</b> {tag === 'Good News' ? 'Tell us the good news happening in your corner of Austin.' : 'Birthdays, congrats, thank-yous and anniversaries.'} <a href="/contact">Send it in →</a></div>
