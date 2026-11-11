@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getStories } from '../lib/feeds';
+import { bySignal, isSoft } from '../lib/impact';
+const all = await getStories();
+const heavy = /(sexual|abuse|murder|killed|shot|shooting|stabb|arrest|sentenced|dead|death|crash|rape|assault|kidnap|molest|fatal|suspect|police|child|children)/i;
+const pick = (list: typeof all.stories, n: number, perSource = 3) => {
+  const c: Record<string, number> = {};
+  return list.filter((s) => (c[s.source] = (c[s.source] ?? 0) + 1) <= perSource).slice(0, n);
+};
+// Caleb: the stories most worth explaining. Local news, business, tech, development. No crime, no soft fluff.
+const calebPool = all.stories
+  .filter((s) => !['Watch', 'Busted', 'National', 'Entertainment'].includes(s.category) && !heavy.test(`${s.title} ${s.summary}`) && !isSoft(s))
+  .sort(bySignal);
+const caleb = pick(calebPool, 20);
+// Tori: entertainment only, newest first.
+const toriPool = all.stories.filter((s) => s.category === 'Entertainment').sort((a, b) => b.date.getTime() - a.date.getTime());
+const tori = pick(toriPool, 20, 6);
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'America/Chicago' });
+---
+<Layout title="Review preview" current="">
+  <section class="page">
+    <p class="art-sample">Private review page. Not linked anywhere. Pulls live from the database.</p>
+    <div class="pagehead"><h2>Caleb: {caleb.length} to review</h2><span>Top stories worth explaining</span></div>
+    <ol class="revlist">
+      {caleb.map((s) => (
+        <li>
+          <a href={s.link} target="_blank" rel="noopener"><b>{s.title}</b></a>
+          <small>{s.source} · {s.category} · {fmt(s.date)}</small>
+          {s.why ? <p class="revwhy"><i>AI why:</i> {s.why}</p> : <p class="revwhy"><i>No AI why yet.</i></p>}
+          {s.summary && <p class="revsum">{s.summary.slice(0, 220)}</p>}
+        </li>
+      ))}
+    </ol>
+    <div class="pagehead"><h2>Tori: {tori.length} to review</h2><span>Entertainment, newest first</span></div>
+    {tori.length === 0 && <p>No Entertainment stories in the database yet. The feeds were added recently, so wait for the next refresh, then reload.</p>}
+    <ol class="revlist">
+      {tori.map((s) => (
+        <li>
+          <a href={s.link} target="_blank" rel="noopener"><b>{s.title}</b></a>
+          <small>{s.source} · {fmt(s.date)}</small>
+          {s.summary && <p class="revsum">{s.summary.slice(0, 220)}</p>}
+        </li>
+      ))}
+    </ol>
+  </section>
+</Layout>

@@ -589,3 +589,7 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .thumbul li > div { min-width: 0; } .whyline { display: block; color: var(--muted); font-weight: 400; font-size: 13px; margin-top: 2px; line-height: 1.35; }
 .bk-y .thumbimg { border-left: 4px solid var(--buzz); } .bk-k .thumbimg { border-left: 4px solid var(--ink); }
 .bkdot-y { background: var(--buzz); }
+.revlist { padding-left: 22px; margin: 8px 0 28px; }
+.revlist li { padding: 12px 0; border-bottom: 1px solid var(--line, #ddd); }
+.revlist li small { display: block; color: var(--muted); margin: 2px 0 4px; }
+.revwhy { margin: 4px 0; font-size: 14px; } .revsum { margin: 4px 0; font-size: 14px; color: var(--muted); }
