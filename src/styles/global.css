@@ -498,3 +498,22 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .art-author { display: flex; gap: 14px; align-items: flex-start; padding: 18px; margin-top: 22px; border: 1px solid var(--rule); background: #fff; }
 .art-author p { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
 .art-more ul { padding-left: 18px; font-size: 16px; }
+.art-av-t { background: var(--accent); color: #fff; }
+.colcards { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 0 0 34px; }
+@media (min-width: 700px) { .colcards { grid-template-columns: 1fr 1fr; } }
+.colcard { display: flex; gap: 14px; align-items: flex-start; padding: 16px; border: 1px solid var(--rule); background: #fff; text-decoration: none; }
+.colcard b { font-family: var(--serif); font-size: 24px; display: block; margin: 2px 0; }
+.colcard p { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+.fitgrid { display: grid; grid-template-columns: 1fr; gap: 28px; }
+@media (min-width: 860px) { .fitgrid { grid-template-columns: 1fr 300px; } }
+.fitimg { height: 220px; background: repeating-linear-gradient(45deg, #f1ede0, #f1ede0 10px, #ece7d6 10px, #ece7d6 20px); display: grid; place-items: center; font-size: 12px; color: var(--muted); margin-bottom: 14px; border: 1px solid #ddd6c3; }
+.fith { font-family: var(--serif); font-weight: 900; font-size: clamp(26px, 5vw, 36px); line-height: 1.1; margin: 8px 0 10px; }
+.fitdisc { font-size: 13px; background: #fff7d1; border-left: 5px solid var(--buzz); padding: 10px 12px; margin: 14px 0; }
+.fitpicks { list-style: none; padding: 0; margin: 0 0 10px; }
+.fitpicks li { display: flex; gap: 12px; padding: 12px 0; border-top: 1px solid #ddd6c3; }
+.fitpicks b { display: block; font-size: 16px; } .fitpicks small { color: var(--muted); font-size: 13px; }
+.fitthumb { flex: none; width: 64px; height: 64px; background: #ece7d6; border: 1px solid #ddd6c3; }
+.aitag { font-size: 12px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 10px; }
+.fitlist { list-style: none; padding: 0; margin: 12px 0 18px; }
+.fitlist li { padding: 10px 0; border-top: 1px solid #ddd6c3; }
+.fitlist a { font-weight: 600; font-size: 15px; line-height: 1.3; } .fitlist small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }

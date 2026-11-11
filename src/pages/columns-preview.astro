@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AdRow from '../components/AdRow.astro';
+---
+<Layout title="Columns preview" current="">
+  <section class="page">
+    <p class="art-sample">Design preview with sample text and a placeholder name. Not live.</p>
+    <div class="pagehead"><h2>Our columnists</h2><span>Two voices, one Austin</span></div>
+    <div class="colcards">
+      <a class="colcard" href="#caleb">
+        <img class="art-av art-av-lg" src="/authors/caleb.jpg" alt="Illustration of Caleb" width="56" height="56" />
+        <div><div class="lplabel">What's Really Going On?</div><b>Caleb</b><p>Connects Austin news to your money, your tech and your everyday life.</p></div>
+      </a>
+      <a class="colcard" href="#fit">
+        <span class="art-av art-av-lg art-av-t" aria-hidden="true">T</span>
+        <div><div class="lplabel">Fit Check</div><b>Tori</b><p>Style, pop culture and what Austin is wearing. Picks you can actually shop.</p></div>
+      </a>
+    </div>
+
+    <div class="pagehead" id="fit"><h2>Fit Check</h2><span>by Tori · style and pop culture</span></div>
+    <div class="fitgrid">
+      <article class="fitlead">
+        <div class="fitimg"><span>Photo or outfit collage</span></div>
+        <div class="art-kicker"><a href="#fit">Fit Check</a><span>Fall style</span></div>
+        <h3 class="fith">Three layers that make an Austin fall morning work</h3>
+        <p class="art-dek">Cool at 7, warm by 2. Here is how to dress for both without carrying a coat all day.</p>
+        <div class="art-by"><span class="art-av art-av-t" aria-hidden="true">T</span><span><b>By Tori</b><small>Local Buzz ATX · Nov 11, 2026 · 3 min read</small></span></div>
+        <p class="fitdisc"><b>Heads up:</b> some links below are affiliate links, so we may earn a commission at no cost to you. These are picks, not products we have tested.</p>
+        <ul class="fitpicks">
+          <li><span class="fitthumb"></span><div><b>Pick 1: the light jacket</b><small>Why it works, in one line. <a href="#fit">Shop it →</a></small></div></li>
+          <li><span class="fitthumb"></span><div><b>Pick 2: the layering tee</b><small>Why it works, in one line. <a href="#fit">Shop it →</a></small></div></li>
+          <li><span class="fitthumb"></span><div><b>Pick 3: the easy sneaker</b><small>Why it works, in one line. <a href="#fit">Shop it →</a></small></div></li>
+        </ul>
+        <p class="aitag">AI-assisted column by Tori, a pen name. Based on public information. <a href="/about">About the columns</a></p>
+      </article>
+      <aside class="fitside">
+        <div class="sendbox"><b>More from Fit Check</b></div>
+        <ul class="fitlist">
+          <li><a href="#fit">Birthdays this week: who is turning a year older</a><small>Pop culture · 2 min</small></li>
+          <li><a href="#fit">What people wore to this weekend's Austin shows</a><small>Style · 3 min</small></li>
+          <li><a href="#fit">The one sneaker color everyone is wearing</a><small>Picks · 2 min</small></li>
+          <li><a href="#fit">Cheap Austin date-night outfits</a><small>Picks · 3 min</small></li>
+        </ul>
+        <div class="sponsor"><div class="label">Ad</div><b>Your business here</b><a href="/advertise">Advertise with us</a></div>
+      </aside>
+    </div>
+    <AdRow />
+  </section>
+</Layout>
