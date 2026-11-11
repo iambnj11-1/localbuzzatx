@@ -31,17 +31,19 @@ const buckets = [
       <div class="railbox"><div class="lplabel">Latest</div>
         <ul class="miniul">{latest.map((l) => (<li><small>{l[0]}</small><a href="/news">{l[1]}</a></li>))}</ul>
         <a class="railmore" href="/news">All news →</a></div>
-      <div class="railbox omg3"><div class="lplabel">OMG!</div><p><b>Austin is wild:</b> a sample one-line take goes here.</p><a class="railmore" href="/omg">More OMG! →</a></div>
-      <div class="railbox"><div class="lplabel">Community shout-out</div><p>Happy birthday, ___! A sample shout-out goes here.</p><a class="railmore" href="/shout-out">Send one →</a></div>
+      <div class="railbox omg3"><div class="lplabel">Around Austin</div>
+        <p><b>OMG!</b> A sample one-line take goes here.</p>
+        <p><b>Shout-out:</b> Happy birthday, ___! A sample shout-out.</p>
+        <a class="railmore" href="/omg">More OMG! →</a> <a class="railmore" href="/shout-out">Send a shout-out →</a></div>
     </aside>
   </section>
 
   <section class="meetbuzz">
     <div class="pagehead"><h2>Meet the Buzz</h2><span>Pick your lane</span></div>
     <div class="mbcards">
-      <a class="mbcard mb-y" href="/columns-preview"><img src="/authors/caleb.jpg" alt="Caleb" width="96" height="96" /><div class="lplabel">Why It Matters</div><b>Caleb</b><p>Here's why you should actually care.</p></a>
-      <a class="mbcard mb-r" href="/columns-preview"><img src="/authors/tori.jpg" alt="Tori" width="96" height="96" /><div class="lplabel">Quick Tea</div><b>Tori</b><p>Five things everyone's talking about.</p></a>
-      <a class="mbcard mb-t" href="/columns-preview"><img src="/authors/sunny.jpg" alt="Sunny D" width="96" height="96" /><div class="lplabel">Buzzing</div><b>Sunny D</b><p>What's hot right now and what's worth your time.</p></a>
+      <a class="mbcard mb-y" href="/columns-preview"><img src="/authors/caleb.jpg" alt="Caleb" width="64" height="64" /><div class="lplabel">Why It Matters</div><span class="mbtxt"><b>Caleb</b><p>Why you should care.</p></span></a>
+      <a class="mbcard mb-r" href="/columns-preview"><img src="/authors/tori.jpg" alt="Tori" width="64" height="64" /><div class="lplabel">Quick Tea</div><span class="mbtxt"><b>Tori</b><p>What everyone's talking about.</p></span></a>
+      <a class="mbcard mb-t" href="/columns-preview"><img src="/authors/sunny.jpg" alt="Sunny D" width="64" height="64" /><div class="lplabel">Buzzing</div><span class="mbtxt"><b>Sunny D</b><p>What's hot right now.</p></span></a>
     </div>
   </section>
 
@@ -49,7 +51,7 @@ const buckets = [
     {buckets.map((b) => (
       <section class={`bucket bk-${b.key}`}>
         <div class="bkhead">{b.img ? <img src={b.img} alt={b.who} width="36" height="36" /> : <span class="bkdot"></span>}<h3>{b.name}</h3>{b.who && <small>{b.who}</small>}</div>
-        <ul class="miniul">{b.items.map((t) => (<li><a href="/news">{t}</a></li>))}</ul>
+        <ul class="thumbul">{b.items.map((t) => (<li><span class="thumb"></span><a href="/news">{t}</a></li>))}</ul>
         <a class="railmore" href="/columns-preview">{b.more} →</a>
       </section>
     ))}
@@ -57,9 +59,5 @@ const buckets = [
 
   <AdRow />
 
-  <div class="lpband">
-    <div class="lplabel">Newsletter</div><b>The Morning Buzz</b>
-    <p>The hottest Austin news in your inbox every morning. Launching soon.</p>
-    <a class="adstrip-btn" href="/morning-buzz">Join the list →</a>
-  </div>
+  <div class="nlbar"><div><b>The Morning Buzz</b><span>The hottest Austin news in your inbox every morning. Launching soon.</span></div><a class="adstrip-btn" href="/morning-buzz">Join the list →</a></div>
 </Layout>
