@@ -7,6 +7,9 @@
   "main": "dist/_worker.js/index.js",
   "compatibility_date": "2026-11-01",
   "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    { "binding": "DB", "database_name": "localbuzzatx", "database_id": "6b9f44e0-cc59-423d-8fc8-ee1754a4c136" }
+  ],
   "assets": {
     "binding": "ASSETS",
     "directory": "./dist"
