@@ -6,8 +6,8 @@ const maxD = Math.max(1, ...(c?.districts.map((t) => t.n) ?? [1]));
 const fmt = (n: number) => n.toLocaleString('en-US');
 ---
 {c && (
-  <div class="crime">
-    <h4>Crime in Austin · last {c.days} days</h4>
+  <details class="crime">
+    <summary>Crime in Austin · last {c.days} days <em>Tap to see the numbers</em></summary>
     <p class="crimesub">Most common reported incident types</p>
     {c.types.map((t) => (
       <div class="cbar"><span class="cl">{t.name}</span><span class="cb"><i style={`width:${Math.round((t.n / maxT) * 100)}%`}></i></span><b>{fmt(t.n)}</b></div>
@@ -19,5 +19,5 @@ const fmt = (n: number) => n.toLocaleString('en-US');
       ))}</div>
     </>)}
     <p class="crimenote">Counts of incidents Austin police wrote a report on, from the <a href="https://data.austintexas.gov/d/fdj4-gpfu" target="_blank" rel="noopener">City of Austin open data portal</a>. A report is not a conviction. The portal updates weekly, so the newest days may be incomplete, and counts can differ from official police statistics.</p>
-  </div>
+  </details>
 )}

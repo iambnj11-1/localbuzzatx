@@ -307,7 +307,17 @@ footer.site { margin-top: 20px; }
 
 /* Crime box */
 .crime { border: 1px solid #e3e0d6; background: #fff; padding: 14px 16px; margin: 0 0 22px; }
-.crime h4 { margin: 0 0 4px; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+.crime { margin: 26px 0 0; }
+.crime summary { cursor: pointer; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.crime summary em { display: block; font-style: normal; font-weight: 400; letter-spacing: 0; text-transform: none; font-size: 12px; color: #666; margin-top: 2px; }
+.crime[open] summary { margin-bottom: 4px; }
+.crimeline { font-size: 13px; color: #666; margin: -6px 0 16px; }
+@media (max-width: 600px) {
+  .tags { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin: 10px -20px 14px; padding: 0 20px; }
+  .tags::-webkit-scrollbar { display: none; }
+  .tags a { white-space: nowrap; flex: 0 0 auto; }
+  .cbar { grid-template-columns: 110px 1fr 48px; }
+}
 .crimesub { font-size: 12px; color: #666; margin: 12px 0 6px; }
 .cbar { display: grid; grid-template-columns: 150px 1fr 56px; align-items: center; gap: 8px; font-size: 13px; padding: 3px 0; }
 .cbar b { text-align: right; font-size: 13px; }

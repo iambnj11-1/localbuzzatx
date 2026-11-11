@@ -27,8 +27,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
       <a href="/news" class={!tag ? 'on' : ''}>All</a>
       {tags.map((t) => <a href={`/news?tag=${t}`} class={tag === t ? 'on' : ''}>{label(t)}</a>)}
     </div>
-    {tag === 'Busted' && <div class="sendbox"><b>Crime and courts.</b> Reported by Austin outlets. Each story links to the original report. An arrest is not a conviction.</div>}
-    {tag === 'Busted' && <CrimeBox />}
+    {tag === 'Busted' && <p class="crimeline">Reported by Austin outlets. An arrest is not a conviction.</p>}
     {tag === 'Weather' && (
       <div class="wxpage">
         {forecast?.alerts?.length ? <div class="alertbar"><b>Weather alerts:</b> {forecast.alerts.join(' · ')}</div> : null}
@@ -80,5 +79,6 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
       ))}
     </div>
     {!stories.length && <p>Stories will show up here soon.</p>}
+    {tag === 'Busted' && <CrimeBox />}
   </section>
 </Layout>
