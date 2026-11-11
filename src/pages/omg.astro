@@ -6,7 +6,7 @@ import { getStories } from '../lib/feeds';
 import { withStory } from '../lib/omg';
 import { chipClass, chipLabel } from '../lib/chip';
 import { goodNews, shoutouts } from '../lib/community';
-const stories = (await getStories()).stories.filter((s) => s.category !== 'Busted' && s.category !== 'National');
+const stories = (await getStories()).stories.filter((s) => s.category !== 'Busted' && s.category !== 'National' && s.category !== 'Entertainment');
 const all = withStory(stories);
 const calm = /(crash|shoot|kill|dead|death|arrest|murder|fatal|police|suspect|stabb|assault|victim)/i;
 const newsPicks = stories.filter((s) => (s.category === 'News' || s.category === 'Government') && !calm.test(`${s.title} ${s.summary}`)).slice(0, 3);

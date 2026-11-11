@@ -12,7 +12,7 @@ import TechEventsAd from '../components/TechEventsAd.astro';
 const all = await getStories();
 const heavy = /(sexual|abuse|murder|killed|shot|shooting|stabb|arrest|sentenced|dead|death|crash|rape|assault|kidnap|molest|fatal|suspect|police|child|children)/i;
 // Homepage skips crime and tragedy stories. They still appear on the News page.
-const stories = all.stories.filter((s) => s.category !== 'Watch' && s.category !== 'Busted' && s.category !== 'National' && !heavy.test(s.title) && !heavy.test(s.summary));
+const stories = all.stories.filter((s) => s.category !== 'Watch' && s.category !== 'Busted' && s.category !== 'National' && s.category !== 'Entertainment' && !heavy.test(s.title) && !heavy.test(s.summary));
 const sources = all.sources;
 const videos = all.stories.filter((s) => s.category === 'Watch' && s.videoId).slice(0, 3);
 const friendly = stories.filter((s) => !heavy.test(s.title) && !heavy.test(s.summary));
@@ -32,17 +32,17 @@ const noPic = rest.filter((s) => !s.image).slice(0, 1);
 // Latest always carries one story each from Crime and Money, plus an OMG! take last (with its own picture tile).
 const veryHeavy = /(sexual|abuse|rape|molest|child|children|kidnap|murder|homicide|killed|fatal|dead|death|stabb)/i;
 const moneyOK = (x: (typeof stories)[number]) => ['Business', 'Tech', 'Development'].includes(x.category) || x.money === true;
-const crimePick = all.stories.filter((x) => (x.category === 'Busted' || x.crime === true) && x.category !== 'National' && x.category !== 'Watch' && !veryHeavy.test(`${x.title} ${x.summary}`)).sort(bySignal)[0];
+const crimePick = all.stories.filter((x) => (x.category === 'Busted' || x.crime === true) && x.category !== 'National' && x.category !== 'Entertainment' && x.category !== 'Watch' && !veryHeavy.test(`${x.title} ${x.summary}`)).sort(bySignal)[0];
 const moneyPick = stories.filter((x) => moneyOK(x) && !tops.includes(x)).sort(bySignal)[0];
 const newsPick = withPhoto.find((x) => x !== moneyPick);
 const latest = [newsPick, crimePick, moneyPick].filter(Boolean) as typeof stories;
 for (const x of withPhoto) { if (latest.length >= 3) break; if (!latest.includes(x)) latest.push(x); }
-const omgAll = withStory(all.stories.filter((x) => x.category !== 'Watch' && x.category !== 'National'));
+const omgAll = withStory(all.stories.filter((x) => x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment'));
 const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
 const pick = (cat: string) => stories.filter((s) => s.category === cat && s !== top).slice(0, 4);
 const newsItems = pick('News').slice(0, 4);
 const events = pick('Events').slice(0, 4);
-const takes = withStory(all.stories.filter((s) => s.category !== 'Watch' && s.category !== 'National')).filter((r) => r.link || true).slice(0, 2);
+const takes = withStory(all.stories.filter((s) => s.category !== 'Watch' && s.category !== 'National' && s.category !== 'Entertainment')).filter((r) => r.link || true).slice(0, 2);
 const gov = pick('Government').slice(0, 3);
 // Development: mix big-outlet stories about building and growth (KXAN, KVUE, Austin Monitor) with TOWERS, photos first.
 const devWords = /(develop|construction|zoning|housing|apartment|high-?rise|tower|rezon|permit|site plan|mixed-use|redevelop|downtown|real estate|affordable|land use|planning commission|project|transit|rail|building)/i;
