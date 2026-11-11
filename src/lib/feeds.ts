@@ -75,8 +75,9 @@ async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
   const alts: string[] = (feed as any).alts ?? [];
   // YouTube's public feed often refuses requests from servers. With a YOUTUBE_API_KEY secret set, use YouTube's official API instead.
   const channel = feed.url.match(/channel_id=(UC[\w-]+)/)?.[1];
-  if (channel && getEnv('YOUTUBE_API_KEY')) {
-    const viaApi = await loadYouTube(feed, channel, getEnv('YOUTUBE_API_KEY')!);
+  const ytKey = getEnv('YOUTUBE_API_KEY') ?? getEnv('Youtube_API_KEY');
+  if (channel && ytKey) {
+    const viaApi = await loadYouTube(feed, channel, ytKey);
     if (viaApi.length) return viaApi;
   }
   for (const url of [feed.url, ...alts]) {
