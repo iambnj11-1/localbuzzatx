@@ -1,5 +1,5 @@
 import { XMLParser } from 'fast-xml-parser';
-import { getDb, readStories, saveStories, runInBackground } from './store';
+import { getDb, getEnv, readStories, saveStories, runInBackground } from './store';
 
 export type Story = {
   source: string;
@@ -73,11 +73,42 @@ const text = (v: any): string => (typeof v === 'object' && v !== null ? String(v
 async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
   // Try the main address, then any backup addresses, until one returns stories.
   const alts: string[] = (feed as any).alts ?? [];
+  // YouTube's public feed often refuses requests from servers. With a YOUTUBE_API_KEY secret set, use YouTube's official API instead.
+  const channel = feed.url.match(/channel_id=(UC[\w-]+)/)?.[1];
+  if (channel && getEnv('YOUTUBE_API_KEY')) {
+    const viaApi = await loadYouTube(feed, channel, getEnv('YOUTUBE_API_KEY')!);
+    if (viaApi.length) return viaApi;
+  }
   for (const url of [feed.url, ...alts]) {
     const out = await loadOne({ ...feed, url });
     if (out.length) return out;
   }
   return [];
+}
+
+async function loadYouTube(feed: (typeof FEEDS)[number], channel: string, key: string): Promise<Story[]> {
+  const started = Date.now();
+  const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=15&playlistId=UU${channel.slice(2)}&key=${key}`;
+  const shown = url.replace(key, '(key)');
+  const c = new AbortController();
+  const t = setTimeout(() => c.abort(), 8000);
+  let status = 'error';
+  try {
+    const res = await fetch(url, { signal: c.signal });
+    status = String(res.status);
+    const j: any = res.ok ? await res.json() : null;
+    const out: Story[] = (j?.items ?? []).map((it: any): Story | null => {
+      const sn = it?.snippet;
+      const id = sn?.resourceId?.videoId;
+      if (!id || !sn?.title || /^(private|deleted) video$/i.test(sn.title)) return null;
+      return { source: feed.source, category: feed.category, title: clean(sn.title, 160), link: `https://www.youtube.com/watch?v=${id}`, summary: clean(sn.description), videoId: id, image: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`, date: new Date(sn.publishedAt ?? 0) };
+    }).filter((s: Story | null): s is Story => s !== null);
+    lastReport.push({ source: `${feed.source} (YouTube API)`, url: shown, status, count: out.length, ms: Date.now() - started });
+    return out;
+  } catch (e) {
+    lastReport.push({ source: `${feed.source} (YouTube API)`, url: shown, status: e instanceof Error ? e.name : 'error', count: 0, ms: Date.now() - started });
+    return [];
+  } finally { clearTimeout(t); }
 }
 
 async function loadOne(feed: (typeof FEEDS)[number]): Promise<Story[]> {

@@ -4,6 +4,7 @@ import type { Story } from './feeds';
 // falls back to reading feeds live, so nothing breaks.
 let runtime: any = null;
 export const setRuntime = (r: any) => { runtime = r; };
+export const getEnv = (name: string): string | undefined => runtime?.env?.[name] ?? (typeof process !== 'undefined' ? process.env?.[name] : undefined);
 export const getDb = (): any => runtime?.env?.DB ?? null;
 export const runInBackground = (p: Promise<unknown>) => {
   try { runtime?.ctx?.waitUntil?.(p); } catch { /* ignore */ }
