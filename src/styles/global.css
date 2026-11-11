@@ -481,7 +481,7 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .art-by { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--rule); }
 .art-by b { display: block; font-size: 14px; }
 .art-by small { color: var(--muted); font-size: 12px; }
-.art-av { flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--buzz); display: grid; place-items: center; font-family: var(--serif); font-weight: 900; font-size: 20px; }
+.art-av { flex: none; object-fit: cover; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--buzz); display: grid; place-items: center; font-family: var(--serif); font-weight: 900; font-size: 20px; }
 .art-av-lg { width: 56px; height: 56px; font-size: 28px; }
 .art-share { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 0 14px; border-bottom: 1px solid var(--rule); }
 .art-share a, .art-sbtn { font: inherit; font-size: 12px; font-weight: 600; text-decoration: none; padding: 5px 11px; border: 1px solid var(--ink); border-radius: 999px; background: transparent; color: var(--ink); cursor: pointer; }
