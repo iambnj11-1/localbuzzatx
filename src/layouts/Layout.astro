@@ -4,7 +4,7 @@ const home: Record<string, string> = { 'City of Austin': 'https://www.austintexa
 const footSources = [...new Set([...FEEDS, ...PAGES].map((f) => f.source))].map((n) => [n, home[n] ?? '/sources'] as [string, string]);
 import '../styles/global.css';
 import { getWeather } from '../lib/weather';
-const { title = 'Local Buzz ATX', current = '' } = Astro.props;
+const { title = 'Local Buzz ATX', current = '', navV2 = false } = Astro.props;
 const sections: [string, string, [string, string][]][] = [
   ['News', '/news', [['Latest', '/news'], ['Government', '/news?tag=Government'], ['Neighborhoods', '/news?tag=Neighborhoods'], ['Business', '/news?tag=Business'], ['Tech', '/news?tag=Tech'], ['Crime', '/news?tag=Busted'], ['Weather', '/news?tag=Weather']]],
   ['Watch', '/watch', []],
@@ -13,6 +13,14 @@ const sections: [string, string, [string, string][]][] = [
   ['To Do', '/to-do', [['This Weekend', '/to-do'], ['Live Music', '/to-do?tag=Live Music'], ['Food & Drink', '/to-do?tag=Food %26 Drink'], ['Family Fun', '/to-do?tag=Family Fun'], ['Free Stuff', '/to-do?tag=Free Stuff']]],
   ['About', '/about', [['About', '/about'], ['Contact', '/contact'], ['Sources', '/sources']]],
 ];
+const sectionsV2: [string, string, [string, string][]][] = [
+  sections[0], sections[1], sections[2],
+  ['Business', '/money', []],
+  sections[4],
+  ['Community', '/shout-out', [['Shout-Outs', '/shout-out'], ['Good News', '/omg?tag=Good News']]],
+  sections[5],
+];
+const navSections = navV2 ? sectionsV2 : sections;
 const weather = await getWeather();
 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Chicago' });
 ---
@@ -51,7 +59,7 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
       <nav class="sections" id="stickynav" aria-label="Sections">
         <a class="minilogo" href="/" aria-label="Local Buzz ATX home">Local Buzz ATX<span>.</span></a>
         <ul>
-          {sections.map(([label, href, kids]) => (
+          {navSections.map(([label, href, kids]) => (
             <li class="dd">
               <a href={href} aria-current={current === label ? 'page' : undefined} aria-haspopup={kids.length ? 'true' : undefined}>{label}{kids.length > 0 && <span class="caret"> ▾</span>}</a>
               {kids.length > 0 && (
@@ -63,7 +71,7 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
               )}
             </li>
           ))}
-          <li class="navcta"><a href="/shout-out">Shout-Out</a></li>
+          {!navV2 && <li class="navcta"><a href="/shout-out">Shout-Out</a></li>}
         </ul>
         {weather && <span class="mininow">{weather.temp}° {weather.summary}</span>}
       </nav>
