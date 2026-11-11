@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Morning Buzz" current="">
+  <section class="lp">
+    <div class="lphero">
+      <span class="lpkick">Free · Every morning</span>
+      <h2>The hottest Austin news in your inbox every morning.</h2>
+      <p>One short email. What happened, why it matters to you, and one thing worth doing. Read it with your coffee and you're caught up.</p>
+      <form class="lpform" id="mbform" onsubmit="return false">
+        <input type="email" id="mbemail" placeholder="Your email address" required aria-label="Email address" autocomplete="email" />
+        <button type="submit">Send me the Buzz</button>
+      </form>
+      <p class="lpthanks" id="mbthanks" hidden>You're on the list. (Preview only. Nothing was saved yet.)</p>
+      <small class="lpfine">Free. No spam. Unsubscribe anytime.</small>
+    </div>
+    <div class="lpgrid">
+      <div><b>What happened</b><span>The few Austin stories that matter most today, in plain English.</span></div>
+      <div><b>Why should I care?</b><span>One line on what each story means for your bills, commute, safety or neighborhood.</span></div>
+      <div><b>OMG!</b><span>The thing Austin can't stop talking about.</span></div>
+    </div>
+    <div class="lpsample">
+      <div class="lplabel">Sample of what it looks like</div>
+      <ol>
+        <li><b>Eastern Travis County could face nearly 5 billion-gallon water shortage by 2080</b><em>If you live in eastern Travis County, a new study warns your water supply could fall short. Commissioners look at it Tuesday.</em></li>
+        <li><b>Sample headline two</b><em>A one-sentence "why it matters to you" goes here.</em></li>
+        <li><b>Sample headline three</b><em>A one-sentence "why it matters to you" goes here.</em></li>
+      </ol>
+    </div>
+    <p class="lpback"><a href="/">Or just read today's news on the site →</a></p>
+  </section>
+  <script is:inline>
+    document.getElementById('mbform').addEventListener('submit', function () {
+      document.getElementById('mbform').hidden = true;
+      document.getElementById('mbthanks').hidden = false;
+    });
+  </script>
+</Layout>
