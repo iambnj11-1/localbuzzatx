@@ -9,7 +9,7 @@ import TechEventsAd from '../components/TechEventsAd.astro';
 const all = await getStories();
 const heavy = /(sexual|abuse|murder|killed|shot|shooting|stabb|arrest|sentenced|dead|death|crash|rape|assault|kidnap|molest|fatal|suspect|police|child|children)/i;
 // Homepage skips crime and tragedy stories. They still appear on the News page.
-const stories = all.stories.filter((s) => s.category !== 'Watch' && !heavy.test(s.title) && !heavy.test(s.summary));
+const stories = all.stories.filter((s) => s.category !== 'Watch' && s.category !== 'Busted' && !heavy.test(s.title) && !heavy.test(s.summary));
 const sources = all.sources;
 const videos = all.stories.filter((s) => s.category === 'Watch' && s.videoId).slice(0, 3);
 const friendly = stories.filter((s) => !heavy.test(s.title) && !heavy.test(s.summary));
