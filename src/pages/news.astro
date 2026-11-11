@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
 import { getForecast } from '../lib/weather';
+import CrimeBox from '../components/CrimeBox.astro';
 const tags = ['News', 'Neighborhoods', 'Government', 'Development', 'Business', 'Tech', 'Busted', 'Weather'];
 const crimeWords = /(arrest|charged|indict|sentenced|convicted|pleads|plead|jail|police|shooting|shot|killed|stabb|robbery|burglar|theft|stolen|scam|fraud|dwi|suspect|manhunt|crash|wanted|inmate|trial|lawsuit|sued)/i;
 const tag = Astro.url.searchParams.get('tag');
@@ -24,6 +25,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
       {tags.map((t) => <a href={`/news?tag=${t}`} class={tag === t ? 'on' : ''}>{t}</a>)}
     </div>
     {tag === 'Busted' && <div class="sendbox"><b>Busted.</b> Crime, courts and scams from Austin outlets. Headlines only, no mugshots, and each one links to the original report. An arrest is not a conviction.</div>}
+    {tag === 'Busted' && <CrimeBox />}
     {tag === 'Weather' && (
       <div class="wxpage">
         {forecast?.alerts?.length ? <div class="alertbar"><b>Weather alerts:</b> {forecast.alerts.join(' · ')}</div> : null}
