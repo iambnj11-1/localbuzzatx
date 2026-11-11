@@ -568,3 +568,6 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .bkhead img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
 .bkhead h3 { margin: 0; font-family: var(--serif); font-size: 24px; } .bkhead small { color: var(--muted); font-size: 13px; }
 .bkdot { width: 36px; height: 36px; border-radius: 50%; background: var(--ink); display: inline-block; }
+.snap .snapscores { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 16px; }
+.snap .snapscores b { margin-right: 0; }
+.snap .snapscores span { white-space: nowrap; margin-right: 0; }
