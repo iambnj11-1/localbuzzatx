@@ -68,6 +68,8 @@ if (tops.some((t) => !t.why)) {
   try { (Astro.locals as any).runtime?.ctx?.waitUntil(job); } catch {}
   ai = await Promise.race([job, new Promise<null>((r) => setTimeout(() => r(null), 1500))]);
 }
+const mSrc: Record<string, number> = {};
+const matters = friendly.filter((x) => !tops.includes(x) && !latest.includes(x) && !isSoft(x) && (x.why || x.summary)).sort(bySignal).filter((x) => (mSrc[x.source] = (mSrc[x.source] ?? 0) + 1) <= 2).slice(0, 4);
 const national = all.stories.filter((s) => s.category === 'National' && nowMs - s.date.getTime() < 72 * 3600000).sort(bySignal).slice(0, 4);
 const wxRaw = getForecast().catch(() => null);
 const wx = await Promise.race([wxRaw, new Promise<null>((r) => setTimeout(() => r(null), 1500))]);
@@ -95,7 +97,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
               <h2><a href={t.link} rel="noopener" target="_blank">{t.title}</a></h2>
               <p>{t.summary}</p>
               <p><a href={t.link} rel="noopener" target="_blank">Read the full story at {t.source} →</a></p>
-              {(t.why ?? ai?.whys?.[i]) && <div class="why"><b>Why should I care?</b>{t.why ?? ai?.whys?.[i]}</div>}
+              {(t.why ?? ai?.whys?.[i]) && <div class="why"><b>Why it matters</b>{t.why ?? ai?.whys?.[i]}</div>}
             </article>
           ))}
         </div>
@@ -135,6 +137,29 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
     <section class="page"><h2>Stories are on the way</h2><p>Check back soon.</p></section>
   )}
 
+  <div class="nlbar"><div><b>The Morning Buzz</b><span>The hottest Austin news in your inbox every morning. Launching soon.</span></div><a class="adstrip-btn" href="/morning-buzz">Join the list →</a></div>
+
+  <div class="buckets">
+    <section class="bucket bk-y">
+      <div class="bkhead"><span class="bkdot bkdot-y"></span><h3>Why It Matters</h3></div>
+      <ul class="thumbul">
+        {matters.map((x) => (
+          <li>{x.image ? <img class="thumbimg" src={x.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <span class="thumb"></span>}<div><a href={x.link} rel="noopener" target="_blank">{x.title}</a>{x.why && <small class="whyline">{x.why}</small>}</div></li>
+        ))}
+      </ul>
+      <a class="railmore" href="/news?tag=Impact">More stories that matter →</a>
+    </section>
+    <section class="bucket bk-k">
+      <div class="bkhead"><span class="bkdot"></span><h3>Community</h3></div>
+      <ul class="thumbul">
+        {events.map((x) => (
+          <li>{x.image ? <img class="thumbimg" src={x.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <span class="thumb"></span>}<div><a href={x.link} rel="noopener" target="_blank">{x.title}</a><small class="whyline">{x.source}</small></div></li>
+        ))}
+      </ul>
+      <a class="railmore" href="/to-do">More events →</a> <a class="railmore" href="/shout-out">Send a shout-out →</a>
+    </section>
+  </div>
+
   {featured.length === 3 && (
     <section class="feat">
       <h3 class="rule">Featured</h3>
@@ -151,22 +176,6 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
       </div>
     </section>
   )}
-
-  <section class="pair">
-    <div>
-      <h3 class="section"><a href="/news">News</a></h3>
-      {newsItems.map((s) => (
-        <div class="mini">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div class={`ph chip ${chipClass(s)}`}>{chipLabel(s)}</div>}<div><a href={s.link} rel="noopener" target="_blank">{s.title}</a><small><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span></small></div></div>
-      ))}
-    </div>
-    <div>
-      <h3 class="section omgh"><a href="/omg">OMG!</a></h3>
-      {takes.map((r) => (
-        <div class="omgmini"><div class="hd">{r.head}{r.label && ` · ${r.label}`}</div><p><em>OMG!</em> {r.line}</p>{r.link && <a href={r.link} target="_blank" rel="noopener">Read the story →</a>}</div>
-      ))}
-      <p><a href="/omg">More OMG! →</a></p>
-    </div>
-  </section>
 
   {national.length > 0 && (
     <section class="natstrip">

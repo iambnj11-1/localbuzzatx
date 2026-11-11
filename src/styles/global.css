@@ -585,3 +585,7 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .nlbar b { font-family: var(--serif); font-size: 20px; margin-right: 12px; } .nlbar span { color: var(--muted); font-size: 14px; }
 .railbox.omg3 p { margin: 4px 0; }
 @media (min-width: 900px) { .hero3main { display: flex; flex-direction: column; } .hero3 .hero2img { flex: 1; min-height: 260px; } }
+.thumbimg { flex: none; width: 54px; height: 54px; object-fit: cover; border: 1px solid #ddd6c3; }
+.thumbul li > div { min-width: 0; } .whyline { display: block; color: var(--muted); font-weight: 400; font-size: 13px; margin-top: 2px; line-height: 1.35; }
+.bk-y .thumbimg { border-left: 4px solid var(--buzz); } .bk-k .thumbimg { border-left: 4px solid var(--ink); }
+.bkdot-y { background: var(--buzz); }
