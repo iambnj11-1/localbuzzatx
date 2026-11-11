@@ -245,8 +245,8 @@ async function fetchLive(force = false): Promise<{ stories: Story[]; sources: st
   if (!force && cache && Date.now() - cache.at < TTL_MS) return cache.value;
   lastReport = [];
   // Optional private feed address kept in a Cloudflare secret (not in the public code).
-  const techUrl = typeof process !== 'undefined' ? process.env?.ABJ_TECH_FEED : undefined;
-  const bizUrl = typeof process !== 'undefined' ? process.env?.ABJ_BUSINESS_FEED : undefined;
+  const techUrl = getEnv('ABJ_TECH_FEED') ?? getEnv('ABJ_FEED');
+  const bizUrl = getEnv('ABJ_BUSINESS_FEED');
   const feedList = [...FEEDS, ...(techUrl ? [{ source: 'Austin Business Journal', category: 'Tech', url: techUrl }] : []), ...(bizUrl ? [{ source: 'Austin Business Journal', category: 'Business', url: bizUrl }] : [])];
   const fresh = await Promise.all(feedList.map(loadFeed));
   // If a feed fails or comes back empty this time, keep showing its last good stories instead of leaving a hole.
