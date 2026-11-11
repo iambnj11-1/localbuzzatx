@@ -17,7 +17,7 @@ export const FEEDS = [
   { source: 'KXAN', category: 'News', url: 'https://www.kxan.com/feed/' },
   { source: 'Spectrum News Austin', category: 'News', url: 'https://spectrumlocalnews.com/services/contentfeed.tx%7Caustin%7Cnews.landing.rss' },
   { source: 'West Austin News', category: 'Neighborhoods', url: 'https://westaustinnews.com/feed/' },
-  { source: 'Austonia', category: 'Business', url: 'https://austonia.com/feeds/feed.rss' },
+  { source: 'Austonia', category: 'Business', url: 'https://austonia.com/feeds/feed.rss', alts: ['https://austonia.com/feed', 'https://austonia.com/rss', 'https://austonia.com/rss.xml', 'https://austonia.com/feed.xml'] },
   { source: 'Austin Monitor', category: 'Government', url: 'https://www.austinmonitor.com/feed/' },
   // Business and Tech. Addresses unverified; check /status.
   { source: 'Silicon Hills News', category: 'Tech', url: 'https://siliconhillsnews.com/feed/' },
@@ -25,7 +25,7 @@ export const FEEDS = [
   { source: '365 Things Austin', category: 'Events', url: 'https://365thingsaustin.com/feed' },
   { source: 'Austin Monthly', category: 'Events', url: 'https://austinmonthly.com/feed' },
   // Video: YouTube channel feeds (embedded with YouTube's own player). The KVUE channel id is unverified; check /status.
-  { source: 'KVUE', category: 'Watch', url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxXTyFekH99JnS3qaXIQW7A' },
+  { source: 'KVUE', category: 'Watch', url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxXTyFekH99JnS3qaXIQW7A', alts: ['https://www.youtube.com/feeds/videos.xml?playlist_id=UUxXTyFekH99JnS3qaXIQW7A'] },
 ];
 
 // City stories that are really about a neighborhood or a local park/landmark get the Neighborhoods tag.
@@ -69,6 +69,16 @@ const pickImage = (it: any, videoId?: string): string | undefined => {
 const text = (v: any): string => (typeof v === 'object' && v !== null ? String(v['#text'] ?? '') : String(v ?? ''));
 
 async function loadFeed(feed: (typeof FEEDS)[number]): Promise<Story[]> {
+  // Try the main address, then any backup addresses, until one returns stories.
+  const alts: string[] = (feed as any).alts ?? [];
+  for (const url of [feed.url, ...alts]) {
+    const out = await loadOne({ ...feed, url });
+    if (out.length) return out;
+  }
+  return [];
+}
+
+async function loadOne(feed: (typeof FEEDS)[number]): Promise<Story[]> {
   const started = Date.now();
   let status = 'error';
   const record = (count: number, note?: string) => lastReport.push({ note, source: feed.source, area: (feed as any).area, url: feed.url, status, count, ms: Date.now() - started });
