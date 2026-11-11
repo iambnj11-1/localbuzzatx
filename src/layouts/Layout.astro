@@ -22,6 +22,14 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title === 'Local Buzz ATX' ? title : `${title} | Local Buzz ATX`}</title>
     <meta name="description" content="Austin news, and why it matters to you." />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Local Buzz ATX" />
+    <meta property="og:title" content={title === 'Local Buzz ATX' ? 'Local Buzz ATX' : `${title} | Local Buzz ATX`} />
+    <meta property="og:description" content="Austin news, and why it matters to you." />
+    <meta property="og:image" content={new URL('/og.png', Astro.url).toString()} />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@900&display=swap" rel="stylesheet" />
