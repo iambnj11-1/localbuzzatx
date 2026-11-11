@@ -335,15 +335,17 @@ footer.site { margin-top: 20px; }
 .band { display: grid; grid-template-columns: 1fr; gap: 0; margin: 28px 0 8px; border-top: 4px solid var(--ink); border-bottom: 1px solid var(--ink); }
 .band .tile { display: flex; flex-direction: column; gap: 6px; padding: 18px 16px; text-decoration: none; color: var(--ink); border-bottom: 1px solid #bdbab0; }
 .band .tile:last-child { border-bottom: 0; }
+.band .sponsor { margin: 0; border: 0; border-bottom: 1px solid #bdbab0; padding: 16px; }
 .band .k { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
 .band b { font-family: var(--serif); font-size: 20px; line-height: 1.25; }
 .band p { margin: 0; font-size: 14px; color: var(--muted); }
 .band .go { padding-top: 6px; font-size: 14px; font-weight: 700; }
-.band .tile.omg { background: #fff8dc; }
+.band .tile.hot { background: #fff8dc; }
 .band .tile.dark { background: var(--ink); color: #fbfaf7; }
 .band .tile.dark .k { color: var(--buzz); }
 @media (min-width: 800px) {
   .band { grid-template-columns: repeat(3, 1fr); }
+  .band .sponsor { grid-column: 1 / -1; }
   .band .tile { border-bottom: 0; border-right: 1px solid #bdbab0; padding: 22px 20px; }
   .band .tile:last-child { border-right: 0; }
   .band .go { margin-top: auto; }

@@ -98,8 +98,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
             <ul>{noPhoto.map((s) => (<li><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span><a href={s.link} rel="noopener" target="_blank">{s.title}</a></li>))}</ul>
           </div>
         )}
-        <div class="sponsor adbox"><div class="label">Advertise here</div><b>Put your business in front of Austin readers</b>Local Buzz ATX readers care about what is happening in Austin. <a href="/contact">Get in touch →</a></div>
-        <NewsletterTools />
+
       </aside>
     </section>
   ) : (

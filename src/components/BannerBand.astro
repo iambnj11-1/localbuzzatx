@@ -1,14 +1,17 @@
 ---
+import NewsletterTools from './NewsletterTools.astro';
 // Banner between homepage sections: Morning Buzz newsletter, OMG!, Mind the Marbles.
 ---
 <section class="band" aria-label="More from Local Buzz ATX">
+  <div class="sponsor adbox"><div class="label">Advertise here</div><b>Put your business in front of Austin readers</b>Local Buzz ATX readers care about what is happening in Austin.<br /><a class="cta" href="/contact">Get in touch →</a></div>
+  <NewsletterTools />
   <a class="tile" href="/contact">
     <span class="k">Newsletter</span>
     <b>The Morning Buzz</b>
     <p>The hottest Austin news in your inbox every morning. Launching soon. Tell us you want in.</p>
     <span class="go">Join the list →</span>
   </a>
-  <a class="tile omg" href="/omg">
+  <a class="tile hot" href="/omg">
     <span class="k">OMG!</span>
     <b>The stuff Austin can't stop talking about.</b>
     <p>Quick takes and big reactions on the wildest stories of the day.</p>
