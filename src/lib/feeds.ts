@@ -41,7 +41,7 @@ export const FEEDS = [
   // Reuse terms NOT verified yet; read each outlet's terms before Quick Tea goes live. The KVUE address is a guess; check /status.
   { source: 'Variety', category: 'Entertainment', url: 'https://variety.com/feed/' },
   { source: 'Deadline', category: 'Entertainment', url: 'https://deadline.com/feed/' },
-  { source: 'KVUE', area: 'Entertainment', category: 'Entertainment', url: 'https://www.kvue.com/feeds/syndication/rss/entertainment', alts: ['https://www.kvue.com/feeds/syndication/rss/entertainment/'] },
+  { source: 'KVUE', area: 'Entertainment', category: 'Entertainment', url: 'https://www.kvue.com/feeds/syndication/rss/news/entertainment-news', alts: ['https://www.kvue.com/feeds/syndication/rss/entertainment'] },
   { source: 'KVUE', category: 'Watch', url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCxXTyFekH99JnS3qaXIQW7A', alts: ['https://www.youtube.com/feeds/videos.xml?playlist_id=UUxXTyFekH99JnS3qaXIQW7A'] },
 ];
 
