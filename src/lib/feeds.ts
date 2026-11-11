@@ -1,4 +1,5 @@
 import { XMLParser } from 'fast-xml-parser';
+import { getDb, readStories, saveStories, runInBackground } from './store';
 
 export type Story = {
   source: string;
@@ -179,8 +180,35 @@ function mockStories(): Story[] {
   ];
 }
 
+let refreshing: Promise<unknown> | null = null;
+
 export async function getStories(force = false): Promise<{ stories: Story[]; sources: string[] }> {
   if (typeof process !== 'undefined' && process.env?.LBA_MOCK) return { stories: mockStories(), sources: ['KXAN'] };
+  // With the database connected: show saved stories right away, and refresh from the feeds in the background when they're over 10 minutes old.
+  if (!force && getDb()) {
+    try {
+      const saved = await readStories();
+      if (saved) {
+        const stale = Date.now() - saved.newest > TTL_MS;
+        if (saved.stories.length === 0) {
+          const live = await fetchLive(true);
+          await saveStories(live.stories).catch(() => {});
+          return live;
+        }
+        if (stale && !refreshing) {
+          refreshing = fetchLive(true).then((v) => saveStories(v.stories)).catch(() => {}).finally(() => { refreshing = null; });
+          runInBackground(refreshing);
+        }
+        return { stories: saved.stories, sources: [...new Set(saved.stories.map((s) => s.source))] };
+      }
+    } catch { /* database trouble: fall through to live feeds */ }
+  }
+  const out = await fetchLive(force);
+  if (getDb()) runInBackground(saveStories(out.stories).catch(() => {}));
+  return out;
+}
+
+async function fetchLive(force = false): Promise<{ stories: Story[]; sources: string[] }> {
   if (!force && cache && Date.now() - cache.at < TTL_MS) return cache.value;
   lastReport = [];
   // Optional private feed address kept in a Cloudflare secret (not in the public code).
