@@ -41,7 +41,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
             <div class="wxday"><b>{d.name}</b><span class="wxi">{d.icon}</span><span class="wxt">{d.hi ?? '–'}° <em>{d.lo ?? '–'}°</em></span><span>{d.short}</span><small>Wind {d.wind}{d.rain != null ? ` · Rain ${d.rain}%` : ''}</small></div>
           ))}</div>
         </>) : <p>The forecast is not loading right now. Try the National Weather Service below.</p>}
-        <p class="wxlinks"><b>Hauling or traveling?</b> Check conditions where you are going: <a href="https://www.weather.gov" target="_blank" rel="noopener">National Weather Service (any city)</a> · <a href="https://drivetexas.org" target="_blank" rel="noopener">DriveTexas road conditions</a> · <a href="https://forecast.weather.gov/MapClick.php?lat=30.2672&lon=-97.7431" target="_blank" rel="noopener">Austin forecast details</a></p>
+        <p class="wxlinks"><b>Going somewhere else?</b> Check the forecast for any city: <a href="https://www.weather.gov" target="_blank" rel="noopener">National Weather Service (any city)</a> · <a href="https://drivetexas.org" target="_blank" rel="noopener">DriveTexas road conditions</a> · <a href="https://forecast.weather.gov/MapClick.php?lat=30.2672&lon=-97.7431" target="_blank" rel="noopener">Austin forecast details</a></p>
         <small>Forecast from the National Weather Service for Austin.</small>
       </div>
     )}
