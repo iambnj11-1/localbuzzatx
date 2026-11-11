@@ -32,9 +32,9 @@ const weekend = [['Live Music', 'Free outdoor concert downtown'], ['Family', 'Ho
   <section class="meetbuzz">
     <div class="pagehead"><h2>Meet the Buzz</h2><span>Pick your lane</span></div>
     <div class="mbcards">
-      <a class="mbcard mb-y" href="/columns-preview"><img src="/authors/caleb.jpg" alt="Caleb" width="96" height="96" /><div class="lplabel">What's Really Going On?</div><b>Caleb</b><p>Here's why you should actually care.</p></a>
+      <a class="mbcard mb-y" href="/columns-preview"><img src="/authors/caleb.jpg" alt="Caleb" width="96" height="96" /><div class="lplabel">Why It Matters</div><b>Caleb</b><p>Here's why you should actually care.</p></a>
       <a class="mbcard mb-r" href="/columns-preview"><img src="/authors/tori.jpg" alt="Tori" width="96" height="96" /><div class="lplabel">Quick Tea</div><b>Tori</b><p>Five things everyone's talking about.</p></a>
-      <a class="mbcard mb-t" href="/columns-preview"><img src="/authors/sunny.jpg" alt="Sunny D" width="96" height="96" /><div class="lplabel">Next Up</div><b>Sunny D</b><p>What's hot right now and what's worth your time.</p></a>
+      <a class="mbcard mb-t" href="/columns-preview"><img src="/authors/sunny.jpg" alt="Sunny D" width="96" height="96" /><div class="lplabel">Buzzing</div><b>Sunny D</b><p>What's hot right now and what's worth your time.</p></a>
     </div>
   </section>
 
@@ -48,7 +48,7 @@ const weekend = [['Live Music', 'Free outdoor concert downtown'], ['Family', 'Ho
   <AdRow />
 
   <div class="trio">
-    <section><div class="pagehead"><h2>What's buzzing</h2><span>Tori</span></div><ul class="miniul">{tea.map((t) => (<li><a href="/omg">{t}</a></li>))}</ul></section>
+    <section><div class="pagehead"><h2>Quick Tea</h2><span>Tori</span></div><ul class="miniul">{tea.map((t) => (<li><a href="/omg">{t}</a></li>))}</ul></section>
     <section><div class="pagehead"><h2>Business</h2><span>Austin economy</span></div><ul class="miniul">{biz.map((t) => (<li><a href="/money">{t}</a></li>))}</ul></section>
     <section><div class="pagehead"><h2>This weekend</h2><span>Events</span></div><ul class="miniul">{weekend.map((t) => (<li><small>{t[0]}</small><a href="/to-do">{t[1]}</a></li>))}</ul></section>
   </div>
