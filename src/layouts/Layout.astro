@@ -14,11 +14,11 @@ const sections: [string, string, [string, string][]][] = [
   ['About', '/about', [['About', '/about'], ['Contact', '/contact'], ['Sources', '/sources']]],
 ];
 const sectionsV2: [string, string, [string, string][]][] = [
-  sections[0], sections[1], sections[2],
-  ['Business', '/money', []],
-  sections[4],
-  ['Community', '/shout-out', [['Shout-Outs', '/shout-out'], ['Good News', '/omg?tag=Good News']]],
-  sections[5],
+  ['News', '/news', [['Latest', '/news'], ['Government', '/news?tag=Government'], ['Business', '/news?tag=Business'], ['Development', '/news?tag=Development'], ['Weather', '/news?tag=Weather']]],
+  ['Watch', '/watch', []],
+  ['Community', '/shout-out', [['Events', '/to-do'], ['Shout-Outs', '/shout-out'], ['OMG!', '/omg'], ['Submit something', '/contact']]],
+  ['Blog', '/columns-preview', [['Caleb: Why It Matters', '/columns-preview'], ['Tori: Quick Tea', '/columns-preview'], ['Sunny D: Buzzing', '/columns-preview']]],
+  ['About', '/about', [['Meet the Buzz', '/columns-preview'], ['Advertise', '/advertise'], ['Contact', '/contact'], ['Newsletter', '/morning-buzz']]],
 ];
 const navSections = navV2 ? sectionsV2 : sections;
 const weather = await getWeather();
