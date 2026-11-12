@@ -756,3 +756,6 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .pcard .pcreact b { color: var(--ink); font-weight: 700; }
 .reactline { margin: 8px 0 14px; padding: 8px 12px; background: #fff4cc; border-left: 4px solid var(--buzz); font-size: 14px; }
 .reactline a { font-weight: 700; }
+
+.thero-side .omgbox { margin: 16px 0 0; padding: 14px 16px 16px; }
+.thero-side .omgbox-line { font-size: 22px; }

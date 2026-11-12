@@ -2,6 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import PostCard from '../../components/PostCard.astro';
 import AuthorBox from '../../components/AuthorBox.astro';
+import OmgBox from '../../components/OmgBox.astro';
+import { getStories } from '../../lib/feeds';
+import { withStory } from '../../lib/omg';
 import { byAuthor, authors, fmtDate, laneBadge, readMin } from '../../lib/posts';
 const a = authors.caleb;
 const all = byAuthor('caleb');
@@ -10,6 +13,10 @@ const latest = all.filter((p) => !p.teaser && p !== hero).slice(0, 4);
 // Caleb's Corner = journal and reflection. Caleb Reports = short sourced segments on what's hot.
 const corner = all.filter((p) => p.lane === 'Caleb’s Corner');
 const reports = all.filter((p) => p.lane === 'Caleb Reports');
+// Same daily OMG! pick as the home page.
+const feed = await getStories();
+const omgAll = withStory(feed.stories.filter((x) => x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment'));
+const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
 ---
 <Layout title="Caleb" current="">
   <section class="page blogpage caleb">
@@ -32,6 +39,7 @@ const reports = all.filter((p) => p.lane === 'Caleb Reports');
             <h4>Latest from Caleb</h4>
             <ul>{latest.map((m) => <li><a href={`${a.path}/${m.slug}`}>{m.title}</a><small>{m.lane} · {fmtDate(m.date)}</small></li>)}</ul>
           </div>
+          <OmgBox pick={omgPick} />
         </aside>
       </section>
     )}
