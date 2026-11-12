@@ -8,6 +8,10 @@ const preview = Astro.url.searchParams.has('preview');
 const visible = post && (!post.draft || preview);
 if (!visible) Astro.response.status = 404;
 const a = post ? authors[post.author] : null;
+const takeIdx = post && post.author === 'caleb' ? post.body.findIndex((b) => b.t === 'h' && /^Caleb’s Take/.test(b.text)) : -1;
+const mainBody = post ? (takeIdx >= 0 ? post.body.slice(0, takeIdx) : post.body) : [];
+const takeBody = post && takeIdx >= 0 ? post.body.slice(takeIdx + 1) : [];
+const takeHead = post && takeIdx >= 0 ? (post.body[takeIdx] as { text: string }).text : '';
 const more = post ? finished(post.author).filter((p) => p.slug !== post.slug).slice(0, 4) : [];
 ---
 <Layout title={visible ? post.title : 'Not found'} current="">
@@ -23,8 +27,9 @@ const more = post ? finished(post.author).filter((p) => p.slug !== post.slug).sl
         <span>By <b>{a.name}</b> · 🕒 {readMin(post)} min read · {fmtDate(post.date)}</span>
       </div>
       {post.cover && <img class="postcover" src={post.cover.src} alt={post.cover.alt} width="1400" height="933" />}
+      {post.photoCredit && <p class="photocredit">Photo: <a href={post.photoCredit.url} target="_blank" rel="noopener">{post.photoCredit.by}</a>, <a href={post.photoCredit.licenseUrl} target="_blank" rel="noopener">{post.photoCredit.license}</a>, via {post.photoCredit.via}. {post.photoCredit.changes.charAt(0).toUpperCase() + post.photoCredit.changes.slice(1)}. The cover image is shared under the same license.</p>}
       <div class="postbody">
-        {post.body.map((b) =>
+        {mainBody.map((b) =>
           b.t === 'p' ? <p>{b.text}</p>
           : b.t === 'h' ? <h3>{b.text}</h3>
           : b.t === 'quote' ? <blockquote class="pullcard"><p>“{b.text}”</p></blockquote>
@@ -32,6 +37,7 @@ const more = post ? finished(post.author).filter((p) => p.slug !== post.slug).sl
           : <ul>{b.items.map((i) => <li>{i}</li>)}</ul>
         )}
       </div>
+      {takeIdx >= 0 && <div class="takebox takebox-caleb"><b>💡 {takeHead}</b>{takeBody.map((b) => b.t === 'p' ? <p>{b.text}</p> : null)}</div>}
       {post.author === 'tori' && post.take && <div class="takebox"><b>☕ {post.takeLabel}</b>{post.take.split('\n\n').map((t, i, arr) => <p>{arr.length === 1 ? `“${t}”` : t}</p>)}</div>}
       {post.sources.length > 0 && (
         <p class="teasrc">Source{post.sources.length > 1 ? 's' : ''}: {post.sources.map((s, i) => (

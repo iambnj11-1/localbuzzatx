@@ -24,7 +24,9 @@ export interface Post {
   note?: string; // small line under the post, e.g. not financial advice
   draft?: boolean; // hidden from lists; opens only with ?preview=1
   teaser?: boolean; // short preview of a piece Tori is still finishing
-  hero?: boolean; // featured as the Hottest Tea story on the author's page
+  hero?: boolean; // featured as the top story on the author's page
+  topic?: string; // row on Caleb's page, e.g. "Cybersecurity"
+  photoCredit?: { by: string; via: string; url: string; license: string; licenseUrl: string; changes: string };
 }
 
 const p = (text: string): Block => ({ t: 'p', text });
@@ -323,9 +325,41 @@ And trust me, with nine kids under one roof, there were plenty of lessons to lea
 
   // ---------------- Caleb's Corner ----------------
   {
+    slug: 'nvidia-ceo-jensen-huang-steps-down',
+    author: 'caleb',
+    lane: 'Caleb’s Corner',
+    topic: 'AI & Tech',
+    hero: true,
+    cover: { src: '/blog/nvidia-ceo-steps-down.jpg', alt: 'Cover graphic: Nvidia CEO Jensen Huang steps down, with Colette Kress named interim CEO' },
+    photoCredit: { by: 'Anderseidesvik', via: 'Wikimedia Commons', url: 'https://commons.wikimedia.org/wiki/File:Jensen_huang_stanford_2026-04-30_029.jpg', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/', changes: 'cropped and blurred' },
+    title: 'Nvidia CEO Jensen Huang Steps Down. Here’s What It Means for the AI Boom',
+    dek: 'Colette Kress is interim CEO, and earnings are still set for Nov. 17. Here’s what to watch.',
+    date: '2026-11-12',
+    body: [
+      h('What’s Hot'),
+      p('Nvidia announced Thursday that Jensen Huang has resigned as CEO, president and board member, effective immediately. Chief Financial Officer Colette Kress becomes interim CEO and keeps her CFO role while the board searches for a permanent successor, internal or external. Harvey C. Jones was named the company’s first-ever board chair. Nvidia did not give a reason for the departure.'),
+      p('It follows a week of pressure. On Nov. 8, Huang acknowledged an extramarital affair in a letter, and the board opened an independent investigation into reports that he had been the target of a foreign intelligence effort. The board said it had no reason to believe national security or Nvidia secrets were compromised. Shares closed down about 4.3% on Monday, wiping out almost $200 billion in value, according to Sky News. Nvidia says it will still report earnings Tuesday, Nov. 17, and that its product roadmap won’t be interrupted.'),
+      h('Why You Should Care'),
+      p('Nvidia makes the chips behind ChatGPT, Google’s Gemini and much of the AI boom, and Huang built the company. Before the news, Bernstein analyst Stacy Rasgon said “he is Nvidia.” When the person at the center of the most important company in AI leaves overnight, investors have to guess how strategy, pricing and China sales will change. Many retirement accounts and index funds hold Nvidia, so this reaches people who have never bought a chip stock.'),
+      h('The Austin Angle'),
+      p('Austin’s tech economy runs on the AI boom, from startups to the data centers and chip plants coming to Central Texas. If the leadership change slows AI spending or shakes investor confidence, that can show up in hiring, funding and construction here. If Nvidia stays steady under Kress, it likely won’t. Tuesday’s earnings report is the first real signal.'),
+      h('Caleb’s Takeaway'),
+      p('One person leaving doesn’t end the AI boom. But it does answer a question the market has been avoiding: was Nvidia’s lead built by a company or by a founder? Jensen set the strategy and pulled most of the strings himself, and now someone else has to pull them. Colette Kress knows the numbers better than almost anyone, which helps. Tuesday’s earnings call is the first real test of whether the machine runs without him. I’d watch what she says, not just what the stock does.'),
+    ],
+    take: 'One person leaving doesn’t end the AI boom. The question is whether Nvidia’s lead was built by a company or by a founder.',
+    takeLabel: 'Caleb’s Take',
+    sources: [
+      { name: 'Nvidia press release (Nov 12, 2026)', url: 'https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-CEO-Transition/default.aspx' },
+      { name: 'Yahoo Finance', url: 'https://finance.yahoo.com/technology/articles/jensen-huang-resigns-nvidia-ceo-155953722.html' },
+      { name: 'Sky News (Nov 10, 2026)', url: 'https://news.sky.com/story/fbi-to-investigate-nvidia-ceo-over-affair-with-alleged-chinese-spy-trump-says-13610382' },
+    ],
+    note: 'General information only, not financial advice.',
+  },
+  {
     slug: 'outlook-email-blocked-small-business',
     author: 'caleb',
     lane: 'Caleb’s Corner',
+    topic: 'Cybersecurity',
     title: 'Outlook Blocked Real Email for Three Days. Here’s the Lesson for Small Businesses',
     dek: 'It wasn’t a new rule. It was a Microsoft mistake. Here’s what it means for your business email.',
     date: '2026-11-12',
@@ -354,6 +388,7 @@ And trust me, with nine kids under one roof, there were plenty of lessons to lea
     slug: 'nominal-3-billion-valuation-austin',
     author: 'caleb',
     lane: 'Caleb’s Corner',
+    topic: 'Business & Growth',
     title: 'Nominal Hits a $3 Billion Valuation. Who Shares in the Growth?',
     dek: 'The hardware-testing startup raised $240 million. The harder question is who benefits locally.',
     date: '2026-11-12',
@@ -376,6 +411,7 @@ And trust me, with nine kids under one roof, there were plenty of lessons to lea
     slug: 'samsung-taylor-chip-plant',
     author: 'caleb',
     lane: 'Caleb’s Corner',
+    topic: 'Business & Growth',
     title: 'Samsung’s Taylor Chip Plant Is Getting Close. Here’s Why Austin Should Care',
     dek: 'Trial runs could start as soon as December. This is a Central Texas story, not just a Taylor story.',
     date: '2026-11-12',
@@ -397,6 +433,7 @@ And trust me, with nine kids under one roof, there were plenty of lessons to lea
     slug: 'hidden-cost-of-the-ai-boom-texas-data-centers',
     author: 'caleb',
     lane: 'Caleb’s Corner',
+    topic: 'AI & Tech',
     title: 'The Hidden Cost of the AI Boom: What Texas Data Centers Mean for Your Bill',
     dek: 'Texas officials still don’t know exactly how much water and power data centers use.',
     date: '2026-11-12',
@@ -414,6 +451,36 @@ And trust me, with nine kids under one roof, there were plenty of lessons to lea
     take: 'The AI boom isn’t free. The question is whether communities get enough in return for the costs they absorb.',
     takeLabel: 'Caleb’s Take',
     sources: [{ name: 'KUT 90.5: Texas data centers and water and power use (Aug 5, 2026)', url: 'https://www.kut.org/energy-environment/2026-08-05/texas-data-centers-water-power-energy-use-environment' }],
+  },
+  {
+    slug: 'cybersecurity-basics-for-austin-small-businesses',
+    author: 'caleb',
+    lane: 'Caleb’s Corner',
+    topic: 'Cybersecurity',
+    teaser: true,
+    title: 'Cybersecurity Basics for Austin Small Businesses',
+    dek: 'The few things every small business should set up before something goes wrong.',
+    date: '2026-11-12',
+    body: [p('Caleb is putting together a plain-English guide to the first cybersecurity steps for small businesses: email protection, passwords, backups and what to do if something goes wrong.')],
+    take: '',
+    takeLabel: '',
+    sources: [],
+    note: 'Caleb is still finishing this one. Check back soon for the full piece.',
+  },
+  {
+    slug: 'what-ai-stock-swings-mean-for-texans',
+    author: 'caleb',
+    lane: 'Caleb’s Corner',
+    topic: 'AI & Tech',
+    teaser: true,
+    title: 'What AI Stock Swings Mean for Texans',
+    dek: 'Even if you don’t trade, your retirement account may hold AI stocks. Here’s what that means here in Texas.',
+    date: '2026-11-12',
+    body: [p('Caleb is working on a plain-English look at what swings in AI stocks mean for everyday Texans, from retirement accounts to Austin’s tech jobs.')],
+    take: '',
+    takeLabel: '',
+    sources: [],
+    note: 'Caleb is still finishing this one. Check back soon for the full piece. General information only, not financial advice.',
   },
 ];
 
