@@ -593,3 +593,5 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .revlist li { padding: 12px 0; border-bottom: 1px solid var(--line, #ddd); }
 .revlist li small { display: block; color: var(--muted); margin: 2px 0 4px; }
 .revwhy { margin: 4px 0; font-size: 14px; } .revsum { margin: 4px 0; font-size: 14px; color: var(--muted); }
+.meetbuzz { margin: 28px 0; } .meetbuzz .pagehead a { font-size: 13px; font-weight: 600; }
+@media (min-width: 700px) { .meetbuzz .colcards, .page .colcards { grid-template-columns: repeat(2, 1fr); } }
