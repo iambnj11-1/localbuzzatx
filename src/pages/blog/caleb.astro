@@ -18,6 +18,10 @@ const reports = all.filter((p) => p.lane === 'Caleb Reports');
 const feed = await getStories();
 const omgAll = withStory(feed.stories.filter((x) => x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment'));
 const brk = [...feed.stories].filter((x) => x.image && x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment').sort((x, y) => (y.impact ?? 0) - (x.impact ?? 0) || +new Date(y.date) - +new Date(x.date))[0];
+const techRe = /\b(AI|A\.I\.|artificial intelligence|cyber|hack|ransomware|chip|semiconductor|software|data center|tech)\b/i;
+const techStory = [...feed.stories].filter((x) => x !== brk && x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment' && (x.category === 'Tech' || techRe.test(`${x.title} ${x.summary}`))).sort((x, y) => (y.impact ?? 0) - (x.impact ?? 0) || +new Date(y.date) - +new Date(x.date))[0];
+const ownPost = all.find((x) => x.lane === 'Caleb Reports' && !x.teaser);
+const side = techStory ? { label: 'Tech & AI', title: techStory.title, why: techStory.why || techStory.summary, source: techStory.source, link: techStory.link, own: false } : ownPost ? { label: 'Tech & AI', title: ownPost.title, why: ownPost.dek, source: 'Caleb', link: `${a.path}/${ownPost.slug}`, own: true } : undefined;
 const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
 ---
 <Layout title="Caleb" current="">
@@ -58,7 +62,7 @@ const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
       <div class="pgrid">{reports.map((p) => <PostCard post={p} />)}</div>
     </section>
 
-    <BreakingBand story={brk} latest={all.filter((p) => !p.teaser).slice(0, 4)} authorName={authors.caleb.name} authorPath={authors.caleb.path} />
+    <BreakingBand story={brk} side={side} />
 
     <AuthorBox who="caleb" />
   </section>

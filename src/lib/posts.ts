@@ -66,7 +66,7 @@ export const posts: Post[] = [
     title: 'Forgiveness Doesn’t Mean It Didn’t Hurt',
     dek: 'A personal reflection on letting go, finding peace, and learning that forgiveness is just as powerful for you as it is for them.',
     date: '2026-11-12',
-    cover: { src: '/blog/forgiveness-cover.jpg', alt: 'Illustration of Tori journaling at a desk with an Austin skyline behind her' },
+    cover: { src: '/blog/forgiveness-cover-red.jpg', alt: 'Illustration of Tori journaling at a desk with an Austin skyline behind her' },
     body: [
       ...L(`
 There was a time when I thought forgiveness meant pretending everything was okay.

@@ -20,6 +20,8 @@ const latest = all.filter((p) => !p.teaser && p !== hero).slice(0, 4);
 const feed = await getStories();
 const omgAll = withStory(feed.stories.filter((x) => x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment'));
 const brk = [...feed.stories].filter((x) => x.image && x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment').sort((x, y) => (y.impact ?? 0) - (x.impact ?? 0) || +new Date(y.date) - +new Date(x.date))[0];
+const sidePost = all.find((p) => !p.teaser && (p.lane === 'Quick Tea' || p.lane === 'Tori Reacts'));
+const side = sidePost ? { label: 'Entertainment', title: sidePost.title, why: sidePost.dek, source: 'Tori', link: `${a.path}/${sidePost.slug}`, own: true } : undefined;
 const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
 ---
 <Layout title="Tori" current="">
@@ -50,21 +52,7 @@ const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
 
     <section class="tsection">
       <div class="prowhead"><h3>☕ Tori’s Take</h3><span>Real conversations about life, from Tori’s perspective.</span></div>
-      {take && (
-        <section class="takeband">
-          <a class="takeband-in" href={`${a.path}/${take.slug}`}>
-            {take.cover && <img src={take.cover.src} alt={take.cover.alt} loading="lazy" width="1400" height="933" />}
-            <div class="takeband-txt">
-              <span class="pctag">{laneBadge(take.lane)}</span>
-              <h3>{take.title}</h3>
-              <p>{take.dek}</p>
-              <div class="pcmeta"><img src={a.img} alt="" width="24" height="24" /><span>By Tori</span><span>🕒 {readMin(take)} min read</span></div>
-              <span class="takebtn">Read Tori’s Take →</span>
-            </div>
-          </a>
-        </section>
-      )}
-      {teasers.length > 0 && <div class="pgrid">{teasers.map((p) => <PostCard post={p} />)}</div>}
+      {(take || teasers.length > 0) && <div class="pgrid">{take && <PostCard post={take} />}{teasers.map((p) => <PostCard post={p} />)}</div>}
     </section>
 
     <section class="prow">
@@ -79,7 +67,7 @@ const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
       <div class="pgrid">{quick.map((p) => <PostCard post={p} />)}</div>
     </section>
 
-    <BreakingBand story={brk} latest={all.filter((p) => !p.teaser).slice(0, 4)} authorName={authors.tori.name} authorPath={authors.tori.path} />
+    <BreakingBand story={brk} side={side} />
 
     <AuthorBox who="tori" />
   </section>

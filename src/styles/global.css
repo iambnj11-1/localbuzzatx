@@ -793,3 +793,7 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .caleb .bband .pctag{color:#d49a00}
 .blogpage:not(.caleb) .bband .pctag{color:#e6207f}
 .bfeat img{min-height:120px;background:#111}
+.btopic{display:flex;flex-direction:column;gap:.45rem;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line,#e5e0d3);padding:1.1rem}
+.btopic h4{margin:0;font-family:"Playfair Display",serif;font-size:1.15rem}
+.btopic p{margin:0;font-size:.92rem}
+.btopic small{opacity:.7}
