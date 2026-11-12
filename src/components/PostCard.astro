@@ -1,0 +1,25 @@
+---
+import { authors, fmtDate, laneBadge, readMin, type Post } from '../lib/posts';
+const { post } = Astro.props as { post: Post };
+const a = authors[post.author];
+const href = `${a.path}/${post.slug}${post.draft ? '?preview=1' : ''}`;
+---
+{post.teaser ? (
+<a class="pcard pcteaser" href={href}>
+  <span class="pctag">{laneBadge(post.lane)}</span>
+  <h3>{post.title}</h3>
+  <p>{post.dek}</p>
+  <div class="pcmeta"><img src={a.img} alt="" width="24" height="24" /><span>By {a.name}</span><span>🕒 {readMin(post)} min read</span></div>
+  <span class="takebtn">Read More →</span>
+</a>
+) : (
+<a class={`pcard pc-${post.author}`} href={href}>
+  {post.cover
+    ? <img class="pcimg" src={post.cover.src} alt={post.cover.alt} loading="lazy" width="1400" height="933" />
+    : <div class="pcimg pctxt"><span>{laneBadge(post.lane)}</span></div>}
+  <span class="pctag">{laneBadge(post.lane)}</span>
+  <h3>{post.title}</h3>
+  <p>{post.dek}</p>
+  <div class="pcmeta"><img src={a.img} alt="" width="24" height="24" /><span>By {a.name}</span><span>🕒 {readMin(post)} min read</span><span>{fmtDate(post.date)}</span></div>
+</a>
+)}

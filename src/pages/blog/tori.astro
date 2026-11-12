@@ -1,28 +1,74 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import tea from '../../lib/quicktea.json';
+import PostCard from '../../components/PostCard.astro';
+import AuthorBox from '../../components/AuthorBox.astro';
+import { byAuthor, authors, fmtDate, laneBadge, readMin } from '../../lib/posts';
+const a = authors.tori;
+const all = byAuthor('tori');
+const hero = all.find((p) => p.hero) ?? all.find((p) => !p.teaser);
+const takes = all.filter((p) => p.lane === 'Tori’s Take');
+const take = takes.find((p) => !p.teaser);
+const teasers = takes.filter((p) => p.teaser);
+const reacts = all.filter((p) => p.lane === 'Tori Reacts' && p !== hero);
+const quick = all.filter((p) => p.lane === 'Quick Tea' && p !== hero);
+const latest = all.filter((p) => !p.teaser && p !== hero).slice(0, 4);
 ---
-<Layout title="Quick Tea with Tori" current="">
-  <section class="page">
+<Layout title="Tori" current="">
+  <section class="page blogpage tori">
     <p><a href="/blog">← Blog</a></p>
-    <div class="pagehead"><h2>Quick Tea</h2><span>entertainment, music, culture and Austin buzz</span></div>
-    <div class="colcards"><div class="colcard">
-      <img class="art-av art-av-lg" src="/authors/tori.jpg" alt="Illustration of Tori" width="56" height="56" />
-      <div><b>Tori</b><p>Tori gives a quick, honest take on the entertainment stories people are talking about. She sticks to confirmed news and leaves rumors out.</p></div>
-    </div></div>
-    <div class="teaissue">
-      <p class="art-sample">Quick Tea · Nov 12, 2026</p>
-      {tea.map((t) => (
-        <article class="teapost">
-          <h3>🎬 {t.title}</h3>
-          <small>Quick Tea by Tori</small>
-          {t.body.map((l) => <p>{l}</p>)}
-          <p class="teasrc">Source: <a href={t.url} target="_blank" rel="noopener">{t.source}</a></p>
-          <p class="teatake">☕ <b>Tori's Take:</b> “{t.take}”</p>
-        </article>
-      ))}
-    </div>
+    <div class="pagehead"><h2>Tori</h2><span>{a.tagline}</span></div>
 
-    <p class="aitag">Tori is a pen name, and her picture is an illustration. <a href="/about">About Local Buzz ATX</a></p>
+    {hero && (
+      <section class="thero">
+        <a class="thero-lead" href={`${a.path}/${hero.slug}`}>
+          {hero.cover
+            ? <img src={hero.cover.src} alt={hero.cover.alt} width="1400" height="933" />
+            : <div class="pcimg pctxt"><span>{laneBadge(hero.lane)}</span></div>}
+          <span class="pctag">🔥 Featured story · {laneBadge(hero.lane)}</span>
+          <h3>{hero.title}</h3>
+          <p>{hero.dek}</p>
+          <div class="pcmeta"><img src={a.img} alt="" width="24" height="24" /><span>By Tori</span><span>🕒 {readMin(hero)} min read</span><span>{fmtDate(hero.date)}</span></div>
+        </a>
+        <aside class="thero-side">
+          <div class="tlatest">
+            <h4>Latest from Tori</h4>
+            <ul>{latest.map((m) => <li><a href={`${a.path}/${m.slug}`}>{m.title}</a><small>{laneBadge(m.lane)} · {fmtDate(m.date)}</small></li>)}</ul>
+          </div>
+        </aside>
+      </section>
+    )}
+
+    <section class="tsection">
+      <div class="prowhead"><h3>☕ Tori’s Take</h3><span>Real conversations about life, from Tori’s perspective.</span></div>
+      {take && (
+        <section class="takeband">
+          <a class="takeband-in" href={`${a.path}/${take.slug}`}>
+            {take.cover && <img src={take.cover.src} alt={take.cover.alt} loading="lazy" width="1400" height="933" />}
+            <div class="takeband-txt">
+              <span class="pctag">{laneBadge(take.lane)}</span>
+              <h3>{take.title}</h3>
+              <p>{take.dek}</p>
+              <div class="pcmeta"><img src={a.img} alt="" width="24" height="24" /><span>By Tori</span><span>🕒 {readMin(take)} min read</span></div>
+              <span class="takebtn">Read Tori’s Take →</span>
+            </div>
+          </a>
+        </section>
+      )}
+      {teasers.length > 0 && <div class="pgrid">{teasers.map((p) => <PostCard post={p} />)}</div>}
+    </section>
+
+    <section class="prow">
+      <div class="prowhead"><h3>👀 Tori Reacts</h3><span>Here’s what happened, and here’s what Tori thinks. Confirmed news only. No rumors.</span></div>
+      {reacts.length
+        ? <div class="pgrid">{reacts.map((p) => <PostCard post={p} />)}</div>
+        : <p class="art-sample">More Tori Reacts coming soon. Today’s is the featured story above.</p>}
+    </section>
+
+    <section class="prow">
+      <div class="prowhead"><h3>🔥 Quick Tea</h3><span>Tiny entertainment updates: movies, shows and announcements.</span></div>
+      <div class="pgrid">{quick.map((p) => <PostCard post={p} />)}</div>
+    </section>
+
+    <AuthorBox who="tori" />
   </section>
 </Layout>

@@ -1,0 +1,50 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import AuthorBox from '../../../components/AuthorBox.astro';
+import { authors, finished, findPost, fmtDate, laneBadge, readMin } from '../../../lib/posts';
+const { author = '', slug = '' } = Astro.params;
+const post = findPost(author, slug);
+const preview = Astro.url.searchParams.has('preview');
+const visible = post && (!post.draft || preview);
+if (!visible) Astro.response.status = 404;
+const a = post ? authors[post.author] : null;
+const more = post ? finished(post.author).filter((p) => p.slug !== post.slug).slice(0, 4) : [];
+---
+<Layout title={visible ? post.title : 'Not found'} current="">
+  {!visible || !post || !a ? (
+    <section class="page"><p><a href="/blog">← Blog</a></p><h2>We couldn’t find that post.</h2></section>
+  ) : (
+    <article class={`page blogpage post post-${post.author}${post.lane === 'Tori’s Take' ? ' post-essay' : ''}`}>
+      <p><a href={a.path}>← {a.name}</a></p>
+      <span class="pctag">{laneBadge(post.lane)}</span>
+      <h1 class="posth">{post.title}</h1>
+      <div class="byline">
+        <img class="art-av" src={a.img} alt={`Illustration of ${a.name}`} width="40" height="40" />
+        <span>By <b>{a.name}</b> · 🕒 {readMin(post)} min read · {fmtDate(post.date)}</span>
+      </div>
+      {post.cover && <img class="postcover" src={post.cover.src} alt={post.cover.alt} width="1400" height="933" />}
+      <div class="postbody">
+        {post.body.map((b) =>
+          b.t === 'p' ? <p>{b.text}</p>
+          : b.t === 'h' ? <h3>{b.text}</h3>
+          : b.t === 'quote' ? <blockquote class="pullcard"><p>“{b.text}”</p></blockquote>
+          : b.t === 'img' ? <figure class="postfig"><img src={b.src} alt={b.alt} loading="lazy" width="1400" height="933" />{b.caption && <figcaption>{b.caption}</figcaption>}</figure>
+          : <ul>{b.items.map((i) => <li>{i}</li>)}</ul>
+        )}
+      </div>
+      {post.author === 'tori' && post.take && <div class="takebox"><b>☕ {post.takeLabel}</b>{post.take.split('\n\n').map((t, i, arr) => <p>{arr.length === 1 ? `“${t}”` : t}</p>)}</div>}
+      {post.sources.length > 0 && (
+        <p class="teasrc">Source{post.sources.length > 1 ? 's' : ''}: {post.sources.map((s, i) => (
+          <>{i > 0 && ' · '}{s.url ? <a href={s.url} target="_blank" rel="noopener">{s.name}</a> : s.name}</>
+        ))}</p>
+      )}
+      {post.note && <p class="postnote">{post.note}</p>}
+      {more.length > 0 && (
+        <aside class="moreposts"><h4>More from {a.name}</h4>
+          <ul>{more.map((m) => <li><a href={`${a.path}/${m.slug}`}>{m.title}</a><small>{laneBadge(m.lane)} · {fmtDate(m.date)}</small></li>)}</ul>
+        </aside>
+      )}
+      <AuthorBox who={post.author} />
+    </article>
+  )}
+</Layout>

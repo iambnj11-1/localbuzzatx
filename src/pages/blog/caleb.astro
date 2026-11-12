@@ -1,15 +1,19 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/PostCard.astro';
+import AuthorBox from '../../components/AuthorBox.astro';
+import { byAuthor, authors } from '../../lib/posts';
+const a = authors.caleb;
+const all = byAuthor('caleb');
 ---
 <Layout title="Caleb's Corner" current="">
-  <section class="page">
+  <section class="page blogpage caleb">
     <p><a href="/blog">← Blog</a></p>
-    <div class="pagehead"><h2>Caleb's Corner</h2><span>tech, business, AI and Austin growth</span></div>
-    <div class="colcards"><div class="colcard">
-      <img class="art-av art-av-lg" src="/authors/caleb.jpg" alt="Illustration of Caleb" width="56" height="56" />
-      <div><b>Caleb</b><p>Caleb looks at where Austin is growing: startups, AI tools, big tech arrivals and what they mean for work and money. Clear, analytical and no hype.</p></div>
-    </div></div>
-    <p class="art-sample">The first Caleb's Corner column is coming soon.</p>
-    <p class="aitag">Caleb is a pen name, and his picture is an illustration. <a href="/about">About Local Buzz ATX</a></p>
+    <div class="pagehead"><h2>Caleb’s Corner</h2><span>{a.tagline}</span></div>
+    <section class="prow">
+      <div class="prowhead"><h3>Latest</h3><span>What happened, why it matters, and what it means for Austin. General information, not financial advice.</span></div>
+      <div class="pgrid">{all.map((p) => <PostCard post={p} />)}</div>
+    </section>
+    <AuthorBox who="caleb" />
   </section>
 </Layout>

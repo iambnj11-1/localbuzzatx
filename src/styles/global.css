@@ -602,3 +602,105 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .teapost p { margin: 0 0 8px; line-height: 1.5; }
 .teapost .teatake { margin-top: 12px; padding: 10px 12px; background: #fff7d6; border-left: 3px solid var(--red, #c8102e); }
 .teapost .teasrc { font-size: 13px; color: var(--muted); }
+
+/* ---- Blog: columnist pages and posts ---- */
+.blogpage { --pink: #e6247f; --pinkbg: #ffe6f1; }
+.prow { margin: 8px 0 34px; }
+.prowhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin-bottom: 14px; }
+.prowhead h3 { margin: 0; font-family: var(--serif); font-weight: 900; font-size: 24px; }
+.prowhead span { font-size: 13px; color: var(--muted); }
+.pgrid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+@media (min-width: 640px) { .pgrid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 980px) { .pgrid { grid-template-columns: repeat(3, 1fr); } }
+.pcard { display: block; text-decoration: none; color: inherit; background: #fff; border: 1px solid #ddd6c3; padding: 0 0 14px; }
+.pcard:hover h3 { color: var(--accent); }
+.pcard .pcimg { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; margin: 0 0 10px; }
+.pcard .pctxt { aspect-ratio: 4 / 1; display: grid; place-items: center; background: var(--pinkbg); color: var(--pink); font-family: var(--serif); font-weight: 900; font-size: 26px; }
+.pc-caleb .pctxt { background: var(--ink); color: #fff; font-size: 22px; }
+.pcard .pctag, .post .pctag { display: inline-block; margin: 0 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); }
+.pc-caleb .pctag, .post-caleb .pctag { color: var(--accent); }
+.post .pctag { margin: 4px 0 0; }
+.pcard h3 { margin: 4px 14px 4px; font-family: var(--serif); font-size: 20px; line-height: 1.2; }
+.pcard p { margin: 0 14px 6px; font-size: 14px; color: var(--muted); }
+.pcard small { display: block; margin: 0 14px; font-size: 12px; color: var(--muted); }
+.authorbox { display: flex; gap: 14px; align-items: flex-start; padding: 16px; border: 1px solid #ddd6c3; background: #fff; margin: 28px 0 14px; max-width: 640px; }
+.authorbox b { font-family: var(--serif); font-size: 20px; display: block; }
+.authorbox p { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+/* post page */
+.post { max-width: 700px; }
+.posth { font-family: var(--serif); font-weight: 900; font-size: clamp(28px, 6vw, 42px); line-height: 1.1; margin: 6px 0 12px; }
+.byline { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); margin-bottom: 18px; }
+.byline .art-av { width: 40px; height: 40px; border-radius: 50%; }
+.postcover, .postfig img { display: block; width: 100%; height: auto; margin: 0 0 18px; }
+.postcover { aspect-ratio: 3 / 2; object-fit: cover; }
+.postfig { margin: 26px 0; }
+.postfig figcaption { font-size: 12px; color: var(--muted); }
+.postbody p { margin: 0 0 14px; font-size: 18px; line-height: 1.6; }
+.postbody h3 { font-family: var(--serif); font-size: 22px; margin: 26px 0 8px; }
+.pullcard { margin: 28px 0; padding: 22px 22px; background: var(--pinkbg); border-left: 6px solid var(--pink); font-family: var(--serif); }
+.pullcard p { margin: 0; font-size: clamp(21px, 4.6vw, 28px); line-height: 1.25; font-weight: 700; }
+.takebox { margin: 26px 0 14px; padding: 16px 18px; border: 2px solid var(--pink); background: #fff; }
+.takebox b { color: var(--pink); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+.takebox p { margin: 6px 0 0; font-family: var(--serif); font-size: 20px; line-height: 1.3; font-weight: 700; }
+.postnote { font-size: 13px; color: var(--muted); }
+.moreposts { margin: 24px 0 4px; }
+.moreposts h4 { font-family: var(--serif); font-size: 18px; margin: 0 0 6px; border-bottom: 1px solid var(--rule); padding-bottom: 4px; }
+.moreposts ul { list-style: none; padding: 0; margin: 0; }
+.moreposts li { padding: 8px 0; border-bottom: 1px solid #ddd6c3; }
+.moreposts a { font-weight: 600; }
+.moreposts small { display: block; color: var(--muted); font-size: 12px; }
+
+/* ---- Tori hero, take band, author box ---- */
+.thero { display: grid; grid-template-columns: 1fr; gap: 22px; margin: 6px 0 34px; }
+@media (min-width: 900px) { .thero { grid-template-columns: 1.6fr 1fr; align-items: start; } }
+.thero-lead { display: block; text-decoration: none; color: inherit; }
+.thero-lead img, .thero-lead .pctxt { display: block; width: 100%; height: auto; margin-bottom: 10px; }
+.thero-lead .pctag { margin: 0; }
+.thero-lead h3 { font-family: var(--serif); font-weight: 900; font-size: clamp(26px, 4.4vw, 40px); line-height: 1.08; margin: 4px 0 6px; }
+.thero-lead:hover h3 { color: var(--accent); }
+.thero-lead p { margin: 0 0 6px; font-size: 16px; color: var(--muted); }
+.thero-lead small { color: var(--muted); font-size: 12px; }
+.tlatest { background: #fff; border: 1px solid #ddd6c3; padding: 14px 16px; }
+.tlatest h4, .abox h4 { margin: 0 0 6px; font-family: var(--serif); font-size: 20px; border-bottom: 2px solid var(--pink); padding-bottom: 4px; }
+.tlatest ul, .abox-latest ul { list-style: none; padding: 0; margin: 0; }
+.tlatest li, .abox-latest li { padding: 9px 0; border-bottom: 1px solid #eee7d4; }
+.tlatest li:last-child, .abox-latest li:last-child { border-bottom: 0; }
+.tlatest a, .abox-latest a { font-weight: 600; line-height: 1.25; }
+.tlatest small, .abox-latest small { display: block; color: var(--muted); font-size: 12px; }
+.tsidetake { display: block; margin-top: 14px; padding: 16px; background: var(--pinkbg); border-left: 6px solid var(--pink); text-decoration: none; color: inherit; }
+.tsidetake .pctag { margin: 0; }
+.tsidetake b { display: block; font-family: var(--serif); font-size: 20px; line-height: 1.2; margin: 4px 0 6px; }
+.tsidetake small { color: var(--pink); font-weight: 700; }
+.takeband { background: var(--pinkbg); margin: 8px -16px 34px; padding: 26px 16px; }
+@media (min-width: 900px) { .takeband { margin: 8px 0 34px; padding: 30px; } }
+.takeband-in { display: grid; grid-template-columns: 1fr; gap: 18px; text-decoration: none; color: inherit; align-items: center; }
+@media (min-width: 760px) { .takeband-in { grid-template-columns: 1.15fr 1fr; gap: 28px; } }
+.takeband-in img { display: block; width: 100%; height: auto; }
+.takeband-txt .pctag { margin: 0; }
+.takeband-txt h3 { font-family: var(--serif); font-weight: 900; font-size: clamp(26px, 4vw, 38px); line-height: 1.1; margin: 6px 0 8px; }
+.takeband-txt p { margin: 0 0 14px; font-size: 17px; line-height: 1.45; }
+.takebtn { display: inline-block; background: var(--pink); color: #fff; font-weight: 700; padding: 10px 16px; }
+.abox { display: grid; grid-template-columns: 1fr; gap: 16px; padding: 20px; background: #fff; border: 2px solid var(--pink); margin: 30px 0 14px; }
+.post-caleb .abox, .caleb .abox { border-color: var(--ink); }
+.caleb .abox h4, .post-caleb .abox h4 { border-bottom-color: var(--ink); }
+@media (min-width: 820px) { .abox { grid-template-columns: 96px 1.4fr 1fr; gap: 22px; } }
+.abox-av { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; }
+.abox-kicker { margin: 0 0 6px; font-family: var(--serif); font-weight: 900; font-size: 22px; }
+.abox-bio { margin: 0 0 10px; font-size: 15px; line-height: 1.5; }
+.abox-facts { margin: 0; padding-left: 0; list-style: none; font-size: 14px; }
+.abox-facts li { padding: 3px 0; }
+.post-essay .postbody p { margin-bottom: 11px; }
+.tsection { margin: 10px 0 34px; }
+.tsection .takeband { margin-left: 0; margin-right: 0; }
+.pcteaser { padding: 16px 0 16px; border-top: 4px solid var(--pink); }
+.pcteaser .pctag { margin: 0 16px; }
+.pcteaser h3 { margin: 6px 16px 6px; font-size: 21px; }
+.pcteaser p { margin: 0 16px 12px; font-size: 15px; color: var(--ink); line-height: 1.45; }
+.pcteaser .takebtn { margin: 0 16px; font-size: 14px; padding: 8px 14px; }
+
+.pcmeta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 8px 14px 0; font-size: 12px; color: var(--muted); }
+.pcmeta img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+.pcmeta span:first-of-type { font-weight: 700; color: var(--ink); }
+.pcteaser .pcmeta { margin: 0 16px 12px; }
+.thero-lead .pcmeta, .takeband-txt .pcmeta { margin: 8px 0 12px; }
+.pcard .pcmeta { margin-bottom: 0; }
