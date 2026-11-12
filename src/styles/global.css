@@ -759,3 +759,9 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 
 .thero-side .omgbox { margin: 16px 0 0; padding: 14px 16px 16px; }
 .thero-side .omgbox-line { font-size: 22px; }
+
+/* Tall illustrated covers (title is part of the picture) */
+.pcteaser-img { padding-top: 0; border-top: 0; }
+.pcteaser-img .pcteaser-cover { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; margin: 0 0 12px; border-bottom: 4px solid var(--pink); }
+.pcteaser-img h3 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; margin: 0; }
+.postcover.portrait { aspect-ratio: 3 / 4; max-width: 460px; margin: 0 auto 18px; }

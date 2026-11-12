@@ -7,7 +7,8 @@ const noimg = post.author === 'caleb' && !post.cover;
 const href = `${a.path}/${post.slug}${post.draft ? '?preview=1' : ''}`;
 ---
 {post.teaser ? (
-<a class="pcard pcteaser" href={href}>
+<a class={`pcard pcteaser${post.cover ? ' pcteaser-img' : ''}`} href={href}>
+  {post.cover && <img class="pcteaser-cover" src={post.cover.src} alt={post.cover.alt} loading="lazy" width="896" height="1200" />}
   <span class="pctag">{laneBadge(post.lane)}</span>
   <h3>{post.title}</h3>
   <p>{post.dek}</p>

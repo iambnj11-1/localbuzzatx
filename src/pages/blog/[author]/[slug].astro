@@ -26,7 +26,7 @@ const more = post ? finished(post.author).filter((p) => p.slug !== post.slug).sl
         <img class="art-av" src={a.img} alt={`Illustration of ${a.name}`} width="40" height="40" />
         <span>By <b>{a.name}</b> · 🕒 {readMin(post)} min read · {fmtDate(post.date)}</span>
       </div>
-      {post.cover && <img class="postcover" src={post.cover.src} alt={post.cover.alt} width="1400" height="933" />}
+      {post.cover && <img class={`postcover${post.cover.portrait ? ' portrait' : ''}`} src={post.cover.src} alt={post.cover.alt} width="1400" height="933" />}
       {post.photoCredit && (post.photoCredit.via === 'AI'
         ? <p class="photocredit">Illustration (AI-generated). Not a photo of the actual site.</p>
         : post.photoCredit.via === 'Pexels'

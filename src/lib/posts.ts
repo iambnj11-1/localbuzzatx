@@ -16,7 +16,7 @@ export interface Post {
   title: string;
   dek: string;
   date: string; // ISO yyyy-mm-dd
-  cover?: { src: string; alt: string };
+  cover?: { src: string; alt: string; portrait?: boolean };
   body: Block[];
   take: string;
   takeLabel: string;
@@ -143,6 +143,7 @@ And sometimes that's one of the strongest things you can do.
     author: 'tori',
     lane: 'Tori\u2019s Take',
     teaser: true,
+    cover: { src: '/blog/tori-friend-checks.jpg', alt: 'Illustration of Tori resting her chin on her hand at a desk with a pink mug, planner and sticky notes, with the headline The Friend Who Always Checks On Everyone', portrait: true },
     title: 'The Friend Who Always Checks On Everyone',
     dek: 'You know that friend who remembers everybody\u2019s birthday? The one sending the \u201cjust checking on you\u201d text? Yeah... that\u2019s usually me.',
     date: '2026-11-12',
@@ -167,6 +168,7 @@ I still believe in showing up for the people I love. I've just learned to stop k
     author: 'tori',
     lane: 'Tori\u2019s Take',
     teaser: true,
+    cover: { src: '/blog/tori-apologies.jpg', alt: 'Illustration of Tori gazing thoughtfully from a café window toward the Texas Capitol and the Austin skyline, with the headline Some Apologies Change Everything, Some Never Come', portrait: true },
     title: 'Some Apologies Change Everything. Some Never Come.',
     dek: 'When I was younger, I thought every hurt could be fixed with an apology. Now I know that\u2019s not always how life works.',
     date: '2026-11-12',
@@ -191,6 +193,7 @@ That's easier said than done, but it's a lesson life keeps teaching me.
     author: 'tori',
     lane: 'Tori\u2019s Take',
     teaser: true,
+    cover: { src: '/blog/tori-family-patience.jpg', alt: 'Illustration of Tori laughing at a big family dinner table with grandparents, parents and children, with the headline Family Can Teach You Patience Like Nothing Else', portrait: true },
     title: 'Family Can Teach You Patience Like Nothing Else',
     dek: 'Growing up, our house was always full. With four brothers, four sisters, and me, quiet was never really an option.',
     date: '2026-11-12',
