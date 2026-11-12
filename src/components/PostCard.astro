@@ -7,8 +7,10 @@ const noimg = post.author === 'caleb' && !post.cover;
 const href = `${a.path}/${post.slug}${post.draft ? '?preview=1' : ''}`;
 ---
 {post.teaser ? (
-<a class={`pcard pcteaser${post.cover ? ' pcteaser-img' : ''}`} href={href}>
-  {post.cover && <img class="pcteaser-cover" src={post.cover.src} alt={post.cover.alt} loading="lazy" width="896" height="1200" />}
+<a class={`pcard pcteaser${post.cover?.portrait ? ' pcteaser-img' : ''}${post.cover && !post.cover.portrait ? ' pcteaser-photo' : ''}`} href={href}>
+  {post.cover && (post.cover.portrait
+    ? <img class="pcteaser-cover" src={post.cover.src} alt={post.cover.alt} loading="lazy" width="896" height="1200" />
+    : <img class="pcteaser-wide" src={post.cover.src} alt={post.cover.alt} loading="lazy" width="1400" height="933" />)}
   <span class="pctag">{laneBadge(post.lane)}</span>
   <h3>{post.title}</h3>
   <p>{post.dek}</p>
