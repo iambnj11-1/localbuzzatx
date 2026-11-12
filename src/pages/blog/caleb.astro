@@ -9,7 +9,7 @@ const hero = all.find((p) => p.hero) ?? all.find((p) => !p.teaser);
 const latest = all.filter((p) => !p.teaser && p !== hero).slice(0, 4);
 // Caleb's Corner = journal and reflection. Caleb Reports = short sourced segments on what's hot.
 const corner = all.filter((p) => p.lane === 'Caleb’s Corner');
-const reports = all.filter((p) => p.lane === 'Caleb Reports' && p !== hero);
+const reports = all.filter((p) => p.lane === 'Caleb Reports');
 ---
 <Layout title="Caleb" current="">
   <section class="page blogpage caleb">

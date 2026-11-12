@@ -7,7 +7,7 @@ export type Block =
   | { t: 'img'; src: string; alt: string; caption?: string }
   | { t: 'list'; items: string[] };
 
-export interface Source { name: string; url?: string }
+export interface Source { name: string; url?: string; short?: string }
 
 export interface Post {
   slug: string;
@@ -359,6 +359,8 @@ And trust me, with nine kids under one roof, there were plenty of lessons to lea
     slug: 'outlook-email-blocked-small-business',
     author: 'caleb',
     lane: 'Caleb Reports',
+    cover: { src: '/blog/auth-failed.jpg', alt: 'A laptop screen showing an “Authentication Failed” error message' },
+    photoCredit: { by: 'Pexels', via: 'Pexels', url: 'https://www.pexels.com/license/', license: 'Pexels License', licenseUrl: 'https://www.pexels.com/license/', changes: 'cropped' },
     topic: 'Cybersecurity',
     title: 'Outlook Blocked Real Email for Three Days. Here’s the Lesson for Small Businesses',
     dek: 'It wasn’t a new rule. It was a Microsoft mistake. Here’s what it means for your business email.',
@@ -379,7 +381,7 @@ And trust me, with nine kids under one roof, there were plenty of lessons to lea
     take: 'Treat cybersecurity like electricity: set up the basics before they become a problem.',
     takeLabel: 'Caleb’s Take',
     sources: [
-      { name: 'Microsoft incident EX1545193, as republished by Penn (University of Pennsylvania)', url: 'https://mailservices.isc.upenn.edu/computing/email/penno365/alerts/ms-incidents.html' },
+      { short: 'Microsoft 365 incident report', name: 'Microsoft incident EX1545193, as republished by Penn (University of Pennsylvania)', url: 'https://mailservices.isc.upenn.edu/computing/email/penno365/alerts/ms-incidents.html' },
       { name: 'MailRoute: Outlook.com’s DMARC Rejections, What Microsoft Said (Nov 10, 2026)' },
     ],
     note: 'Penn’s page shows only the last 30 days of Microsoft notices, so the incident will eventually drop off it.',
@@ -433,6 +435,8 @@ And trust me, with nine kids under one roof, there were plenty of lessons to lea
     slug: 'hidden-cost-of-the-ai-boom-texas-data-centers',
     author: 'caleb',
     lane: 'Caleb Reports',
+    cover: { src: '/blog/cyber-racks.jpg', alt: 'A long aisle of server racks inside a data center' },
+    photoCredit: { by: 'Pexels', via: 'Pexels', url: 'https://www.pexels.com/license/', license: 'Pexels License', licenseUrl: 'https://www.pexels.com/license/', changes: 'cropped' },
     topic: 'AI & Tech',
     title: 'The Hidden Cost of the AI Boom: What Texas Data Centers Mean for Your Bill',
     dek: 'Texas officials still don’t know exactly how much water and power data centers use.',
@@ -471,6 +475,8 @@ And trust me, with nine kids under one roof, there were plenty of lessons to lea
     slug: 'cybersecurity-basics-for-austin-families',
     author: 'caleb',
     lane: 'Caleb’s Corner',
+    cover: { src: '/blog/kids-tablets.jpg', alt: 'Three children using tablets and phones on a living room sofa' },
+    photoCredit: { by: 'Pexels', via: 'Pexels', url: 'https://www.pexels.com/license/', license: 'Pexels License', licenseUrl: 'https://www.pexels.com/license/', changes: 'cropped' },
     topic: 'Cybersecurity',
     teaser: true,
     title: 'Cybersecurity Basics for Austin Families',
@@ -486,6 +492,8 @@ And trust me, with nine kids under one roof, there were plenty of lessons to lea
     slug: 'digital-inclusion-in-austin-why-access-matters',
     author: 'caleb',
     lane: 'Caleb’s Corner',
+    cover: { src: '/blog/library-desks.jpg', alt: 'Rows of public computer desks in a library' },
+    photoCredit: { by: 'Pexels', via: 'Pexels', url: 'https://www.pexels.com/license/', license: 'Pexels License', licenseUrl: 'https://www.pexels.com/license/', changes: 'cropped' },
     topic: 'Cybersecurity',
     teaser: true,
     title: 'Digital Inclusion in Austin: Why Access Matters',
@@ -501,6 +509,8 @@ And trust me, with nine kids under one roof, there were plenty of lessons to lea
     slug: 'safer-online-habits-anyone-can-build',
     author: 'caleb',
     lane: 'Caleb’s Corner',
+    cover: { src: '/blog/cyber-blocks.jpg', alt: 'Wooden letter tiles spelling “cyber security”' },
+    photoCredit: { by: 'Pexels', via: 'Pexels', url: 'https://www.pexels.com/license/', license: 'Pexels License', licenseUrl: 'https://www.pexels.com/license/', changes: 'cropped' },
     topic: 'Cybersecurity',
     teaser: true,
     title: 'Safer Online Habits Anyone Can Build',
@@ -516,6 +526,8 @@ And trust me, with nine kids under one roof, there were plenty of lessons to lea
     slug: 'what-ai-stock-swings-mean-for-texans',
     author: 'caleb',
     lane: 'Caleb’s Corner',
+    cover: { src: '/blog/card-laptop.jpg', alt: 'A man in a shirt and tie working on a laptop at a café table' },
+    photoCredit: { by: 'Pexels', via: 'Pexels', url: 'https://www.pexels.com/license/', license: 'Pexels License', licenseUrl: 'https://www.pexels.com/license/', changes: 'cropped' },
     topic: 'AI & Tech',
     teaser: true,
     title: 'What AI Stock Swings Mean for Texans',
@@ -541,4 +553,12 @@ export const laneBadge = (lane: string) => (ICONS[lane] ? `${ICONS[lane]} ${lane
 export const readMin = (post: Post) => {
   const words = post.body.map((b) => (b.t === 'p' || b.t === 'h' || b.t === 'quote' ? b.text : b.t === 'list' ? b.items.join(' ') : '')).join(' ').split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.ceil(words / 200));
+};
+
+// Short outlet label for a source name, e.g. "KUT 90.5: Texas data centers (Aug 5, 2026)" -> "KUT 90.5".
+export const outlet = (name: string) => name.replace(/\s*\([^)]*\)/g, '').split(/[:,]/)[0].trim();
+// The sourced article a Caleb Reports piece reacts to (first source, with a link when it has one).
+export const reactingTo = (post: Post) => {
+  const s = post.sources.find((x) => x.url) ?? post.sources[0];
+  return s ? { label: s.short ?? outlet(s.name), url: s.url } : undefined;
 };
