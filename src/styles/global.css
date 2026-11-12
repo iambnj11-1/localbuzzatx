@@ -601,3 +601,4 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .teapost small { color: var(--muted); display: block; margin-bottom: 10px; }
 .teapost p { margin: 0 0 8px; line-height: 1.5; }
 .teapost .teatake { margin-top: 12px; padding: 10px 12px; background: #fff7d6; border-left: 3px solid var(--red, #c8102e); }
+.teapost .teasrc { font-size: 13px; color: var(--muted); }

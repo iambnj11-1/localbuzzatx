@@ -26,11 +26,12 @@ import tea from '../lib/quicktea.json';
           <h3>🎬 {t.title}</h3>
           <small>Quick Tea by Tori</small>
           {t.body.map((l) => <p>{l}</p>)}
+          <p class="teasrc">Source: <a href={t.url} target="_blank" rel="noopener">{t.source}</a></p>
           <p class="teatake">☕ <b>Tori's Take:</b> “{t.take}”</p>
         </article>
       ))}
     </div>
 
-    <p class="aitag">Caleb and Tori are pen names, and their pictures are illustrations. The columns are AI-assisted and based on public reporting, with links to the original stories. <a href="/about">About Local Buzz ATX</a></p>
+    <p class="aitag">Caleb and Tori are pen names, and their pictures are illustrations. <a href="/about">About Local Buzz ATX</a></p>
   </section>
 </Layout>
