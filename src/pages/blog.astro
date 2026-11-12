@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import tea from '../lib/quicktea.json';
 ---
 <Layout title="Blog" current="">
   <section class="page">
@@ -18,7 +19,17 @@ import Layout from '../layouts/Layout.astro';
       <img class="art-av art-av-lg" src="/authors/tori.jpg" alt="Illustration of Tori" width="56" height="56" />
       <div><b>Tori</b><p>Tori gives a quick, honest take on the entertainment stories people are talking about. She sticks to confirmed news and leaves rumors out.</p></div>
     </div></div>
-    <p class="art-sample">The first Quick Tea is coming soon.</p>
+    <div class="teaissue">
+      <p class="art-sample">Quick Tea · Nov 12, 2026</p>
+      {tea.map((t) => (
+        <article class="teapost">
+          <h3>🎬 {t.title}</h3>
+          <small>Quick Tea by Tori</small>
+          {t.body.map((l) => <p>{l}</p>)}
+          <p class="teatake">☕ <b>Tori's Take:</b> “{t.take}”</p>
+        </article>
+      ))}
+    </div>
 
     <p class="aitag">Caleb and Tori are pen names, and their pictures are illustrations. The columns are AI-assisted and based on public reporting, with links to the original stories. <a href="/about">About Local Buzz ATX</a></p>
   </section>

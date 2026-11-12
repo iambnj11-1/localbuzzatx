@@ -595,3 +595,9 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .revwhy { margin: 4px 0; font-size: 14px; } .revsum { margin: 4px 0; font-size: 14px; color: var(--muted); }
 .meetbuzz { margin: 28px 0; } .meetbuzz .pagehead a { font-size: 13px; font-weight: 600; }
 @media (min-width: 700px) { .meetbuzz .colcards, .page .colcards { grid-template-columns: repeat(2, 1fr); } }
+
+.teapost { padding: 18px 0; border-bottom: 1px solid var(--line, #ddd); max-width: 640px; }
+.teapost h3 { margin: 0 0 2px; font-family: var(--serif); font-size: 22px; }
+.teapost small { color: var(--muted); display: block; margin-bottom: 10px; }
+.teapost p { margin: 0 0 8px; line-height: 1.5; }
+.teapost .teatake { margin-top: 12px; padding: 10px 12px; background: #fff7d6; border-left: 3px solid var(--red, #c8102e); }
