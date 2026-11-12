@@ -1,17 +1,9 @@
 ---
 import AdRow from './AdRow.astro';
-import NewsletterTools from './NewsletterTools.astro';
-// Banner between homepage sections: Advertise strip, OMG!, Mind the Marbles (the Morning Buzz signup now sits under the hero).
+// Banner between homepage sections: Advertise strip, Mind the Marbles (OMG! now has its own box under the top story; the newsletter tool is a sidebar ad).
 ---
 <section class="band" aria-label="More from Local Buzz ATX">
-  <AdRow />
-  <NewsletterTools />
-  <a class="tile hot" href="/omg">
-    <span class="k">OMG!</span>
-    <b>The stuff Austin can't stop talking about.</b>
-    <p>Quick takes and big reactions on the wildest stories of the day.</p>
-    <span class="go">Get the OMG! →</span>
-  </a>
+  <AdRow big />
   <a class="tile dark" href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">
     <span class="k">From Mind the Marbles</span>
     <b>Real talk about the stuff rattling around in your head.</b>

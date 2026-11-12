@@ -7,17 +7,14 @@ const a = authors.caleb;
 const all = byAuthor('caleb');
 const hero = all.find((p) => p.hero) ?? all.find((p) => !p.teaser);
 const latest = all.filter((p) => !p.teaser && p !== hero).slice(0, 4);
-const takes = all.filter((p) => !p.teaser && p.take);
-const rows = [
-  { icon: '🔐', name: 'Cybersecurity', sub: 'Plain-English security for small businesses and everyday people.' },
-  { icon: '🤖', name: 'AI & Tech', sub: 'What the AI boom means for your work, your bill and your city.' },
-  { icon: '💼', name: 'Business & Growth', sub: 'Austin’s growth, and who shares in it.' },
-].map((r) => ({ ...r, items: all.filter((p) => p.topic === r.name && p !== hero) })).filter((r) => r.items.length);
+// Caleb's Corner = journal and reflection. Caleb Reports = short sourced segments on what's hot.
+const corner = all.filter((p) => p.lane === 'Caleb’s Corner');
+const reports = all.filter((p) => p.lane === 'Caleb Reports' && p !== hero);
 ---
-<Layout title="Caleb's Corner" current="">
+<Layout title="Caleb" current="">
   <section class="page blogpage caleb">
     <p><a href="/blog">← Blog</a></p>
-    <div class="pagehead"><h2>Caleb’s Corner</h2><span>{a.tagline}</span></div>
+    <div class="pagehead"><h2>Caleb</h2><span>{a.tagline}</span></div>
 
     {hero && (
       <section class="thero">
@@ -25,7 +22,7 @@ const rows = [
           {hero.cover
             ? <img src={hero.cover.src} alt={hero.cover.alt} width="1400" height="933" />
             : <div class="pcimg pctxt"><span>{laneBadge(hero.lane)}</span></div>}
-          <span class="pctag">📌 Top story · {hero.topic ?? hero.lane}</span>
+          <span class="pctag">📌 Top story · {hero.lane}</span>
           <h3>{hero.title}</h3>
           <p>{hero.dek}</p>
           <div class="pcmeta"><img src={a.img} alt="" width="24" height="24" /><span>By Caleb</span><span>🕒 {readMin(hero)} min read</span><span>{fmtDate(hero.date)}</span></div>
@@ -33,30 +30,23 @@ const rows = [
         <aside class="thero-side">
           <div class="tlatest">
             <h4>Latest from Caleb</h4>
-            <ul>{latest.map((m) => <li><a href={`${a.path}/${m.slug}`}>{m.title}</a><small>{m.topic ?? m.lane} · {fmtDate(m.date)}</small></li>)}</ul>
+            <ul>{latest.map((m) => <li><a href={`${a.path}/${m.slug}`}>{m.title}</a><small>{m.lane} · {fmtDate(m.date)}</small></li>)}</ul>
           </div>
         </aside>
       </section>
     )}
 
     <section class="tsection">
-      <div class="prowhead"><h3>💡 Caleb’s Take</h3><span>The short version: what it means, in Caleb’s words.</span></div>
-      <div class="takecards">
-        {takes.map((p) => (
-          <a class="takecard" href={`${a.path}/${p.slug}`}>
-            <p>“{p.take}”</p>
-            <small>From: {p.title}</small>
-          </a>
-        ))}
-      </div>
+      <div class="prowhead"><h3>📓 Caleb’s Corner</h3><span>What Caleb thinks, feels, notices, and wants to write about.</span></div>
+      {corner.length
+        ? <div class="pgrid">{corner.map((p) => <PostCard post={p} />)}</div>
+        : <p class="art-sample">Caleb’s first Corner entry is on the way.</p>}
     </section>
 
-    {rows.map((r) => (
-      <section class="prow">
-        <div class="prowhead"><h3>{r.icon} {r.name}</h3><span>{r.sub}</span></div>
-        <div class="pgrid">{r.items.map((p) => <PostCard post={p} />)}</div>
-      </section>
-    ))}
+    <section class="prow">
+      <div class="prowhead"><h3>📰 Caleb Reports</h3><span>What’s happening in the community and what locals need to know.</span></div>
+      <div class="pgrid">{reports.map((p) => <PostCard post={p} />)}</div>
+    </section>
 
     <AuthorBox who="caleb" />
   </section>

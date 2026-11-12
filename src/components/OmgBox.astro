@@ -1,0 +1,14 @@
+---
+// OMG! of the Day: the story, then the punchline. Same daily pick the rest of the site uses.
+const { pick } = Astro.props as { pick?: { head: string; label: string; line: string; link?: string } };
+---
+{pick && (
+  <section class="omgbox" aria-label="OMG! of the Day">
+    <span class="omgbox-k">OMG! of the Day</span>
+    <div class="omgbox-story">{pick.link
+      ? <a href={pick.link} target="_blank" rel="noopener">{pick.head}</a>
+      : pick.head}{pick.label && <small> · {pick.label}</small>}</div>
+    <p class="omgbox-line">“{pick.line}”</p>
+    <a class="omgbox-go" href="/omg">More OMG! →</a>
+  </section>
+)}

@@ -1,10 +1,24 @@
 ---
-// One slim, fixed-height "Advertise with us" strip. It never changes size, so a late or missing ad can't move the page.
+// "Advertise with us" strip. The slim version has a fixed height so a late or missing ad can't move the page.
+// `big` is the larger home-page version: headline, one line of copy and the three ways to advertise.
 // To sell the spot: swap the text and link for the advertiser's. The label must stay.
-const { line = 'Reach Austin readers every day. Local businesses welcome.', go = 'See how →', href = '/advertise' } = Astro.props;
+const { line = 'Reach Austin readers every day. Local businesses welcome.', go = 'See how →', href = '/advertise', big = false } = Astro.props;
 ---
-<aside class="adstrip" aria-label="Advertisement">
-  <span class="k">Advertise with us</span>
-  <b>{line}</b>
-  <a class="go" href={href}>{go}</a>
-</aside>
+{big ? (
+  <aside class="adbig" aria-label="Advertisement">
+    <div class="adbig-top"><span class="k">Advertise with us</span><b class="adbig-h">{line}</b></div>
+    <p class="adbig-sub">Local Buzz ATX is built around one question: why should I care? Readers come to learn what is happening and what it means for them. Every ad is clearly labeled.</p>
+    <div class="adbig-opts">
+      <div><b>Homepage banner</b>A labeled slot right under the top stories.</div>
+      <div><b>Morning Buzz sponsor</b>A short sponsor line in the daily email once it launches.</div>
+      <div><b>Sponsored section</b>A "Local favorite" feature about your business, marked as sponsored.</div>
+    </div>
+    <a class="go" href={href}>{go}</a>
+  </aside>
+) : (
+  <aside class="adstrip" aria-label="Advertisement">
+    <span class="k">Advertise with us</span>
+    <b>{line}</b>
+    <a class="go" href={href}>{go}</a>
+  </aside>
+)}

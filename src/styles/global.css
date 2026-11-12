@@ -717,3 +717,34 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .takebox-caleb b { color: #8a6200; }
 .takebox-caleb p { font-weight: 500; font-size: 18px; line-height: 1.45; }
 .photocredit { margin: -6px 0 18px; font-size: 12px; color: var(--muted); }
+
+/* OMG! of the Day box (yellow, story + punchline) */
+.omgbox { background: #fff8dc; border: 2px solid var(--buzz); margin: 22px 0; padding: 16px 20px 18px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.omgbox-k { display: inline-block; background: var(--ink); color: var(--buzz); font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 9px; }
+.omgbox-story { font-size: 15px; color: var(--muted); } .omgbox-story a { color: var(--ink); font-weight: 600; } .omgbox-story small { font-size: 13px; }
+.omgbox-line { margin: 0; font-family: var(--serif); font-weight: 900; font-size: clamp(22px, 3.4vw, 32px); line-height: 1.18; }
+.omgbox-go { font-size: 14px; font-weight: 700; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Sidebar sponsor box */
+.side .omgbox { margin: 18px 0 0; padding: 14px 16px 16px; }
+.side .omgbox-line { font-size: 22px; }
+/* Lower home sections with a sticky sponsor column on the right */
+.withside { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 32px; }
+@media (min-width: 900px) { .withside { grid-template-columns: minmax(0, 1fr) 300px; } }
+.withside-ad { align-self: start; }
+@media (min-width: 900px) { .withside-ad { position: sticky; top: 90px; } }
+.withside-ad .sponsor { margin-top: 20px; padding: 18px; min-height: 250px; }
+.withside-ad .sponsor.tools .toolrow { flex-direction: column; align-items: flex-start; gap: 6px; }
+
+/* Bigger Advertise with us band (home) */
+.adbig { margin: 28px 0; padding: 18px 20px; background: #fff8dc; border: 1px solid #e0d39a; border-left: 6px solid var(--buzz); display: grid; gap: 14px; }
+.adbig .adbig-top { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; }
+.adbig .k { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 800; }
+.adbig b.adbig-h { flex: 1 1 280px; font-family: var(--serif); font-size: 24px; line-height: 1.2; }
+.adbig .adbig-sub { margin: 0; font-size: 15px; color: var(--muted); }
+.adbig .adbig-opts { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media (min-width: 800px) { .adbig .adbig-opts { grid-template-columns: repeat(3, 1fr); } }
+.adbig .adbig-opts div { background: #fff; border: 1px solid #e0d39a; padding: 10px 12px; font-size: 13px; color: var(--muted); }
+.adbig .adbig-opts b { display: block; font-family: var(--serif); font-size: 16px; color: var(--ink); margin-bottom: 2px; }
+.adbig .go { justify-self: start; padding: 10px 18px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 800; text-decoration: none; }
+.adbig .go:hover { background: var(--accent); }

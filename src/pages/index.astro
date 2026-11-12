@@ -4,6 +4,8 @@ import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
 import { withStory } from '../lib/omg';
 import BannerBand from '../components/BannerBand.astro';
+import OmgBox from '../components/OmgBox.astro';
+import NewsletterTools from '../components/NewsletterTools.astro';
 import { getAi, enrich } from '../lib/ai';
 import { impactScore, bySignal, isSoft } from '../lib/impact';
 import { getForecast } from '../lib/weather';
@@ -121,9 +123,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
         {latest.map((s) => (
           <div class="item latest">{s.image ? <img src={s.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <div class={`ph chip ${chipClass(s)}`}>{chipLabel(s)}</div>}<div><span><span class={`chip ${chipClass(s)}`}>{chipLabel(s)}</span>{fmt(s.date)}</span><div><a href={s.link} rel="noopener" target="_blank">{s.title}</a></div></div></div>
         ))}
-        {omgPick && (
-          <div class="item latest"><img src="/omg-tile.svg" alt="" loading="lazy" /><div><span><span class="chip omgchip">OMG!</span>Today's take</span><div><a href="/omg">{omgPick.line}</a></div></div></div>
-        )}
+        <OmgBox pick={omgPick} />
         {noPhoto.length > 0 && (
           <div class="more">
             <h3>More headlines</h3>
@@ -203,6 +203,7 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
 
   <BannerBand />
 
+  <div class="withside"><div class="withside-main">
   <section class="pair" style="margin-top:20px;padding-top:18px;border-top:1px solid #bdbab0">
     <div>
       <h3 class="section"><a href="/news?tag=Government">Government</a></h3>
@@ -243,6 +244,9 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
       </div>
     </section>
   )}
+  </div>
+  <aside class="withside-ad" aria-label="Sponsored"><NewsletterTools /></aside>
+  </div>
 
   <TechEventsAd />
 
