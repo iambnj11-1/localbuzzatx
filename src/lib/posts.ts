@@ -49,7 +49,7 @@ export const authors = {
   caleb: {
     name: 'Caleb',
     path: '/blog/caleb',
-    img: '/authors/caleb.jpg',
+    img: '/authors/caleb-v2.jpg',
     tagline: 'Cybersecurity and tech, and what it means for everyone in Austin.',
     bio: 'Caleb covers cybersecurity, technology, and the trends shaping Austin and Central Texas. He breaks down complex stories into plain English and helps readers of every age and background understand what happened and how to stay safe online.',
     facts: ['🤖 AI, technology, and cybersecurity are his thing.', '☕ Usually asking, “Okay... but what does this mean for us?”', '🏙️ Believes Austin’s growth should create opportunities for everyone.'],
