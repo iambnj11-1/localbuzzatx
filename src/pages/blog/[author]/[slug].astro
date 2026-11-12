@@ -27,7 +27,9 @@ const more = post ? finished(post.author).filter((p) => p.slug !== post.slug).sl
         <span>By <b>{a.name}</b> · 🕒 {readMin(post)} min read · {fmtDate(post.date)}</span>
       </div>
       {post.cover && <img class="postcover" src={post.cover.src} alt={post.cover.alt} width="1400" height="933" />}
-      {post.photoCredit && (post.photoCredit.via === 'Pexels'
+      {post.photoCredit && (post.photoCredit.via === 'AI'
+        ? <p class="photocredit">Illustration (AI-generated). Not a photo of the actual site.</p>
+        : post.photoCredit.via === 'Pexels'
         ? <p class="photocredit">Stock photo via <a href={post.photoCredit.url} target="_blank" rel="noopener">Pexels</a> (free to use). Cropped.</p>
         : <p class="photocredit">Photo: <a href={post.photoCredit.url} target="_blank" rel="noopener">{post.photoCredit.by}</a>, <a href={post.photoCredit.licenseUrl} target="_blank" rel="noopener">{post.photoCredit.license}</a>, via {post.photoCredit.via}. {post.photoCredit.changes.charAt(0).toUpperCase() + post.photoCredit.changes.slice(1)}. The cover image is shared under the same license.</p>)}
       {post.lane === 'Caleb Reports' && reactingTo(post)?.url && <p class="reactline">📰 Reacting to: <a href={reactingTo(post)!.url} target="_blank" rel="noopener">{reactingTo(post)!.label} ↗</a></p>}
