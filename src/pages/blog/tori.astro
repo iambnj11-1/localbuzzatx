@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import tea from '../../lib/quicktea.json';
+---
+<Layout title="Quick Tea with Tori" current="">
+  <section class="page">
+    <p><a href="/blog">← Blog</a></p>
+    <div class="pagehead"><h2>Quick Tea</h2><span>entertainment, music, culture and Austin buzz</span></div>
+    <div class="colcards"><div class="colcard">
+      <img class="art-av art-av-lg" src="/authors/tori.jpg" alt="Illustration of Tori" width="56" height="56" />
+      <div><b>Tori</b><p>Tori gives a quick, honest take on the entertainment stories people are talking about. She sticks to confirmed news and leaves rumors out.</p></div>
+    </div></div>
+    <div class="teaissue">
+      <p class="art-sample">Quick Tea · Nov 12, 2026</p>
+      {tea.map((t) => (
+        <article class="teapost">
+          <h3>🎬 {t.title}</h3>
+          <small>Quick Tea by Tori</small>
+          {t.body.map((l) => <p>{l}</p>)}
+          <p class="teasrc">Source: <a href={t.url} target="_blank" rel="noopener">{t.source}</a></p>
+          <p class="teatake">☕ <b>Tori's Take:</b> “{t.take}”</p>
+        </article>
+      ))}
+    </div>
+
+    <p class="aitag">Tori is a pen name, and her picture is an illustration. <a href="/about">About Local Buzz ATX</a></p>
+  </section>
+</Layout>

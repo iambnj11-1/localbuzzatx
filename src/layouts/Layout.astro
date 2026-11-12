@@ -4,7 +4,7 @@ const home: Record<string, string> = { 'City of Austin': 'https://www.austintexa
 const footSources = [...new Set([...FEEDS.filter((f) => f.category !== 'Entertainment'), ...PAGES].map((f) => f.source))].map((n) => [n, home[n] ?? '/sources'] as [string, string]);
 import '../styles/global.css';
 import { getWeather } from '../lib/weather';
-const { title = 'Local Buzz ATX', current = '', navV2 = false } = Astro.props;
+const { title = 'Local Buzz ATX', current = '', navV2 = true } = Astro.props;
 const sections: [string, string, [string, string][]][] = [
   ['News', '/news', [['Latest', '/news'], ['Government', '/news?tag=Government'], ['Neighborhoods', '/news?tag=Neighborhoods'], ['Business', '/news?tag=Business'], ['Tech', '/news?tag=Tech'], ['Crime', '/news?tag=Busted'], ['Weather', '/news?tag=Weather']]],
   ['Watch', '/watch', []],
@@ -17,8 +17,8 @@ const sectionsV2: [string, string, [string, string][]][] = [
   ['News', '/news', [['Latest', '/news'], ['Government', '/news?tag=Government'], ['Business', '/news?tag=Business'], ['Development', '/news?tag=Development'], ['Weather', '/news?tag=Weather']]],
   ['Watch', '/watch', []],
   ['Community', '/shout-out', [['Events', '/to-do'], ['Shout-Outs', '/shout-out'], ['OMG!', '/omg'], ['Submit something', '/contact']]],
-  ['Blog', '/columns-preview', [['Caleb: Why It Matters', '/columns-preview'], ['Tori: Quick Tea', '/columns-preview'], ['Sunny D: Next Up', '/columns-preview']]],
-  ['About', '/about', [['Meet the Buzz', '/columns-preview'], ['Advertise', '/advertise'], ['Contact', '/contact'], ['Newsletter', '/morning-buzz']]],
+  ['Blog', '/blog', [['Caleb\'s Corner', '/blog/caleb'], ['Quick Tea with Tori', '/blog/tori']]],
+  ['About', '/about', [['Meet the Buzz', '/blog'], ['Advertise', '/advertise'], ['Contact', '/contact'], ['Newsletter', '/morning-buzz']]],
 ];
 const navSections = navV2 ? sectionsV2 : sections;
 const weather = await getWeather();
