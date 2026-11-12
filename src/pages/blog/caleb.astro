@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import PostCard from '../../components/PostCard.astro';
 import AuthorBox from '../../components/AuthorBox.astro';
 import OmgBox from '../../components/OmgBox.astro';
+import AdCard from '../../components/AdCard.astro';
 import { getStories } from '../../lib/feeds';
 import { withStory } from '../../lib/omg';
 import { byAuthor, authors, fmtDate, laneBadge, readMin } from '../../lib/posts';
@@ -47,7 +48,7 @@ const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
     <section class="tsection">
       <div class="prowhead"><h3>📓 Caleb’s Corner</h3><span>What Caleb thinks, feels, notices, and wants to write about.</span></div>
       {corner.length
-        ? <div class="pgrid">{corner.map((p) => <PostCard post={p} />)}</div>
+        ? <div class="pgrid">{corner.map((p) => <PostCard post={p} />)}<AdCard /></div>
         : <p class="art-sample">Caleb’s first Corner entry is on the way.</p>}
     </section>
 

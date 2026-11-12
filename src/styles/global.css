@@ -769,3 +769,8 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .pcteaser-photo { padding-top: 0; border-top: 0; }
 .pcteaser-photo .pcteaser-wide { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; margin: 0 0 12px; }
 .pc-caleb.pcteaser-photo, .pcteaser-photo { border-top: 0; }
+.pcteaser-photo .pcteaser-wide { aspect-ratio: auto; object-fit: contain; }
+.adcard{display:flex;flex-direction:column;gap:.6rem;justify-content:center;border:2px dashed var(--line,#d9d2c3);background:#fffdf6}
+.adcard .cta{align-self:flex-start;display:inline-block;padding:.5rem .9rem;border-radius:999px;background:#111;color:#fff;font-weight:700;text-decoration:none}
+.adcard small{opacity:.7;font-size:.75rem}
+.adcard{padding:1.4rem 1.2rem}.adcard .pctag{margin:0}

@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import PostCard from '../../components/PostCard.astro';
 import AuthorBox from '../../components/AuthorBox.astro';
 import OmgBox from '../../components/OmgBox.astro';
+import AdCard from '../../components/AdCard.astro';
 import { getStories } from '../../lib/feeds';
 import { withStory } from '../../lib/omg';
 import { byAuthor, authors, fmtDate, laneBadge, readMin } from '../../lib/posts';
@@ -74,7 +75,7 @@ const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
 
     <section class="prow">
       <div class="prowhead"><h3>🔥 Quick Tea</h3><span>Tiny entertainment updates: movies, shows and announcements.</span></div>
-      <div class="pgrid">{quick.map((p) => <PostCard post={p} />)}</div>
+      <div class="pgrid">{quick.map((p) => <PostCard post={p} />)}<AdCard /></div>
     </section>
 
     <AuthorBox who="tori" />
