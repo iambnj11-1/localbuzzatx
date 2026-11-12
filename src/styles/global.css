@@ -774,3 +774,22 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .adcard .cta{align-self:flex-start;display:inline-block;padding:.5rem .9rem;border-radius:999px;background:#111;color:#fff;font-weight:700;text-decoration:none}
 .adcard small{opacity:.7;font-size:.75rem}
 .adcard{padding:1.4rem 1.2rem}.adcard .pctag{margin:0}
+
+.bgrid{display:grid;grid-template-columns:2fr 1fr;gap:1.2rem;align-items:start}
+.bfeat{display:flex;flex-direction:column;gap:.5rem;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line,#e5e0d3);padding:0 0 1rem}
+.bfeat img,.bfeat-ph{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.bfeat-ph{display:flex;align-items:center;justify-content:center;background:#111;color:#fbbf24;font-family:"Playfair Display",serif;font-weight:900;font-size:1.6rem}
+.bfeat>:not(img):not(.bfeat-ph){margin-left:1.1rem;margin-right:1.1rem}
+.bfeat h3{font-size:1.5rem;margin:.2rem 1.1rem}
+.bfeat small{opacity:.7}
+.bside{display:flex;flex-direction:column;gap:1rem}
+.bad{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start;border:2px dashed var(--line,#d9d2c3);background:#fffdf6;padding:1.1rem}
+.bad h4{margin:0;font-family:"Playfair Display",serif;font-size:1.2rem}
+.bad p{margin:0}
+.bad .cta{display:inline-block;padding:.5rem .9rem;border-radius:999px;background:#111;color:#fff;font-weight:700;text-decoration:none}
+.bad small{opacity:.7;font-size:.75rem}
+@media(max-width:760px){.bgrid{grid-template-columns:1fr}}
+.bband .pctag{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#d49a00}
+.caleb .bband .pctag{color:#d49a00}
+.blogpage:not(.caleb) .bband .pctag{color:#e6207f}
+.bfeat img{min-height:120px;background:#111}

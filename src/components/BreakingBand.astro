@@ -1,0 +1,42 @@
+---
+// Closing band for author pages: a Breaking card (keeps readers on our site) + Latest from + the sponsor box.
+import { fmtDate } from '../lib/posts';
+const { story, latest = [], authorName, authorPath, ad = true } = Astro.props as {
+  story?: { title: string; summary: string; why?: string; image?: string; source: string; link: string; category: string };
+  latest?: { title: string; slug: string; lane: string; date: string }[];
+  authorName: string; authorPath: string; ad?: boolean;
+};
+const adUrl = 'https://tolt.link/lba';
+---
+<section class="tsection bband">
+  <div class="prowhead"><h3>🚨 Breaking in Austin</h3><span>The story to know right now.</span></div>
+  <div class="bgrid">
+    {story && (
+      <a class="bfeat" href="/news">
+        {story.image
+          ? <img src={story.image} alt="" loading="lazy" />
+          : <div class="bfeat-ph"><span>Local Buzz ATX</span></div>}
+        <span class="pctag">Breaking · {story.category}</span>
+        <h3>{story.title}</h3>
+        {story.why && <p>{story.why}</p>}
+        <small>Source: {story.source}</small>
+        <span class="takebtn">See all Austin news →</span>
+      </a>
+    )}
+    <aside class="bside">
+      <div class="tlatest">
+        <h4>Latest from {authorName}</h4>
+        <ul>{latest.map((m) => <li><a href={`${authorPath}/${m.slug}`}>{m.title}</a><small>{m.lane} · {fmtDate(m.date as any)}</small></li>)}</ul>
+      </div>
+      {ad && (
+        <div class="bad">
+          <span class="pctag">Sponsored</span>
+          <h4>Start your own newsletter</h4>
+          <p>EmailOctopus is free for your first 2,500 subscribers.</p>
+          <a class="cta" href={adUrl} target="_blank" rel="sponsored noopener">Try EmailOctopus →</a>
+          <small>Affiliate link. Local Buzz ATX may earn a commission at no cost to you.</small>
+        </div>
+      )}
+    </aside>
+  </div>
+</section>

@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import PostCard from '../../components/PostCard.astro';
 import AuthorBox from '../../components/AuthorBox.astro';
 import OmgBox from '../../components/OmgBox.astro';
-import AdCard from '../../components/AdCard.astro';
+import BreakingBand from '../../components/BreakingBand.astro';
 import { getStories } from '../../lib/feeds';
 import { withStory } from '../../lib/omg';
 import { byAuthor, authors, fmtDate, laneBadge, readMin } from '../../lib/posts';
@@ -19,6 +19,7 @@ const latest = all.filter((p) => !p.teaser && p !== hero).slice(0, 4);
 // Same daily OMG! pick as the home page.
 const feed = await getStories();
 const omgAll = withStory(feed.stories.filter((x) => x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment'));
+const brk = [...feed.stories].filter((x) => x.image && x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment').sort((x, y) => (y.impact ?? 0) - (x.impact ?? 0) || +new Date(y.date) - +new Date(x.date))[0];
 const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
 ---
 <Layout title="Tori" current="">
@@ -75,8 +76,10 @@ const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
 
     <section class="prow">
       <div class="prowhead"><h3>🔥 Quick Tea</h3><span>Tiny entertainment updates: movies, shows and announcements.</span></div>
-      <div class="pgrid">{quick.map((p) => <PostCard post={p} />)}<AdCard /></div>
+      <div class="pgrid">{quick.map((p) => <PostCard post={p} />)}</div>
     </section>
+
+    <BreakingBand story={brk} latest={all.filter((p) => !p.teaser).slice(0, 4)} authorName={authors.tori.name} authorPath={authors.tori.path} />
 
     <AuthorBox who="tori" />
   </section>

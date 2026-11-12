@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import PostCard from '../../components/PostCard.astro';
 import AuthorBox from '../../components/AuthorBox.astro';
 import OmgBox from '../../components/OmgBox.astro';
-import AdCard from '../../components/AdCard.astro';
+import BreakingBand from '../../components/BreakingBand.astro';
 import { getStories } from '../../lib/feeds';
 import { withStory } from '../../lib/omg';
 import { byAuthor, authors, fmtDate, laneBadge, readMin } from '../../lib/posts';
@@ -17,6 +17,7 @@ const reports = all.filter((p) => p.lane === 'Caleb Reports');
 // Same daily OMG! pick as the home page.
 const feed = await getStories();
 const omgAll = withStory(feed.stories.filter((x) => x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment'));
+const brk = [...feed.stories].filter((x) => x.image && x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment').sort((x, y) => (y.impact ?? 0) - (x.impact ?? 0) || +new Date(y.date) - +new Date(x.date))[0];
 const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
 ---
 <Layout title="Caleb" current="">
@@ -48,7 +49,7 @@ const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
     <section class="tsection">
       <div class="prowhead"><h3>📓 Caleb’s Corner</h3><span>What Caleb thinks, feels, notices, and wants to write about.</span></div>
       {corner.length
-        ? <div class="pgrid">{corner.map((p) => <PostCard post={p} />)}<AdCard /></div>
+        ? <div class="pgrid">{corner.map((p) => <PostCard post={p} />)}</div>
         : <p class="art-sample">Caleb’s first Corner entry is on the way.</p>}
     </section>
 
@@ -56,6 +57,8 @@ const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
       <div class="prowhead"><h3>📰 Caleb Reports</h3><span>What’s happening in the community and what locals need to know.</span></div>
       <div class="pgrid">{reports.map((p) => <PostCard post={p} />)}</div>
     </section>
+
+    <BreakingBand story={brk} latest={all.filter((p) => !p.teaser).slice(0, 4)} authorName={authors.caleb.name} authorPath={authors.caleb.path} />
 
     <AuthorBox who="caleb" />
   </section>
