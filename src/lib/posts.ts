@@ -155,80 +155,174 @@ And sometimes that's one of the strongest things you can do.
   {
     slug: 'the-friend-who-always-checks-on-everyone',
     author: 'tori',
-    lane: 'Tori\u2019s Take',
-    teaser: true,
-    cover: { src: '/blog/tori-friend-checks.jpg', alt: 'Illustration of Tori resting her chin on her hand at a desk with a pink mug, planner and sticky notes, with the headline The Friend Who Always Checks On Everyone', portrait: true },
+    lane: 'Tori’s Take',
+    cardCover: '/blog/tori-friend-cover-tall.jpg',
+    cover: { src: '/blog/tori-friend-cover.jpg', alt: 'Illustration of Tori smiling at a text message on her phone, with the Austin skyline and Lady Bird Lake behind her' },
     title: 'The Friend Who Always Checks On Everyone',
-    dek: 'You know that friend who remembers everybody\u2019s birthday? The one sending the \u201cjust checking on you\u201d text? Yeah... that\u2019s usually me.',
-    date: '2026-11-12',
-    body: [...L(`
-You know that friend who remembers everybody's birthday?
-The one sending the "just checking on you" text.
-The one showing up to the baby shower, graduation, retirement party, and family cookout.
-Yeah... that's usually me.
-And if I'm being honest, I've had to learn that not everybody loves that way.
-There have been times when I've celebrated people, supported people, and made time for people only to look around and realize they weren't doing the same for me.
-That used to bother me.
-Now I understand that everyone gives differently.
-I still believe in showing up for the people I love. I've just learned to stop keeping score.
-`)],
-    take: '',
-    takeLabel: '',
+    dek: 'Sometimes the smallest check-in can mean more than we realize.',
+    date: '2026-11-13',
+    body: [
+      ...L(`
+We've all met that person.
+The one who remembers birthdays.
+The one who remembers anniversaries.
+The one who somehow remembers that thing you mentioned three months ago and follows up to see how it went.
+I don't know about y'all, but I've always appreciated people who make others feel remembered.
+Not because they're looking for recognition.
+Not because they're keeping score.
+They just care.
+And honestly, that seems a little rare these days.
+Life moves fast.
+Everybody's busy.
+Everybody has something going on.
+That's exactly why a quick text can mean so much.
+Some people are naturally thoughtful.
+Not perfect.
+Not superheroes.
+Just thoughtful.
+They remember to call.
+They check in.
+They ask questions and actually listen to the answers.
+And even if they don't realize it, they're making the world feel a little smaller and a little warmer for the people around them.
+`),
+      { t: 'quote', text: 'Feeling remembered matters.' },
+      ...L(`
+The older I get, the more I appreciate effort.
+Not big gestures.
+Not expensive gifts.
+Just effort.
+A quick "How are you?"
+A simple "Thinking about you."
+A random "Hope everything is okay."
+Those little things add up.
+`),
+      { t: 'img', src: '/blog/tori-friend-scene.jpg', alt: 'Illustration of Tori on the Lady Bird Lake trail at sunset with a pink backpack that says Check on your people, with the words Feeling remembered matters.' },
+      ...L(`
+That doesn't mean everybody shows love the same way.
+Some people call.
+Some people text.
+Some people show up with food.
+Some people will pray for you and never mention it.
+We're all different.
+And that's okay.
+What matters is making the effort.
+Because none of us know what someone else is carrying.
+And sometimes the smallest check-in arrives at exactly the right time.
+`),
+    ],
+    take: 'Never underestimate the power of making someone feel remembered.\n\nA text only takes a few seconds to send.\n\nBut the right text at the right time can stay with someone for years. 💗',
+    takeLabel: 'Tori’s Take',
     sources: [],
-    note: 'Tori is still finishing this one. Check back soon for the full piece.',
   },
   {
     slug: 'some-apologies-change-everything',
     author: 'tori',
-    lane: 'Tori\u2019s Take',
-    teaser: true,
-    cover: { src: '/blog/tori-apologies.jpg', alt: 'Illustration of Tori gazing thoughtfully from a café window toward the Texas Capitol and the Austin skyline, with the headline Some Apologies Change Everything, Some Never Come', portrait: true },
+    lane: 'Tori’s Take',
+    cardCover: '/blog/tori-apologies.jpg',
+    cover: { src: '/blog/tori-apologies-cover.jpg', alt: 'Illustration of Tori resting her chin on her hand and gazing thoughtfully past the Texas Capitol and the Austin skyline' },
     title: 'Some Apologies Change Everything. Some Never Come.',
-    dek: 'When I was younger, I thought every hurt could be fixed with an apology. Now I know that\u2019s not always how life works.',
-    date: '2026-11-12',
-    body: [...L(`
+    dek: 'The older I get, the more I realize healing and closure aren’t always the same thing.',
+    date: '2026-11-13',
+    body: [
+      ...L(`
 When I was younger, I thought every hurt could be fixed with an apology.
-Now I know that's not always how life works.
+Now I'm not so sure.
+Life has a funny way of teaching lessons we never asked for.
 Sometimes people know exactly what they did.
 Sometimes they don't.
 And sometimes they'll apologize today and repeat the same behavior tomorrow.
-I've spent too much time waiting for certain conversations that never happened.
-The truth is, peace doesn't always come from getting the apology.
-Sometimes peace comes from accepting that the apology may never come and moving forward anyway.
-That's easier said than done, but it's a lesson life keeps teaching me.
-`)],
-    take: '',
-    takeLabel: '',
+That's the part nobody talks about enough.
+For a long time, I thought closure depended on a conversation.
+A phone call.
+An acknowledgment.
+Something.
+Anything.
+I wanted people to understand what they did.
+I wanted them to see things from my perspective.
+I wanted things to make sense.
+`),
+      { t: 'quote', text: 'Not every apology arrives. And not every apology would fix things if it did.' },
+      ...L(`
+The truth is that some people aren't ready to take accountability.
+Some people don't see the damage they've caused.
+And some people simply keep moving through life without realizing how their actions affected someone else.
+That's hard to accept.
+Especially when the hurt came from someone you care about.
+But waiting on someone else's growth can keep you stuck.
+And that's a dangerous place to live.
+The longer I live, the more I understand that peace and closure aren't always the same thing.
+Closure often depends on someone else.
+Peace doesn't.
+`),
+      { t: 'img', src: '/blog/tori-apologies-scene.jpg', alt: 'Illustration of Tori sitting on a ledge over Lady Bird Lake at sunset, with the words Not every apology arrives.' },
+      ...L(`
+Peace is something we can choose for ourselves.
+Even when the apology never comes.
+Even when the conversation never happens.
+Even when the relationship never looks the same again.
+`),
+    ],
+    take: 'Some apologies change everything.\n\nSome never come.\n\nEither way, don’t let your healing depend on someone else’s willingness to grow. 💗',
+    takeLabel: 'Tori’s Take',
     sources: [],
-    note: 'Tori is still finishing this one. Check back soon for the full piece.',
   },
   {
     slug: 'family-can-teach-you-patience',
     author: 'tori',
-    lane: 'Tori\u2019s Take',
-    teaser: true,
-    cover: { src: '/blog/tori-family-patience.jpg', alt: 'Illustration of Tori laughing at a big family dinner table with grandparents, parents and children, with the headline Family Can Teach You Patience Like Nothing Else', portrait: true },
+    lane: 'Tori’s Take',
+    cardCover: '/blog/tori-family-patience.jpg',
+    cover: { src: '/blog/tori-family-cover.jpg', alt: 'Illustration of Tori laughing at a big family dinner table with grandparents, parents and children' },
     title: 'Family Can Teach You Patience Like Nothing Else',
-    dek: 'Growing up, our house was always full. With four brothers, four sisters, and me, quiet was never really an option.',
-    date: '2026-11-12',
-    body: [...L(`
+    dek: 'If you grew up in a big family, you probably already know where this is going.',
+    date: '2026-11-13',
+    body: [
+      ...L(`
 Growing up, our house was always full.
-With four brothers, four sisters, and me, quiet was never really an option.
-Somebody was arguing.
+With four brothers, four sisters, and me, quiet wasn't really an option.
 Somebody was laughing.
-Somebody was eating the last piece of something they weren't supposed to touch.
-And somehow we all survived.
-Having a big family taught me a lot about patience because everybody is different.
-Everybody communicates differently.
-Everybody handles problems differently.
-Everybody shows love differently.
-As I've gotten older, I've realized family will test your patience unlike anybody else. But they'll also teach you some of life's greatest lessons if you're willing to learn them.
-And trust me, with nine kids under one roof, there were plenty of lessons to learn.
-`)],
-    take: '',
-    takeLabel: '',
+Somebody was arguing.
+Somebody was eating something that didn't belong to them.
+And somehow, every day felt like an adventure.
+Living with that many personalities teaches you things.
+You learn how to compromise.
+You learn how to share.
+You learn how to speak up.
+And most importantly?
+You learn patience.
+A lot of patience.
+Every family has different personalities.
+The loud one.
+The quiet one.
+The stubborn one.
+The peacemaker.
+The one who's somehow always in the middle of everything.
+And when you put all of those people together under one roof, things are bound to get interesting.
+`),
+      { t: 'quote', text: 'Family will test your patience unlike anybody else.' },
+      ...L(`
+The older I've gotten, the more I've realized that patience isn't about agreeing with everyone.
+It's about learning how to love people even when they're different from you.
+Family teaches you that people communicate differently.
+Show love differently.
+Solve problems differently.
+See the world differently.
+And whether we like it or not, there's usually a lesson hidden somewhere in all that chaos.
+`),
+      { t: 'img', src: '/blog/tori-family-scene.jpg', alt: 'Illustration of Tori from behind on the Lady Bird Lake trail at sunset, with a backpack that says Grateful for the chaos and the words Big families teach big lessons.' },
+      ...L(`
+Some of my favorite memories came from moments that felt completely normal at the time.
+Family dinners.
+Laughter.
+Inside jokes.
+Conversations that didn't seem important until years later.
+Funny how those become the moments we remember most.
+Big families can test your nerves.
+But they can also fill your life with stories, memories, and lessons you'll carry forever.
+`),
+    ],
+    take: 'Family isn’t always easy.\n\nBut if you’re paying attention, it’s one of life’s greatest teachers.\n\nAnd trust me, with nine kids in one house, there were plenty of lessons to learn. 💗',
+    takeLabel: 'Tori’s Take',
     sources: [],
-    note: 'Tori is still finishing this one. Check back soon for the full piece.',
   },
   // ---------------- Tori: Quick Tea ----------------
   {

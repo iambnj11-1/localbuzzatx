@@ -11,7 +11,7 @@ const a = authors.tori;
 const all = byAuthor('tori');
 const hero = all.find((p) => p.hero) ?? all.find((p) => !p.teaser);
 const takes = all.filter((p) => p.lane === 'Tori’s Take');
-const take = takes.find((p) => !p.teaser);
+const liveTakes = takes.filter((p) => !p.teaser);
 const teasers = takes.filter((p) => p.teaser);
 const reacts = all.filter((p) => p.lane === 'Tori Reacts' && p !== hero);
 const quick = all.filter((p) => p.lane === 'Quick Tea' && p !== hero);
@@ -52,7 +52,7 @@ const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
 
     <section class="tsection">
       <div class="prowhead"><h3>☕ Tori’s Take</h3><span>Real conversations about life, from Tori’s perspective.</span></div>
-      {(take || teasers.length > 0) && <div class="pgrid">{take && <PostCard post={take} />}{teasers.map((p) => <PostCard post={p} />)}</div>}
+      {(liveTakes.length > 0 || teasers.length > 0) && <div class="pgrid">{liveTakes.map((p) => <PostCard post={p} />)}{teasers.map((p) => <PostCard post={p} />)}</div>}
     </section>
 
     <section class="prow">
