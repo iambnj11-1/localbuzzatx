@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { posts, authors } from '../lib/posts';
-const pages = ['/', '/news', '/watch', '/omg', '/money', '/to-do', '/shout-out', '/morning-buzz', '/how-it-works', '/sources', '/advertise', '/contact', '/about', '/privacy', '/terms', '/affiliate-disclosure', '/blog', '/guides', '/resources', '/corrections', '/blog/caleb', '/blog/tori'];
+const pages = ['/', '/news', '/watch', '/omg', '/money', '/to-do', '/shout-out', '/weekly-buzz', '/how-it-works', '/sources', '/advertise', '/contact', '/about', '/privacy', '/terms', '/affiliate-disclosure', '/blog', '/guides', '/resources', '/corrections', '/blog/caleb', '/blog/tori'];
 export const GET: APIRoute = () => {
   const base = 'https://localbuzzatx.com';
   const urls = [
