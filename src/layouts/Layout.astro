@@ -4,7 +4,7 @@ const home: Record<string, string> = { 'City of Austin': 'https://www.austintexa
 const footSources = [...new Set([...FEEDS.filter((f) => f.category !== 'Entertainment'), ...PAGES].map((f) => f.source))].map((n) => [n, home[n] ?? '/sources'] as [string, string]);
 import '../styles/global.css';
 import { getWeather } from '../lib/weather';
-const { title = 'Local Buzz ATX', current = '', navV2 = true } = Astro.props;
+const { title = 'Local Buzz ATX', current = '', navV2 = true, noindex = false } = Astro.props;
 const sections: [string, string, [string, string][]][] = [
   ['News', '/news', [['Latest', '/news'], ['Government', '/news?tag=Government'], ['Neighborhoods', '/news?tag=Neighborhoods'], ['Business', '/news?tag=Business'], ['Tech', '/news?tag=Tech'], ['Crime', '/news?tag=Busted'], ['Weather', '/news?tag=Weather']]],
   ['Watch', '/watch', []],
@@ -44,6 +44,7 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
     <meta name="fo-verify" content="c5f0822f-7460-4261-b7d8-f1081d3822da" />
     <meta name="impact-site-verification" value="0ffa0d16-8615-4c4c-a219-13b8f51c5ab5" />
     {!live && <meta name="robots" content="noindex, nofollow" />}
+    {live && noindex && <meta name="robots" content="noindex, follow" />}
     {live && <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2767848856450502" crossorigin="anonymous"></script>}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />

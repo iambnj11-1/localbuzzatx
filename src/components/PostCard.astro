@@ -16,7 +16,7 @@ const href = `${a.path}/${post.slug}${post.draft ? '?preview=1' : ''}`;
   <h3>{post.title}</h3>
   <p>{post.dek}</p>
   <div class="pcmeta"><img src={a.img} alt="" width="24" height="24" /><span>By {a.name}</span><span>🕒 {readMin(post)} min read</span></div>
-  <span class="takebtn">Read More →</span>
+  <span class="takebtn">{post.teaser ? (post.author === 'tori' ? 'Tori’s thoughts coming soon' : 'Coming soon') : 'Read More →'}</span>
 </a>
 ) : (
 <a class={`pcard pc-${post.author}${noimg ? ' pc-noimg' : ''}`} href={href}>

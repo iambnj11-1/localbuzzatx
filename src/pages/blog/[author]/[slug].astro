@@ -14,7 +14,7 @@ const takeBody = post && takeIdx >= 0 ? post.body.slice(takeIdx + 1) : [];
 const takeHead = post && takeIdx >= 0 ? (post.body[takeIdx] as { text: string }).text : '';
 const more = post ? finished(post.author).filter((p) => p.slug !== post.slug).slice(0, 4) : [];
 ---
-<Layout title={visible ? post.title : 'Not found'} current="">
+<Layout title={visible ? post.title : 'Not found'} current="" noindex={!!post?.teaser}>
   {!visible || !post || !a ? (
     <section class="page"><p><a href="/blog">← Blog</a></p><h2>We couldn’t find that post.</h2></section>
   ) : (
