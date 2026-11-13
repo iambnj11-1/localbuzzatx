@@ -829,3 +829,5 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .omgshare a, .omgshare button { font: inherit; font-size: 13px; font-weight: 700; color: var(--ink); background: #fff; border: 2px solid var(--ink); padding: 5px 12px; text-decoration: none; cursor: pointer; }
 .omgshare a:hover, .omgshare button:hover { background: var(--ink); color: #fff; }
 .omgshare-sm a, .omgshare-sm button { font-size: 12px; padding: 3px 9px; border-width: 1px; }
+
+.lpembed { max-width: 520px; margin: 14px auto 6px; min-height: 60px; }
