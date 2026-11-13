@@ -22,6 +22,8 @@ const sectionsV2: [string, string, [string, string][]][] = [
 ];
 const navSections = navV2 ? sectionsV2 : sections;
 const weather = await getWeather();
+// Only the real domain is open to search engines and ads. beta and local stay private.
+const live = ['localbuzzatx.com', 'www.localbuzzatx.com'].includes(Astro.url.hostname);
 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Chicago' });
 ---
 <!doctype html>
@@ -33,7 +35,8 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
     <meta name="description" content="Austin news, and why it matters to you." />
     <meta name="fo-verify" content="c5f0822f-7460-4261-b7d8-f1081d3822da" />
     <meta name="impact-site-verification" value="0ffa0d16-8615-4c4c-a219-13b8f51c5ab5" />
-    <meta name="robots" content="noindex, nofollow" />
+    {!live && <meta name="robots" content="noindex, nofollow" />}
+    {live && <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2767848856450502" crossorigin="anonymous"></script>}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Local Buzz ATX" />
