@@ -27,6 +27,7 @@ export interface Post {
   hero?: boolean; // featured as the top story on the author's page
   topic?: string; // row on Caleb's page, e.g. "Cybersecurity"
   cardCover?: string; // tall 3:4 image used only on list cards
+  related?: string[]; // slugs of related posts, shown as a link box under the article
   photoCredit?: { by: string; via: string; url: string; license: string; licenseUrl: string; changes: string };
 }
 
@@ -163,54 +164,50 @@ And sometimes that's one of the strongest things you can do.
     date: '2026-11-13',
     body: [
       ...L(`
-We've all met that person.
+We’ve all met that person.
 The one who remembers birthdays.
 The one who remembers anniversaries.
 The one who somehow remembers that thing you mentioned three months ago and follows up to see how it went.
-I don't know about y'all, but I've always appreciated people who make others feel remembered.
-Not because they're looking for recognition.
-Not because they're keeping score.
-They just care.
-And honestly, that seems a little rare these days.
-Life moves fast.
-Everybody's busy.
-Everybody has something going on.
-That's exactly why a quick text can mean so much.
-Some people are naturally thoughtful.
-Not perfect.
-Not superheroes.
-Just thoughtful.
-They remember to call.
-They check in.
-They ask questions and actually listen to the answers.
-And even if they don't realize it, they're making the world feel a little smaller and a little warmer for the people around them.
+For a long time, I used to think staying connected meant having hours of free time to sit around and catch up. When life got hectic, I’d tell myself I’d call next week, or next month, once things slowed down.
+The truth is, life rarely slows down on its own.
+Just the other day, I finally reached out to a friend I hadn’t talked to in a long time. Life has been heavy and moving fast lately, and honestly, it would have been easy to keep putting it off.
+But the second we started talking, it felt good. Like no time had passed at all. We laughed, caught up on real life, and made plans to get together for tea time real soon.
+And sitting with that afterward, I realized something: that conversation wasn’t just nice. It was right on time.
+There is a different kind of peace that comes from knowing you have someone genuinely in your corner.
+Not someone who just hits "like" on a photo and keeps scrolling.
+Not someone who says "we need to link up" just to fill the silence.
+Somebody who actually cares how your spirit is doing.
 `),
-      { t: 'quote', text: 'Feeling remembered matters.' },
+      { t: 'quote', text: 'Feeling remembered matters, especially when life gets loud.' },
       ...L(`
-The older I get, the more I appreciate effort.
-Not big gestures.
-Not expensive gifts.
-Just effort.
-A quick "How are you?"
-A simple "Thinking about you."
-A random "Hope everything is okay."
-Those little things add up.
+We live in a world where everybody is busy, everybody is tired, and everybody is carrying something nobody else sees.
+That’s why intentional effort stands out so much today.
+You don’t need a grand gesture to show up for the people you love.
+You don’t need an expensive gift or a three-hour phone call.
+You just need to make the effort when someone crosses your mind.
+A quick "How are you really doing?"
+A simple "Thinking about you today."
+A random "I’m in your corner."
+Those little check-ins add up. They remind people they aren’t walking through this life invisible or alone.
 `),
       { t: 'img', src: '/blog/tori-friend-scene.jpg', alt: 'Illustration of Tori on the Lady Bird Lake trail at sunset with a pink backpack that says Check on your people, with the words Feeling remembered matters.' },
       ...L(`
-That doesn't mean everybody shows love the same way.
-Some people call.
-Some people text.
-Some people show up with food.
-Some people will pray for you and never mention it.
-We're all different.
-And that's okay.
-What matters is making the effort.
-Because none of us know what someone else is carrying.
-And sometimes the smallest check-in arrives at exactly the right time.
+I’m learning not to ignore that nudge when a friend pops into my head.
+Because half the time, that nudge shows up for a reason. Maybe they needed the encouragement, or maybe, like me the other day, you were the one who needed the reminder that good people are still walking alongside you.
+I think we sometimes talk ourselves out of reaching out.
+We tell ourselves they’re probably busy.
+We wonder if the text will feel random.
+We worry it’s been too long and it’ll be awkward.
+But the awkward part usually lasts about thirty seconds. How it makes someone feel can last all day.
+And if a friend ever reaches out to you out of the blue, take it as the gift it is. Somebody thought of you, and they cared enough to say so.
+`),
+      { t: 'quote', text: 'You don’t need a grand gesture to show up for the people you love.' },
+      ...L(`
+None of us know the full weight someone else is carrying behind closed doors.
+And sometimes the smallest check-in arrives at the exact moment it was needed most.
 `),
     ],
-    take: 'Never underestimate the power of making someone feel remembered.\n\nA text only takes a few seconds to send.\n\nBut the right text at the right time can stay with someone for years. 💗',
+    take: 'Never underestimate the power of making someone feel remembered.\n\nDon’t wait for life to slow down before you reach out to your people. Send the text, make the call, schedule the tea time.\n\nA few minutes of real connection can carry somebody through a whole week. 💗',
     takeLabel: 'Tori’s Take',
     sources: [],
   },
@@ -226,43 +223,52 @@ And sometimes the smallest check-in arrives at exactly the right time.
     body: [
       ...L(`
 When I was younger, I thought every hurt could be fixed with an apology.
-Now I'm not so sure.
+Now I’m not so sure.
 Life has a funny way of teaching lessons we never asked for.
-Sometimes people know exactly what they did.
-Sometimes they don't.
-And sometimes they'll apologize today and repeat the same behavior tomorrow.
-That's the part nobody talks about enough.
-For a long time, I thought closure depended on a conversation.
-A phone call.
-An acknowledgment.
-Something.
-Anything.
-I wanted people to understand what they did.
-I wanted them to see things from my perspective.
-I wanted things to make sense.
+For a long time, when someone crossed a line or broke my trust, I’d sit around waiting for them to make it right. I wanted them to see what they did. I wanted them to own it.
+Waiting on an apology that never comes will drive you crazy.
+It’s like sitting through a whole setup waiting for a punchline, and there isn’t one.
+And what makes it even harder is realizing that even when an apology does come, sometimes it’s just an apology for apology’s sake.
+No morals behind it.
+No real values attached.
+Just words thrown out to sweep things under the rug so they don’t have to feel uncomfortable anymore.
+I used to think that kind of disrespect only came from younger folks who didn’t know any better, but the older I get, I’ve seen plenty of older ones move the exact same way. Saying "sorry" today and repeating the exact same behavior tomorrow.
 `),
       { t: 'quote', text: 'Not every apology arrives. And not every apology would fix things if it did.' },
       ...L(`
-The truth is that some people aren't ready to take accountability.
-Some people don't see the damage they've caused.
-And some people simply keep moving through life without realizing how their actions affected someone else.
-That's hard to accept.
-Especially when the hurt came from someone you care about.
-But waiting on someone else's growth can keep you stuck.
-And that's a dangerous place to live.
-The longer I live, the more I understand that peace and closure aren't always the same thing.
-Closure often depends on someone else.
-Peace doesn't.
+For a while, I let that eat at me.
+I replayed what happened.
+I wondered how someone could act like they didn’t know what they did.
+I wanted closure to look like a real conversation and real accountability.
+Until one day it hit me: those thoughts were living rent-free in my mind.
+They had moved on with their day, completely unbothered, while I was the one carrying the frustration around.
+That’s when I made a decision. If they weren’t going to change, I had to choose a different outlet for my energy.
+Letting go isn’t one big moment. It’s a decision you make again and again, and some days it’s harder than others.
+Some days it feels easy. Other days, something small drags it all back, and you have to choose peace all over again.
+That’s not failure. That’s just being human.
 `),
       { t: 'img', src: '/blog/tori-apologies-scene.jpg', alt: 'Illustration of Tori sitting on a ledge over Lady Bird Lake at sunset, with the words Not every apology arrives.' },
       ...L(`
+The truth is, you cannot force morals, values, or self-awareness into somebody who isn’t interested in having them.
+And waiting on someone else’s growth will keep your whole life on pause.
+The longer I live, the more I understand that peace and closure aren’t the same thing.
+Closure depends on somebody else doing the right thing.
+Peace only depends on you.
+That doesn’t mean you stop caring.
+It doesn’t mean you pretend you weren’t hurt.
+It doesn’t mean the relationship has to come back together.
+It just means you stop handing someone else the remote control to your peace.
+`),
+      { t: 'quote', text: 'Stop letting people who won’t take accountability live rent-free in your head.' },
+      ...L(`
 Peace is something we can choose for ourselves.
 Even when the apology never comes.
-Even when the conversation never happens.
+Even when the apology is hollow.
 Even when the relationship never looks the same again.
+And if you’re still waiting on an apology today, I hope you’ll give yourself permission to stop waiting. Not because they’ve earned your forgiveness, but because you’ve earned your peace.
 `),
     ],
-    take: 'Some apologies change everything.\n\nSome never come.\n\nEither way, don’t let your healing depend on someone else’s willingness to grow. 💗',
+    take: 'Some apologies change everything.\n\nSome never come. And some aren’t worth the breath it took to say them.\n\nEither way, evict that situation from your head, protect your energy, and never put your healing on hold waiting for somebody else to act right. 💗',
     takeLabel: 'Tori’s Take',
     sources: [],
   },
@@ -278,49 +284,56 @@ Even when the relationship never looks the same again.
     body: [
       ...L(`
 Growing up, our house was always full.
-With four brothers, four sisters, and me, quiet wasn't really an option.
+With four brothers, four sisters, and me, quiet wasn’t really an option.
 Somebody was laughing.
 Somebody was arguing.
-Somebody was eating something that didn't belong to them.
-And somehow, every day felt like an adventure.
-Living with that many personalities teaches you things.
+And somebody was definitely eating something that didn’t belong to them.
+If you grew up in a big family, you already know what it’s like to walk into the kitchen thinking about that leftover plate you saved, only to find an empty dish and nobody admitting who touched it. There were plenty of hangry moments in our house.
+When there are nine kids under one roof, nothing is ever really just yours.
+Not the bathroom.
+Not the remote.
+Not your space.
+And definitely not your snacks.
+At the time, it felt like pure chaos. Every single day felt like an adventure you didn’t necessarily sign up for.
+Living with that many personalities forces you to learn things fast.
 You learn how to compromise.
-You learn how to share.
-You learn how to speak up.
+You learn how to speak up for yourself.
 And most importantly?
-You learn patience.
-A lot of patience.
-Every family has different personalities.
+You learn patience. A whole lot of patience.
+`),
+      { t: 'quote', text: 'Family will test your patience unlike anybody else.' },
+      ...L(`
+Every family has a mix of personalities.
 The loud one.
 The quiet one.
 The stubborn one.
 The peacemaker.
-The one who's somehow always in the middle of everything.
-And when you put all of those people together under one roof, things are bound to get interesting.
-`),
-      { t: 'quote', text: 'Family will test your patience unlike anybody else.' },
-      ...L(`
-The older I've gotten, the more I've realized that patience isn't about agreeing with everyone.
-It's about learning how to love people even when they're different from you.
-Family teaches you that people communicate differently.
-Show love differently.
-Solve problems differently.
-See the world differently.
-And whether we like it or not, there's usually a lesson hidden somewhere in all that chaos.
+The one who’s somehow always right in the middle of everything.
+The older I’ve gotten, the more I’ve realized that patience isn’t about pretending nobody gets on your nerves, or agreeing with everything they do.
+It’s about learning how to love people even when they’re completely different from you.
+Because as much as we drove each other crazy, growing up in a house that full came with something you can’t buy: a whole lot of love.
+You never had to wonder if somebody had your back. You always had somebody to laugh with, somebody to lean on, and somebody who knew where you came from without you having to explain a word.
 `),
       { t: 'img', src: '/blog/tori-family-scene.jpg', alt: 'Illustration of Tori from behind on the Lady Bird Lake trail at sunset, with a backpack that says Grateful for the chaos and the words Big families teach big lessons.' },
       ...L(`
-Some of my favorite memories came from moments that felt completely normal at the time.
-Family dinners.
-Laughter.
-Inside jokes.
-Conversations that didn't seem important until years later.
-Funny how those become the moments we remember most.
-Big families can test your nerves.
-But they can also fill your life with stories, memories, and lessons you'll carry forever.
+Family teaches you that people communicate differently, show love differently, and handle life differently.
+And whether we like it or not, there’s usually a lesson hidden somewhere inside all that noise.
+Looking back, those years were a crash course in things you can’t learn from a book. How to read a room. How to wait your turn. How to let something small go because the bigger thing, the people, mattered more.
+And honestly, I still use those lessons today. Whenever life asks me to be patient with someone, part of me is back in that crowded kitchen, taking a deep breath and remembering that everybody is just trying to be heard.
+`),
+      { t: 'quote', text: 'Nothing was ever really just yours, except the love that held everybody together.' },
+      ...L(`
+Some of my favorite memories came from moments that felt completely ordinary, or downright chaotic, at the time.
+Crowded dinners.
+Loud laughter.
+Inside jokes nobody outside the house would ever understand.
+Funny how that works. The things that drove us crazy back then are often the very things we laugh about now.
+If you grew up with a full house, I hope you can look back and smile at the chaos too.
+Big families will test every ounce of your patience.
+But they’ll also fill your life with stories, resilience, and love you’ll carry forever.
 `),
     ],
-    take: 'Family isn’t always easy.\n\nBut if you’re paying attention, it’s one of life’s greatest teachers.\n\nAnd trust me, with nine kids in one house, there were plenty of lessons to learn. 💗',
+    take: 'Family isn’t always easy, especially when somebody ate your food and nobody’s confessing.\n\nBut if you’re paying attention, the people who test your patience the most are often the ones teaching you how to love the deepest.\n\nAnd trust me, with nine kids in one house, there were plenty of lessons to learn. 💗',
     takeLabel: 'Tori’s Take',
     sources: [],
   },
@@ -574,7 +587,8 @@ But they can also fill your life with stories, memories, and lessons you'll carr
   {
     slug: 'helping-older-adults-stay-safe-online',
     author: 'caleb',
-    lane: 'Caleb’s Corner',
+    lane: 'Guide',
+    related: ['fake-toll-text-scams-texas'],
     topic: 'Cybersecurity',
     cover: { src: '/blog/caleb-corner-older-adults.jpg', alt: 'Illustration of Caleb for helping-older-adults-stay-safe-online' },
     title: 'Helping Older Adults Stay Safe Online: Warning Signs and What to Do',
@@ -599,7 +613,7 @@ But they can also fill your life with stories, memories, and lessons you'll carr
         'Ask a question only the real person would know.',
         'Get offers and contract terms in writing. Do not sign or pay under pressure.',
         'Check Medicare statements to make sure you actually received what was billed. Never sign blank insurance claim forms.',
-        'Do not click links in unexpected texts or emails. See our guide on fake toll texts for a common example.',
+        'Do not click links in unexpected texts or emails. See our article on fake toll texts for a common example.',
       ] },
       h('If something already happened'),
       { t: 'list', items: [
@@ -654,54 +668,6 @@ But they can also fill your life with stories, memories, and lessons you'll carr
       { name: 'CISA: Secure Our World, 4 easy ways to stay safe online (tip sheet)', url: 'https://www.cisa.gov/sites/default/files/2024-09/Secure-Our-World-4-Easy-Ways-Stay-Safe-Online-Tip-Sheet.pdf' },
     ],
     note: 'Last checked Nov. 13, 2026. General information only.',
-  },
-  {
-    slug: 'digital-inclusion-in-austin-why-access-matters',
-    author: 'caleb',
-    lane: 'Caleb’s Corner',
-    topic: 'Cybersecurity',
-    teaser: true,
-    cover: { src: '/blog/caleb-corner-digital-inclusion.jpg', alt: 'Illustration of Caleb for digital-inclusion-in-austin-why-access-matters' },
-    title: 'Digital Inclusion in Austin: Why Access Matters',
-    dek: 'Safe, reliable internet access shapes who can work, learn and stay protected online. Here’s what that looks like in Austin.',
-    date: '2026-11-12',
-    body: [p('Caleb is working on a look at why safe, reliable internet access matters for everyone in Austin, and what happens when people are left offline.')],
-    take: '',
-    takeLabel: '',
-    sources: [],
-    note: 'Caleb is still finishing this one. Check back soon for the full piece.',
-  },
-  {
-    slug: 'safer-online-habits-anyone-can-build',
-    author: 'caleb',
-    lane: 'Caleb’s Corner',
-    topic: 'Cybersecurity',
-    teaser: true,
-    cover: { src: '/blog/caleb-corner-safer-habits.jpg', alt: 'Illustration of Caleb for safer-online-habits-anyone-can-build' },
-    title: 'Safer Online Habits Anyone Can Build',
-    dek: 'A few small routines that protect your accounts, whether you’re 18 or 80.',
-    date: '2026-11-12',
-    body: [p('Caleb is putting together a short list of small, repeatable habits that make anyone harder to hack, with no technical background needed.')],
-    take: '',
-    takeLabel: '',
-    sources: [],
-    note: 'Caleb is still finishing this one. Check back soon for the full piece.',
-  },
-  {
-    slug: 'what-ai-stock-swings-mean-for-texans',
-    author: 'caleb',
-    lane: 'Caleb’s Corner',
-    topic: 'AI & Tech',
-    teaser: true,
-    cover: { src: '/blog/caleb-corner-ai-stocks.jpg', alt: 'Illustration of Caleb for what-ai-stock-swings-mean-for-texans' },
-    title: 'What AI Stock Swings Mean for Texans',
-    dek: 'Even if you don’t trade, your retirement account may hold AI stocks. Here’s what that means here in Texas.',
-    date: '2026-11-12',
-    body: [p('Caleb is working on a plain-English look at what swings in AI stocks mean for everyday Texans, from retirement accounts to Austin’s tech jobs.')],
-    take: '',
-    takeLabel: '',
-    sources: [],
-    note: 'Caleb is still finishing this one. Check back soon for the full piece. General information only, not financial advice.',
   },
   {
     slug: 'flood-ready-travis-williamson-counties',
@@ -806,7 +772,8 @@ But they can also fill your life with stories, memories, and lessons you'll carr
   {
     slug: 'fake-toll-text-scams-texas',
     author: 'caleb',
-    lane: 'Guide',
+    lane: 'Caleb’s Corner',
+    related: ['helping-older-adults-stay-safe-online'],
     topic: 'Cybersecurity',
     title: 'Got a Text About an Unpaid Toll? How to Spot the Scam in Texas',
     dek: 'Fake toll texts keep showing up on Texas phones. Here is how to spot one, what to do, and where to report it.',
@@ -953,6 +920,7 @@ But they can also fill your life with stories, memories, and lessons you'll carr
   {
     slug: 'public-wifi-safety',
     author: 'caleb',
+    draft: true,
     lane: 'Guide',
     topic: 'Cybersecurity',
     title: 'Before You Connect to Public Wi-Fi: What Is Actually Risky Now',
