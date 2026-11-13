@@ -5,6 +5,8 @@ import { chipClass, chipLabel } from '../lib/chip';
 import { withStory } from '../lib/omg';
 import BannerBand from '../components/BannerBand.astro';
 import OmgBox from '../components/OmgBox.astro';
+import PostCard from '../components/PostCard.astro';
+import { byAuthor, authors } from '../lib/posts';
 import NewsletterTools from '../components/NewsletterTools.astro';
 import { getAi, enrich } from '../lib/ai';
 import { impactScore, bySignal, isSoft } from '../lib/impact';
@@ -76,6 +78,8 @@ const national = all.stories.filter((s) => s.category === 'National' && nowMs - 
 const wxRaw = getForecast().catch(() => null);
 const wx = await Promise.race([wxRaw, new Promise<null>((r) => setTimeout(() => r(null), 1500))]);
 const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
+const calebHome = byAuthor('caleb').slice(0, 3);
+const toriHome = byAuthor('tori').slice(0, 3);
 ---
 <Layout current="Home">
   {briefing.length > 0 && (
@@ -149,6 +153,18 @@ const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short
         <img class="art-av art-av-lg" src="/authors/tori.jpg" alt="Illustration of Tori" width="56" height="56" />
         <div><div class="lplabel">Quick Tea</div><b>Tori</b><p>Entertainment, music, culture and Austin buzz. A quick, honest take on what everyone is talking about.</p></div>
       </a>
+    </div>
+  </section>
+
+  <section class="fromcols" aria-label="Columns from Caleb and Tori">
+    <div class="pagehead"><h2>From Caleb and Tori</h2><a href="/blog">All columns →</a></div>
+    <div class="fcrow">
+      <div class="fchead"><img class="art-av" src="/authors/caleb-v2.jpg" alt="" width="40" height="40" /><h3>Caleb’s Corner</h3><a href="/blog/caleb">All of Caleb’s articles →</a></div>
+      <div class="pgrid">{calebHome.map((p) => <PostCard post={p} />)}</div>
+    </div>
+    <div class="fcrow">
+      <div class="fchead"><img class="art-av" src="/authors/tori.jpg" alt="" width="40" height="40" /><h3>Quick Tea with Tori</h3><a href="/blog/tori">All of Tori’s articles →</a></div>
+      <div class="pgrid">{toriHome.map((p) => <PostCard post={p} />)}</div>
     </div>
   </section>
 

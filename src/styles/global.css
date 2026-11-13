@@ -797,3 +797,9 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .btopic h4{margin:0;font-family:"Playfair Display",serif;font-size:1.15rem}
 .btopic p{margin:0;font-size:.92rem}
 .btopic small{opacity:.7}
+.fromcols{margin:28px 0}
+.fcrow{margin-bottom:26px}
+.fchead{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.fchead h3{margin:0;font-family:"Playfair Display",serif;font-size:1.35rem}
+.fchead a{margin-left:auto;font-size:13px;font-weight:600}
+.fromcols .pagehead a{font-size:13px;font-weight:600}
