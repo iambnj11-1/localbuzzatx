@@ -803,3 +803,10 @@ nav.sections .navcta a:hover { background: var(--ink); color: #fff; }
 .fchead h3{margin:0;font-family:"Playfair Display",serif;font-size:1.35rem}
 .fchead a{margin-left:auto;font-size:13px;font-weight:600}
 .fromcols .pagehead a{font-size:13px;font-weight:600}
+
+/* OMG reaction cards: small badge beside the line; no big placeholder when there is no photo */
+.omgc-src-flat { position: static; align-self: flex-start; }
+.omgc-compact .omgc-head { font-size: 15px; color: var(--ink); font-family: var(--serif); font-weight: 700; }
+.omgc-line { display: flex; gap: 12px; align-items: flex-start; }
+.omgc-badge { flex: none; width: 54px; height: auto; margin-top: 2px; }
+.omgc-line span { display: block; }

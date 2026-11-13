@@ -39,14 +39,16 @@ const tag = Astro.url.searchParams.get('tag');
     <div class="omgcols"><div>
     <div class="omgcards">
     {all.map((r, i) => (<>
-      <article class="omgc">
-        <div class={`omgc-img${r.image ? '' : ' noimg'}`}>
-          {r.image ? <img src={r.image} alt="" loading="lazy" referrerpolicy="no-referrer" /> : <img class="stamp" src="/omg-tile.svg" alt="" loading="lazy" />}
-          {r.label && <span class="omgc-src">{r.label}</span>}
-        </div>
+      <article class={`omgc${r.image ? '' : ' omgc-compact'}`}>
+        {r.image ? (
+          <div class="omgc-img">
+            <img src={r.image} alt="" loading="lazy" referrerpolicy="no-referrer" />
+            {r.label && <span class="omgc-src">{r.label}</span>}
+          </div>
+        ) : (r.label && <span class="omgc-src omgc-src-flat">{r.label}</span>)}
         <div class="omgc-body">
           <div class="omgc-head">{r.head}</div>
-          <p class="omgc-line"><em>OMG!</em> {r.line}</p>
+          <p class="omgc-line"><img class="omgc-badge" src="/omg-badge.svg" alt="OMG!" width="54" height="36" /><span>{r.line}</span></p>
           {r.link && <a class="omgc-go" href={r.link} target="_blank" rel="noopener">Read the story →</a>}
         </div>
       </article>
