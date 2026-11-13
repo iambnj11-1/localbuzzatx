@@ -3,18 +3,17 @@ import NewsletterTools from '../components/NewsletterTools.astro';
 import AdRow from '../components/AdRow.astro';
 import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
-import { withStory } from '../lib/omg';
+import { getTakes, ofTheDay } from '../lib/omg';
 import { chipClass, chipLabel } from '../lib/chip';
 import { goodNews, shoutouts } from '../lib/community';
 const stories = (await getStories()).stories.filter((s) => s.category !== 'Busted' && s.category !== 'National' && s.category !== 'Entertainment');
-const all = withStory(stories);
+const all = await getTakes(stories);
+const daily = ofTheDay(all);
 const calm = /(crash|shoot|kill|dead|death|arrest|murder|fatal|police|suspect|stabb|assault|victim)/i;
 const newsPicks = stories.filter((s) => (s.category === 'News' || s.category === 'Government') && !calm.test(`${s.title} ${s.summary}`)).slice(0, 3);
 const todoPicks = stories.filter((s) => s.category === 'Events' && !/best and worst/i.test(s.title)).slice(0, 3);
 const video = stories.find((s) => s.category === 'Watch' && s.videoId);
 // Lead = first take that has a photo, else the first take.
-const lead = all.find((r) => r.image) ?? all[0];
-const rest = all.filter((r) => r !== lead);
 const tag = Astro.url.searchParams.get('tag');
 ---
 <Layout title="OMG!" current="OMG!">
@@ -37,6 +36,16 @@ const tag = Astro.url.searchParams.get('tag');
     {!tag && <>
     <div class="pagehead"><h2>OMG!</h2><span>Austin news, with a side eye.</span></div>
     <div class="omgcols"><div>
+    <section class="omgday">
+      <span class="omgbox-k">OMG! of the Day</span>
+      <p class="omgday-line">{daily.line}</p>
+      <p class="omgday-story">{daily.head}{daily.label ? ` · ${daily.label}` : ''}</p>
+      <div class="omgshare">
+        <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(daily.line + ' via @LocalBuzzATX')}&url=${encodeURIComponent('https://localbuzzatx.com/omg')}`} target="_blank" rel="noopener">Share on X</a>
+        <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://localbuzzatx.com/omg')}`} target="_blank" rel="noopener">Facebook</a>
+        <button type="button" data-copy={`${daily.line} https://localbuzzatx.com/omg`}>Copy</button>
+      </div>
+    </section>
     <div class="omgcards">
     {all.map((r, i) => (<>
       <article class={`omgc${r.image ? '' : ' omgc-compact'}`}>
@@ -49,6 +58,11 @@ const tag = Astro.url.searchParams.get('tag');
         <div class="omgc-body">
           <div class="omgc-head">{r.head}</div>
           <p class="omgc-line"><img class="omgc-badge" src="/omg-badge.svg" alt="OMG!" width="54" height="36" /><span>{r.line}</span></p>
+          <div class="omgshare omgshare-sm">
+            <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(r.line)}&url=${encodeURIComponent('https://localbuzzatx.com/omg')}`} target="_blank" rel="noopener">X</a>
+            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://localbuzzatx.com/omg')}`} target="_blank" rel="noopener">Facebook</a>
+            <button type="button" data-copy={`${r.line} https://localbuzzatx.com/omg`}>Copy</button>
+          </div>
           {r.link && <a class="omgc-go" href={r.link} target="_blank" rel="noopener">Read the story →</a>}
         </div>
       </article>
@@ -81,4 +95,13 @@ const tag = Astro.url.searchParams.get('tag');
     </div>
   </>}
   </section>
+<script is:inline>
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-copy]');
+    if (!b) return;
+    var t = b.getAttribute('data-copy');
+    var done = function () { var o = b.textContent; b.textContent = 'Copied!'; setTimeout(function () { b.textContent = o; }, 1500); };
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done); else done();
+  });
+</script>
 </Layout>

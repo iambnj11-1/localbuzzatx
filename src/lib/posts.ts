@@ -775,6 +775,7 @@ But they’ll also fill your life with stories, resilience, and love you’ll ca
     lane: 'Caleb’s Corner',
     related: ['helping-older-adults-stay-safe-online'],
     topic: 'Cybersecurity',
+    cover: { src: '/blog/toll-text-scam-cover.jpg', alt: 'Illustration of a phone showing a fake unpaid toll text message, with the words Unpaid toll text? Pause.' },
     title: 'Got a Text About an Unpaid Toll? How to Spot the Scam in Texas',
     dek: 'Fake toll texts keep showing up on Texas phones. Here is how to spot one, what to do, and where to report it.',
     date: '2026-11-13',

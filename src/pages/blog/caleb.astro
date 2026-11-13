@@ -5,7 +5,7 @@ import AuthorBox from '../../components/AuthorBox.astro';
 import OmgBox from '../../components/OmgBox.astro';
 import BreakingBand from '../../components/BreakingBand.astro';
 import { getStories } from '../../lib/feeds';
-import { withStory } from '../../lib/omg';
+import { getTakes, ofTheDay } from '../../lib/omg';
 import { byAuthor, authors, fmtDate, laneBadge, readMin } from '../../lib/posts';
 const a = authors.caleb;
 const all = byAuthor('caleb');
@@ -16,18 +16,22 @@ const corner = all.filter((p) => p.lane === 'Caleb’s Corner');
 const reports = all.filter((p) => p.lane === 'Caleb Reports');
 // Same daily OMG! pick as the home page.
 const feed = await getStories();
-const omgAll = withStory(feed.stories.filter((x) => x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment'));
+const omgAll = await getTakes(feed.stories.filter((x) => x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment'));
 const brk = [...feed.stories].filter((x) => x.image && x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment').sort((x, y) => (y.impact ?? 0) - (x.impact ?? 0) || +new Date(y.date) - +new Date(x.date))[0];
 const techRe = /\b(AI|A\.I\.|artificial intelligence|cyber|hack|ransomware|chip|semiconductor|software|data center|tech)\b/i;
 const techStory = [...feed.stories].filter((x) => x !== brk && x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment' && (x.category === 'Tech' || techRe.test(`${x.title} ${x.summary}`))).sort((x, y) => (y.impact ?? 0) - (x.impact ?? 0) || +new Date(y.date) - +new Date(x.date))[0];
 const ownPost = all.find((x) => x.lane === 'Caleb Reports' && !x.teaser);
 const side = techStory ? { label: 'Tech & AI', title: techStory.title, why: techStory.why || techStory.summary, source: techStory.source, link: techStory.link, own: false } : ownPost ? { label: 'Tech & AI', title: ownPost.title, why: ownPost.dek, source: 'Caleb', link: `${a.path}/${ownPost.slug}`, own: true } : undefined;
-const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
+const omgPick = ofTheDay(omgAll);
 ---
 <Layout title="Caleb" current="">
   <section class="page blogpage caleb">
     <p><a href="/blog">← Blog</a></p>
     <div class="pagehead"><h2>Caleb</h2><span>{a.tagline}</span></div>
+    <div class="abanner abanner-caleb">
+      <img src={a.img} alt="Illustration of Caleb" width="400" height="400" />
+      <div><span class="abk">Caleb’s Corner</span><b>Cybersecurity and tech, in plain English.</b><small>Scams, online safety and what it all means for Austin.</small></div>
+    </div>
 
     {hero && (
       <section class="thero">

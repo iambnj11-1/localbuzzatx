@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getStories } from '../lib/feeds';
 import { chipClass, chipLabel } from '../lib/chip';
-import { withStory } from '../lib/omg';
+import { getTakes, ofTheDay } from '../lib/omg';
 import BannerBand from '../components/BannerBand.astro';
 import OmgBox from '../components/OmgBox.astro';
 import PostCard from '../components/PostCard.astro';
@@ -41,12 +41,12 @@ const moneyPick = stories.filter((x) => moneyOK(x) && !tops.includes(x)).sort(by
 const newsPick = withPhoto.find((x) => x !== moneyPick);
 const latest = [newsPick, crimePick, moneyPick].filter(Boolean) as typeof stories;
 for (const x of withPhoto) { if (latest.length >= 3) break; if (!latest.includes(x)) latest.push(x); }
-const omgAll = withStory(all.stories.filter((x) => x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment'));
-const omgPick = omgAll[Math.floor(Date.now() / 86400000) % omgAll.length];
+const omgAll = await getTakes(all.stories.filter((x) => x.category !== 'Watch' && x.category !== 'National' && x.category !== 'Entertainment'));
+const omgPick = ofTheDay(omgAll);
 const pick = (cat: string) => stories.filter((s) => s.category === cat && s !== top).slice(0, 4);
 const newsItems = pick('News').slice(0, 4);
 const events = pick('Events').slice(0, 4);
-const takes = withStory(all.stories.filter((s) => s.category !== 'Watch' && s.category !== 'National' && s.category !== 'Entertainment')).filter((r) => r.link || true).slice(0, 2);
+const takes = (await getTakes(all.stories.filter((s) => s.category !== 'Watch' && s.category !== 'National' && s.category !== 'Entertainment'))).slice(0, 2);
 const gov = pick('Government').slice(0, 3);
 // Development: mix big-outlet stories about building and growth (KXAN, KVUE, Austin Monitor) with TOWERS, photos first.
 const devWords = /(develop|construction|zoning|housing|apartment|high-?rise|tower|rezon|permit|site plan|mixed-use|redevelop|downtown|real estate|affordable|land use|planning commission|project|transit|rail|building)/i;
@@ -142,7 +142,7 @@ const toriHome = byAuthor('tori').slice(0, 3);
     <section class="page"><h2>Stories are on the way</h2><p>Check back soon.</p></section>
   )}
 
-  <div class="nlbar"><div><b>The Morning Buzz</b><span>The hottest Austin news in your inbox every morning. Launching soon.</span></div><a class="adstrip-btn" href="/morning-buzz">Join the list →</a></div>
+  <div class="nlbar"><div><b>The Weekly Buzz</b><span>The best of Austin news in your inbox every week. Launching soon.</span></div><a class="adstrip-btn" href="/morning-buzz">Join the list →</a></div>
 
   <section class="meetbuzz"><div class="pagehead"><h2>Meet the Buzz</h2><a href="/blog">All columns →</a></div>
     <div class="colcards">

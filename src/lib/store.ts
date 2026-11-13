@@ -74,6 +74,14 @@ export async function setMeta(k: string, v: string) {
   await db.prepare('INSERT OR REPLACE INTO meta (k, v) VALUES (?1, ?2)').bind(k, v).run();
 }
 
+export async function getMeta(k: string): Promise<string | null> {
+  const db = getDb();
+  if (!db) return null;
+  await init(db);
+  const r = await db.prepare('SELECT v FROM meta WHERE k = ?1').bind(k).first();
+  return r?.v ?? null;
+}
+
 export async function aiStats(): Promise<{ stories: number; done: number; last: string } | null> {
   const db = getDb();
   if (!db) return null;

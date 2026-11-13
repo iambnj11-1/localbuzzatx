@@ -18,6 +18,7 @@ const sectionsV2: [string, string, [string, string][]][] = [
   ['Watch', '/watch', []],
   ['Community', '/shout-out', [['Events', '/to-do'], ['Guides', '/guides'], ['Shout-Outs', '/shout-out'], ['OMG!', '/omg'], ['Submit something', '/contact']]],
   ['Blog', '/blog', [['Caleb\'s Corner', '/blog/caleb'], ['Quick Tea with Tori', '/blog/tori'], ['Mind the Marbles', '/mind-the-marbles']]],
+  ['Shop', 'https://local-buzz-atx-shop.fourthwall.com', []],
   ['About', '/about', [['Meet the Buzz', '/blog'], ['Advertise', '/advertise'], ['Contact', '/contact'], ['Newsletter', '/morning-buzz']]],
 ];
 const footResources: [string, string][] = [
@@ -73,7 +74,7 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
         <ul>
           {navSections.map(([label, href, kids]) => (
             <li class="dd">
-              <a href={href} aria-current={current === label ? 'page' : undefined} aria-haspopup={kids.length ? 'true' : undefined}>{label}{kids.length > 0 && <span class="caret"> ▾</span>}</a>
+              <a href={href} {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})} aria-current={current === label ? 'page' : undefined} aria-haspopup={kids.length ? 'true' : undefined}>{label}{kids.length > 0 && <span class="caret"> ▾</span>}</a>
               {kids.length > 0 && (
                 <ul class="menu">
                   {kids.map(([text, to]) => (
@@ -103,7 +104,7 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
             <p>Headlines are curated from trusted Austin-area publishers. Every story links directly to the original reporting.</p>
           </div>
           <div>
-            <h4 class="fh">Explore</h4><ul><li><a href="/news">News</a></li><li><a href="/watch">Watch</a></li><li><a href="/omg">OMG!</a></li><li><a href="/money">Money</a></li><li><a href="/to-do">To Do</a></li><li><a href="/blog">Blog</a></li><li><a href="https://local-buzz-atx-shop.fourthwall.com" target="_blank" rel="noopener">Shop (coming soon) →</a></li></ul>
+            <h4 class="fh">Explore</h4><ul><li><a href="/news">News</a></li><li><a href="/watch">Watch</a></li><li><a href="/omg">OMG!</a></li><li><a href="/money">Money</a></li><li><a href="/to-do">To Do</a></li><li><a href="/blog">Blog</a></li><li><a href="https://local-buzz-atx-shop.fourthwall.com" target="_blank" rel="noopener">Shop →</a></li></ul>
             <h4 class="fh" style="margin-top:18px">Mind the Marbles</h4><ul><li><a href="/mind-the-marbles">Read the column →</a></li></ul>
           </div>
           <div><h4 class="fh">Sources</h4><ul>{footSources.map(([n, u]) => <li><a href={u} target="_blank" rel="noopener">{n} →</a></li>)}</ul><a href="/sources" class="more">View all sources →</a>
