@@ -17,8 +17,16 @@ const sectionsV2: [string, string, [string, string][]][] = [
   ['News', '/news', [['Latest', '/news'], ['Government', '/news?tag=Government'], ['Business', '/news?tag=Business'], ['Development', '/news?tag=Development'], ['Weather', '/news?tag=Weather']]],
   ['Watch', '/watch', []],
   ['Community', '/shout-out', [['Events', '/to-do'], ['Guides', '/guides'], ['Shout-Outs', '/shout-out'], ['OMG!', '/omg'], ['Submit something', '/contact']]],
-  ['Blog', '/blog', [['Caleb\'s Corner', '/blog/caleb'], ['Quick Tea with Tori', '/blog/tori']]],
+  ['Blog', '/blog', [['Caleb\'s Corner', '/blog/caleb'], ['Quick Tea with Tori', '/blog/tori'], ['Mind the Marbles', '/mind-the-marbles']]],
   ['About', '/about', [['Meet the Buzz', '/blog'], ['Advertise', '/advertise'], ['Contact', '/contact'], ['Newsletter', '/morning-buzz']]],
+];
+const footResources: [string, string][] = [
+  ['Austin Free-Net', 'https://www.austinfree.net/'],
+  ['Austin Public Library', 'https://library.austintexas.gov/'],
+  ['Round Rock Public Library', 'https://www.roundrocktexas.gov/city-departments/library-home/'],
+  ['Georgetown Public Library', 'https://library.georgetown.org/'],
+  ['Integral Care', 'https://integralcare.org/'],
+  ['Ready Central Texas', 'https://austintexas.gov/ready-central-texas'],
 ];
 const navSections = navV2 ? sectionsV2 : sections;
 const weather = await getWeather();
@@ -32,7 +40,7 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title === 'Local Buzz ATX' ? title : `${title} | Local Buzz ATX`}</title>
-    <meta name="description" content="Austin news, and why it matters to you." />
+    <meta name="description" content="Local news, practical guides and tech help for Austin and Central Texas. What’s happening, and why it matters." />
     <meta name="fo-verify" content="c5f0822f-7460-4261-b7d8-f1081d3822da" />
     <meta name="impact-site-verification" value="0ffa0d16-8615-4c4c-a219-13b8f51c5ab5" />
     {!live && <meta name="robots" content="noindex, nofollow" />}
@@ -41,7 +49,7 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Local Buzz ATX" />
     <meta property="og:title" content={title === 'Local Buzz ATX' ? 'Local Buzz ATX' : `${title} | Local Buzz ATX`} />
-    <meta property="og:description" content="Austin news, and why it matters to you." />
+    <meta property="og:description" content="Local news, practical guides and tech help for Austin and Central Texas. What’s happening, and why it matters." />
     <meta property="og:image" content={new URL('/og.png', Astro.url).toString()} />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -57,7 +65,7 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
       <div class="dateline"><span>{today}</span><span>{weather && <b class="wx">{weather.temp}° · {weather.summary}</b>}{weather ? ' ' : ''}Austin, Texas</span></div>
       <header class="masthead">
         <a href="/"><h1>Local Buzz ATX<span class="dot">.</span></h1></a>
-        <p class="tagline">Austin news, and why it matters to you.</p>
+        <p class="tagline">What’s Happening. Why It Matters.</p>
       </header>
       <nav class="sections" id="stickynav" aria-label="Sections">
         <a class="minilogo" href="/" aria-label="Local Buzz ATX home">Local Buzz ATX<span>.</span></a>
@@ -90,16 +98,17 @@ const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: '
         <div class="cols">
           <div class="brand">
             <b>Local Buzz ATX<span>.</span></b>
-            <p>Austin news, and why it matters to you.</p>
+            <p>What’s Happening. Why It Matters.</p>
             <p>Headlines are curated from trusted Austin-area publishers. Every story links directly to the original reporting.</p>
           </div>
           <div>
             <h4 class="fh">Explore</h4><ul><li><a href="/news">News</a></li><li><a href="/watch">Watch</a></li><li><a href="/omg">OMG!</a></li><li><a href="/money">Money</a></li><li><a href="/to-do">To Do</a></li><li><a href="/blog">Blog</a></li></ul>
-            <h4 class="fh" style="margin-top:18px">Follow Mind the Marbles</h4><ul><li><a href="https://www.instagram.com/mindthemarbles/" target="_blank" rel="noopener">On Instagram →</a></li></ul>
+            <h4 class="fh" style="margin-top:18px">Mind the Marbles</h4><ul><li><a href="/mind-the-marbles">Read the column →</a></li></ul>
           </div>
-          <div><h4 class="fh">Sources</h4><ul>{footSources.map(([n, u]) => <li><a href={u} target="_blank" rel="noopener">{n} →</a></li>)}</ul><a href="/sources" class="more">View all sources →</a></div>
+          <div><h4 class="fh">Sources</h4><ul>{footSources.map(([n, u]) => <li><a href={u} target="_blank" rel="noopener">{n} →</a></li>)}</ul><a href="/sources" class="more">View all sources →</a>
+            <h4 class="fh" style="margin-top:18px">Community Resources</h4><ul>{footResources.map(([n, u]) => <li><a href={u} target="_blank" rel="noopener">{n} →</a></li>)}</ul><a href="/resources" class="more">View all resources →</a></div>
           <div>
-            <h4 class="fh">Learn</h4><ul><li><a href="/how-it-works">How Local Buzz works</a></li><li><a href="/sources">Sources</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul>
+            <h4 class="fh">Learn</h4><ul><li><a href="/how-it-works">How Local Buzz works</a></li><li><a href="/corrections">Corrections</a></li><li><a href="/sources">Sources</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul>
             <h4 class="fh" style="margin-top:18px">Legal</h4><ul><li><a href="/privacy">Privacy policy</a></li><li><a href="/terms">Terms of use</a></li><li><a href="/affiliate-disclosure">Affiliate disclosure</a></li></ul>
           </div>
         </div>

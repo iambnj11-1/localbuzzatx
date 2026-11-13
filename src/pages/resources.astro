@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AdRow from '../components/AdRow.astro';
+const groups: { title: string; note?: string; items: [string, string, string][] }[] = [
+  { title: 'Get online and learn tech', items: [
+    ['Austin Free-Net', 'https://www.austinfree.net/', 'A nonprofit that runs public computer labs, offers basic digital skills classes and one-on-one help through its Digital Navigator program, and helps connect people with donated computers.'],
+    ['Austin Public Library', 'https://library.austintexas.gov/', 'Public computers and Wi-Fi at its branches, devices to check out, and event listings that include computer and device classes.'],
+    ['Round Rock Public Library', 'https://www.roundrocktexas.gov/city-departments/library-home/books-services/technology/', 'Public computers, printing, laptops and Chromebooks to borrow, and mobile hotspots.'],
+    ['Georgetown Public Library', 'https://library.georgetown.org/?p=7257', 'Public computers, free Wi-Fi and wireless printing.'],
+  ] },
+  { title: 'Be ready for emergencies', items: [
+    ['Ready Central Texas', 'https://austintexas.gov/ready-central-texas', 'Austin Emergency Management’s preparedness site: hazard guides, a four-step plan, free training and sign-up for Warn Central Texas alerts.'],
+    ['Warn Central Texas', 'https://warncentraltexas.org/', 'Emergency alerts by phone, text or email for Travis, Williamson and nearby counties.'],
+  ] },
+  { title: 'Mental health support', note: 'If you or someone near you is in immediate danger, call 911.', items: [
+    ['Integral Care', 'https://integralcare.org/', 'Mental health, substance use and developmental disability services in Travis County. The 24-hour crisis line is 512-472-HELP (4357): press 1 for English, then 1 for mental health crisis help.'],
+    ['988 Suicide & Crisis Lifeline', 'https://988lifeline.org/', 'Call or text 988, any time, anywhere in the U.S.'],
+  ] },
+];
+---
+<Layout title="Community Resources" current="Community">
+  <section class="page prose">
+    <h2>Community Resources</h2>
+    <p>These are organizations that can help readers directly. They are separate from our <a href="/sources">news sources</a>, which are where we get headlines. We list them as a convenience. Local Buzz ATX is not affiliated with them and does not get paid to list them. Hours, services and phone numbers change, so check with the organization before you go.</p>
+    {groups.map((g) => (
+      <>
+        <h3>{g.title}</h3>
+        {g.note && <p><b>{g.note}</b></p>}
+        <ul>{g.items.map(([n, u, d]) => <li><a href={u} target="_blank" rel="noopener">{n}</a>. {d}</li>)}</ul>
+      </>
+    ))}
+    <p>Know a local resource that belongs here? <a href="/contact">Tell us</a>.</p>
+    <AdRow />
+  </section>
+</Layout>
