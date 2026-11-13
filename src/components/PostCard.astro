@@ -3,14 +3,15 @@ import { authors, fmtDate, laneBadge, readMin, reactingTo, type Post } from '../
 const { post } = Astro.props as { post: Post };
 const a = authors[post.author];
 const react = post.lane === 'Caleb Reports' ? reactingTo(post) : undefined;
+const cov = post.cardCover ? { src: post.cardCover, alt: post.cover?.alt ?? '', portrait: true } : post.cover;
 const noimg = post.author === 'caleb' && !post.cover;
 const href = `${a.path}/${post.slug}${post.draft ? '?preview=1' : ''}`;
 ---
-{post.teaser ? (
-<a class={`pcard pcteaser${post.cover?.portrait ? ' pcteaser-img' : ''}${post.cover && !post.cover.portrait ? ' pcteaser-photo' : ''}`} href={href}>
-  {post.cover && (post.cover.portrait
-    ? <img class="pcteaser-cover" src={post.cover.src} alt={post.cover.alt} loading="lazy" width="896" height="1200" />
-    : <img class="pcteaser-wide" src={post.cover.src} alt={post.cover.alt} loading="lazy" width="1400" height="933" />)}
+{(post.teaser || post.cardCover) ? (
+<a class={`pcard pcteaser${cov?.portrait ? ' pcteaser-img' : ''}${cov && !cov.portrait ? ' pcteaser-photo' : ''}`} href={href}>
+  {cov && (cov.portrait
+    ? <img class="pcteaser-cover" src={cov.src} alt={cov.alt} loading="lazy" width="896" height="1200" />
+    : <img class="pcteaser-wide" src={cov.src} alt={cov.alt} loading="lazy" width="1400" height="933" />)}
   <span class="pctag">{laneBadge(post.lane)}</span>
   <h3>{post.title}</h3>
   <p>{post.dek}</p>

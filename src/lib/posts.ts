@@ -26,6 +26,7 @@ export interface Post {
   teaser?: boolean; // short preview of a piece Tori is still finishing
   hero?: boolean; // featured as the top story on the author's page
   topic?: string; // row on Caleb's page, e.g. "Cybersecurity"
+  cardCover?: string; // tall 3:4 image used only on list cards
   photoCredit?: { by: string; via: string; url: string; license: string; licenseUrl: string; changes: string };
 }
 
@@ -66,6 +67,7 @@ export const posts: Post[] = [
     title: 'Forgiveness Doesn’t Mean It Didn’t Hurt',
     dek: 'A personal reflection on letting go, finding peace, and learning that forgiveness is just as powerful for you as it is for them.',
     date: '2026-11-12',
+    cardCover: '/blog/forgiveness-cover-tall.jpg',
     cover: { src: '/blog/forgiveness-cover-red.jpg', alt: 'Illustration of Tori journaling at a desk with an Austin skyline behind her' },
     body: [
       ...L(`
