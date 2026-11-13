@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PostCard from '../components/PostCard.astro';
+import { posts } from '../lib/posts';
+const guides = posts.filter((p) => p.lane === 'Guide' && !p.draft);
+---
+<Layout title="Guides" current="">
+  <section class="page">
+    <div class="pagehead"><h2>🧭 Guides</h2><span>Plain-English how-tos for Travis and Williamson counties, with sources you can check.</span></div>
+    {guides.length
+      ? <div class="pgrid">{guides.map((p) => <PostCard post={p} />)}</div>
+      : <p>New guides are on the way.</p>}
+  </section>
+</Layout>

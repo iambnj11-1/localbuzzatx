@@ -6,7 +6,7 @@ import { withStory } from '../lib/omg';
 import BannerBand from '../components/BannerBand.astro';
 import OmgBox from '../components/OmgBox.astro';
 import PostCard from '../components/PostCard.astro';
-import { byAuthor, authors } from '../lib/posts';
+import { byAuthor, authors, posts } from '../lib/posts';
 import NewsletterTools from '../components/NewsletterTools.astro';
 import { getAi, enrich } from '../lib/ai';
 import { impactScore, bySignal, isSoft } from '../lib/impact';
@@ -78,6 +78,7 @@ const national = all.stories.filter((s) => s.category === 'National' && nowMs - 
 const wxRaw = getForecast().catch(() => null);
 const wx = await Promise.race([wxRaw, new Promise<null>((r) => setTimeout(() => r(null), 1500))]);
 const fmt = (d: Date) => d.getTime() ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '';
+const guidesHome = posts.filter((x) => x.lane === 'Guide' && !x.draft).slice(0, 3);
 const calebHome = byAuthor('caleb').slice(0, 3);
 const toriHome = byAuthor('tori').slice(0, 3);
 ---
@@ -166,6 +167,12 @@ const toriHome = byAuthor('tori').slice(0, 3);
       <div class="fchead"><img class="art-av" src="/authors/tori.jpg" alt="" width="40" height="40" /><h3>Quick Tea with Tori</h3><a href="/blog/tori">All of Tori’s articles →</a></div>
       <div class="pgrid">{toriHome.map((p) => <PostCard post={p} />)}</div>
     </div>
+    {guidesHome.length > 0 && (
+      <div class="fcrow">
+        <div class="fchead"><h3>🧭 Latest Guides</h3><a href="/guides">All guides →</a></div>
+        <div class="pgrid">{guidesHome.map((p) => <PostCard post={p} />)}</div>
+      </div>
+    )}
   </section>
 
   <div class="buckets">

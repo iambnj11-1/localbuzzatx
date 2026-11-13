@@ -1,16 +1,16 @@
 ---
 import { authors, finished, fmtDate, laneBadge } from '../lib/posts';
-const { who } = Astro.props as { who: 'tori' | 'caleb' };
+const { who } = Astro.props as { who: 'tori' | 'caleb' | 'localbuzz' };
 const a = authors[who];
 const latest = finished(who).slice(0, 3);
 ---
 <section class={`abox abox-${who}`}>
   <img class="abox-av" src={a.img} alt={`Illustration of ${a.name}`} width="96" height="96" />
   <div class="abox-main">
-    <p class="abox-kicker">About {a.name} ☕</p>
+    <p class="abox-kicker">About {a.name}{who === 'localbuzz' ? '' : ' ☕'}</p>
     <p class="abox-bio">{a.bio}</p>
-    <h4>Fun Facts</h4>
-    <ul class="abox-facts">{a.facts.map((f) => <li>{f}</li>)}</ul>
+    {a.facts.length > 0 && <h4>Fun Facts</h4>}
+    {a.facts.length > 0 && <ul class="abox-facts">{a.facts.map((f) => <li>{f}</li>)}</ul>}
   </div>
   <div class="abox-latest">
     <h4>Latest from {a.name}</h4>

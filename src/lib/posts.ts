@@ -11,7 +11,7 @@ export interface Source { name: string; url?: string; short?: string }
 
 export interface Post {
   slug: string;
-  author: 'tori' | 'caleb';
+  author: 'tori' | 'caleb' | 'localbuzz';
   lane: string; // e.g. "Quick Tea", "Tori's Take", "Caleb Reports"
   title: string;
   dek: string;
@@ -41,6 +41,7 @@ export const authors = {
   tori: {
     name: 'Tori',
     path: '/blog/tori',
+    home: '/blog/tori',
     img: '/authors/tori.jpg',
     tagline: 'Celebrity buzz, entertainment news, viral moments, and the stories everyone’s group chat is talking about.',
     bio: 'Tori covers celebrity buzz, entertainment news, viral moments, and the conversations people can’t stop having. Whether it’s a movie premiere, a relationship headline, or a life lesson learned the hard way, she’s always ready with a fresh take.',
@@ -50,11 +51,22 @@ export const authors = {
   caleb: {
     name: 'Caleb',
     path: '/blog/caleb',
+    home: '/blog/caleb',
     img: '/authors/caleb-v2.jpg',
     tagline: 'Cybersecurity and tech, and what it means for everyone in Austin.',
     bio: 'Caleb covers cybersecurity, technology, and the trends shaping Austin and Central Texas. He breaks down complex stories into plain English and helps readers of every age and background understand what happened and how to stay safe online.',
     facts: ['🤖 AI, technology, and cybersecurity are his thing.', '☕ Usually asking, “Okay... but what does this mean for us?”', '🏙️ Believes Austin’s growth should create opportunities for everyone.'],
     pen: 'Caleb is a pen name, and his picture is an illustration.',
+  },
+  localbuzz: {
+    name: 'Local Buzz ATX',
+    path: '/blog/localbuzz',
+    home: '/guides',
+    img: '/favicon.svg',
+    tagline: 'Plain-English guides for Travis and Williamson counties, with sources you can check.',
+    bio: 'Local Buzz ATX guides are put together from official city and county sources and checked before publishing. Each one shows its sources and the date it was last checked.',
+    facts: [],
+    pen: 'Local Buzz ATX guides are written for readers in Travis and Williamson counties. Send corrections to the contact page.',
   },
 } as const;
 
@@ -545,6 +557,106 @@ And trust me, with nine kids under one roof, there were plenty of lessons to lea
     sources: [],
     note: 'Caleb is still finishing this one. Check back soon for the full piece. General information only, not financial advice.',
   },
+  {
+    slug: 'flood-ready-travis-williamson-counties',
+    author: 'localbuzz',
+    lane: 'Guide',
+    topic: 'Safety',
+    title: 'Flood-Ready in Travis and Williamson Counties: A Checklist and a City-by-City Guide',
+    dek: 'One checklist for your phone, home and car, then local links and numbers for Austin, Round Rock, Georgetown and Hutto.',
+    date: '2026-11-13',
+    body: [
+      p('Heavy rain and flood warnings have been in the news across Central Texas this month. Getting ready takes about an hour, and most of it is free. This guide starts with a checklist that works anywhere in Travis and Williamson counties, then lists the local links and numbers for Austin, Round Rock, Georgetown and Hutto.'),
+      h('Step 1: Get alerts on your phone'),
+      { t: 'list', items: [
+        'Register at WarnCentralTexas.org for emergency alerts by phone, text or email. It serves Travis, Williamson and eight other Central Texas counties, and the Capital Area Council of Governments runs it.',
+        'Check that emergency alerts are turned on in your phone settings.',
+        'Know the difference between a Flash Flood Watch (flooding is possible in the next 36 hours) and a Flash Flood Warning (flash flooding is imminent, usually within one to three hours).',
+      ] },
+      h('Step 2: Build a digital go-bag'),
+      p('If you have to leave fast, you want your paperwork with you and safe at the same time. The City of Austin suggests keeping important documents in a watertight container and making password-protected digital copies.'),
+      { t: 'list', items: [
+        'Photograph or scan IDs, insurance policies, your lease or deed, and key medical papers. Save the copies in two places: on your phone and in a protected cloud folder.',
+        'Take a quick photo tour of each room. It makes an insurance claim much easier.',
+        'Keep a charged power bank and a car phone charger together in your kit.',
+        'Write down a few key phone numbers on paper, in case your phone dies.',
+        'After a flood, be careful with strangers who call, text or knock offering repairs or aid. Check any company before you pay or share information.',
+      ] },
+      h('Step 3: Make a plan for your home and family'),
+      { t: 'list', items: [
+        'Pack a kit with food, water, medications, first-aid supplies and pet supplies. Ready.gov suggests a gallon of water per person per day.',
+        'Decide where your family will meet, and whether you would stay home or go to a shelter. Include your pets in the plan.',
+        'Learn how to shut off your gas, water and electricity.',
+        'Keep drains and gutters clear, and move valuables to a higher level of your home.',
+      ] },
+      h('Step 4: On the road'),
+      p('Never drive through water flowing over a road, and never go around a barricade. Round Rock’s flood safety page says about six inches of moving water can knock you down and about two feet can carry away a vehicle. If water is rising around your car but not moving, leave the car and go to higher ground.'),
+      { t: 'list', items: [
+        'Check ATXFloods.com/closures for road and low-water crossing closures across Central Texas, and DriveTexas.org for state road conditions.',
+        'Keep your gas tank at least half full during storm season. Travis County recommends it.',
+        'Keep a vehicle kit with jumper cables, a reflective triangle or flares, a phone charger, and cat litter or sand.',
+        'Call 911 for emergencies.',
+      ] },
+      h('Step 5: After the water'),
+      { t: 'list', items: [
+        'Go home only when authorities say it is safe.',
+        'If you smell gas, leave and call the fire department.',
+        'Photograph the damage for your insurance company.',
+      ] },
+      h('Find your city'),
+      p('The steps above are the same everywhere. The phone numbers, utilities and local tools are not. Here is what each place publishes.'),
+      h('Austin (Travis County)'),
+      { t: 'list', items: [
+        'Austin Energy: text REG to 287846 to register for outage alerts, and text OUT to 287846 to report an outage.',
+        'Austin Water: sign up for the My ATX Water portal. The 24-hour hotline is 512-972-1000, option 1.',
+        'Road closures and preparedness tips: ATXFloods.com and ATXFloodSafety.com. Report flooding or debris through the Austin 311 app, or call 311.',
+        'Emergency repair permits after a flood: austintexas.gov/emergency-permits.',
+        'Free training: Austin Emergency Management is holding an online flood preparedness training on Tuesday, Nov. 17, at 5:30 p.m. Austin Watershed Protection staff will speak. Spanish and American Sign Language interpretation is available. Registration is on the city’s page, linked below.',
+      ] },
+      h('Travis County outside the city limits'),
+      { t: 'list', items: [
+        'Follow Travis County Emergency Services on Facebook and X (@TravisCountyES) for updates.',
+        'For non-emergency weather damage reporting and information, call 311, per the county’s preparedness page.',
+      ] },
+      h('Round Rock'),
+      { t: 'list', items: [
+        'The city’s Flood Safety page explains watches and warnings and the “Turn Around, Don’t Drown” message.',
+        'Round Rock Fire Department: 512-218-5590. City of Round Rock: 512-218-5400. Emergencies: 911.',
+        'Local weather: the National Weather Service Austin/San Antonio office at weather.gov/ewx.',
+      ] },
+      h('Georgetown'),
+      { t: 'list', items: [
+        'Water and electric outages show on the city’s outage map at gus.georgetown.org/outages. In a 2022 notice, the city said that if an outage is not on the map, you can call 512-930-3640 from the phone number on your account. Check that this is still the right number before you rely on it.',
+        'In that same notice, the city named areas that need caution in heavy rain, including parts along the San Gabriel River and Lake Georgetown, such as trail crossings and low bridges.',
+        'City social media is not monitored around the clock, so call 911 for emergencies.',
+      ] },
+      h('Hutto'),
+      { t: 'list', items: [
+        'Hutto Fire Rescue: 512-759-2616, or info@huttofire.gov. Emergencies: 911.',
+        'Hutto Fire Rescue publishes a Community Flood Protection Plan, developed with the Williamson County Office of Emergency Management and other regional partners. The PDF is on its Community Services page.',
+      ] },
+      h('Williamson County'),
+      { t: 'list', items: [
+        'Williamson County urges residents to register for alerts at WarnCentralTexas.org, and to check atxfloods.com for closed roads before driving.',
+        'If you live near a creek or flood plain, be ready to leave if water levels keep rising.',
+      ] },
+    ],
+    take: '',
+    takeLabel: '',
+    sources: [
+      { name: 'City of Austin: Flooding Preparedness', url: 'https://www.austintexas.gov/ready-central-texas/flooding-preparedness' },
+      { name: 'Austin Emergency Management: free flood preparedness training (Nov. 17)', url: 'https://www.austintexas.gov/emergency-management/news/austin-emergency-management-host-free-flood-preparedness-training' },
+      { name: 'Travis County: Emergency Preparedness', url: 'https://www.traviscountytx.gov/emergency/preparedness' },
+      { name: 'City of Round Rock: Flood Safety', url: 'https://www.roundrocktexas.gov/city-departments/fire/homeland-security-and-emergency-management/flood-safety/' },
+      { name: 'Williamson County: residents urged to sign up for alerts', url: 'https://www.wilco.org/meetings/residents-urged-to-sign-up-for-alerts-watch-for-flooding' },
+      { name: 'City of Georgetown: flood watch notice (Aug. 2022)', url: 'https://georgetown.org/?p=47693' },
+      { name: 'Hutto Fire Rescue: Community Services', url: 'https://huttofire.gov/community-services/' },
+      { name: 'NPR: What to do in a flash flood (July 2025)', url: 'https://www.npr.org/2025/07/10/nx-s1-5463523/flash-flood-safety-tips-what-to-know' },
+      { name: 'National Weather Service: Flood Safety', url: 'https://www.weather.gov/safety/flood' },
+      { name: 'Ready.gov', url: 'https://www.ready.gov/' },
+    ],
+    note: 'Last checked Nov. 13, 2026. General information only. Phone numbers and programs can change, so confirm with your city or county. In an emergency, follow instructions from local officials and call 911.',
+  },
 ];
 
 export const byAuthor = (a: Post['author'], withDrafts = false) =>
@@ -554,7 +666,7 @@ export const findPost = (a: string, slug: string) => posts.find((x) => x.author 
 export const fmtDate = (iso: string) =>
   new Date(iso + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-const ICONS: Record<string, string> = { 'Tori’s Take': '☕', 'Tori Reacts': '👀', 'Quick Tea': '🔥' };
+const ICONS: Record<string, string> = { 'Tori’s Take': '☕', 'Tori Reacts': '👀', 'Quick Tea': '🔥', 'Guide': '🧭' };
 export const laneBadge = (lane: string) => (ICONS[lane] ? `${ICONS[lane]} ${lane}` : lane);
 export const readMin = (post: Post) => {
   const words = post.body.map((b) => (b.t === 'p' || b.t === 'h' || b.t === 'quote' ? b.text : b.t === 'list' ? b.items.join(' ') : '')).join(' ').split(/\s+/).filter(Boolean).length;

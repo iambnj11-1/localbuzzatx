@@ -19,7 +19,7 @@ const more = post ? finished(post.author).filter((p) => p.slug !== post.slug).sl
     <section class="page"><p><a href="/blog">← Blog</a></p><h2>We couldn’t find that post.</h2></section>
   ) : (
     <article class={`page blogpage post post-${post.author}${post.lane === 'Tori’s Take' ? ' post-essay' : ''}`}>
-      <p><a href={a.path}>← {a.name}</a></p>
+      <p><a href={a.home}>← {post.author === 'localbuzz' ? 'Guides' : a.name}</a></p>
       <span class="pctag">{laneBadge(post.lane)}</span>
       <h1 class="posth">{post.title}</h1>
       <div class="byline">
